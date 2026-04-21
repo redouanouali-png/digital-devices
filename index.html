@@ -300,6 +300,9 @@ body{font-family:'Nunito',sans-serif;background:var(--navy);min-height:100vh;ove
     <div id="cert-btn-wrap" style="text-align:center;">
       <button onclick="showCertificate(currentLevel)" style="padding:16px 32px;background:#FFD600;color:#1A1A2E;border:none;border-radius:16px;font-size:18px;font-weight:800;cursor:pointer;font-family:'Nunito';box-shadow:0 4px 15px rgba(0,0,0,0.2);">🏆 View my Certificate!</button>
     </div>
+    <div style="text-align:center;">
+      <button onclick="openLeaderboard()" style="padding:14px 28px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:16px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#127942; Leaderboard</button>
+    </div>
     <div class="badges-section">
       <div class="badges-title">🏅 My Badges</div>
       <div class="badges-row">
@@ -762,6 +765,57 @@ function showScreen(id){
 function showToast(msg){
   var t=g('toast'); t.textContent=msg; t.style.display='block';
   setTimeout(function(){t.style.display='none';},2500);
+}
+
+
+function openLeaderboard(){
+  var myStudents = DB.leerlingen.filter(function(l){
+    return currentUser && l.school_id === currentUser.school_id;
+  });
+
+  // Sort by stars
+  myStudents.sort(function(a,b){ return (b.stars||0)-(a.stars||0); });
+
+  // Top 10 only
+  var top = myStudents.slice(0, 10);
+
+  var lb = g('lb-list');
+  if (!lb) return;
+  lb.innerHTML = '';
+
+  if (!top.length) {
+    lb.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,0.5);padding:40px;">No students yet! Be the first! &#127942;</div>';
+    showScreen('scr-leaderboard');
+    return;
+  }
+
+  var medals = ['&#129351;','&#129352;','&#129353;'];
+  var colors = ['#FFD600','#C0C0C0','#CD7F32'];
+
+  top.forEach(function(s, i){
+    var isMe = currentUser && s.naam === currentUser.naam;
+    var medal = i < 3 ? medals[i] : (i+1)+'';
+    var color = i < 3 ? colors[i] : 'rgba(255,255,255,0.1)';
+    var firstName = s.naam.split(' ')[0];
+
+    var card = document.createElement('div');
+    card.style.cssText = 'display:flex;align-items:center;gap:14px;background:'+(isMe?'rgba(255,215,0,0.2)':'rgba(255,255,255,0.1)')+';border-radius:16px;padding:14px 18px;border:'+(isMe?'2px solid #FFD600':'2px solid transparent')+';';
+    card.innerHTML =
+      '<div style="width:40px;height:40px;border-radius:50%;background:'+color+';display:flex;align-items:center;justify-content:center;font-size:'+(i<3?'20':'14')+'px;font-weight:800;color:'+(i<3?'#1A1A2E':'white')+';">'+medal+'</div>'+
+      '<div style="flex:1;">'+
+        '<div style="font-size:17px;font-weight:800;color:white;">'+firstName+(isMe?' &#128075;':'')+'</div>'+
+        '<div style="font-size:12px;color:rgba(255,255,255,0.6);">'+(s.badges?s.badges.length:0)+' badges</div>'+
+      '</div>'+
+      '<div style="text-align:right;">'+
+        '<div style="font-family:Fredoka One;font-size:24px;color:#FFD600;">'+(s.stars||0)+'</div>'+
+        '<div style="font-size:11px;color:rgba(255,255,255,0.6);">stars</div>'+
+      '</div>';
+    lb.appendChild(card);
+  });
+
+  var lbClass = g('lb-class-name');
+  if (lbClass) lbClass.textContent = currentUser ? currentUser.klas || 'My Class' : 'Class';
+  showScreen('scr-leaderboard');
 }
 
 function showCertificate(level){
@@ -1726,6 +1780,23 @@ initSupabase();
       <button onclick="saveCreate()" style="flex:2;padding:16px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#128190; Save my work! &#11088;</button>
       <button onclick="goBack()" style="flex:1;padding:16px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#8592; Back</button>
     </div>
+  </div>
+</div>
+
+
+<div class="screen" id="scr-leaderboard">
+  <div class="topbar">
+    <div class="brand">&#127881; Digital <span>Devices</span></div>
+    <div class="tb-r"><button class="tb-btn" onclick="showScreen('scr-student');renderLevels();">&#8592; Home</button></div>
+  </div>
+  <div style="flex:1;padding:20px;max-width:700px;margin:0 auto;width:100%;">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div style="font-size:48px;">&#127942;</div>
+      <div style="font-family:'Fredoka One';font-size:28px;color:white;">Top of the Class!</div>
+      <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px;" id="lb-class-name">Class Leaderboard</div>
+    </div>
+    <div id="lb-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+    <div style="text-align:center;margin-top:20px;font-size:12px;color:rgba(255,255,255,0.5);">Resets every month &#183; First name only</div>
   </div>
 </div>
 
