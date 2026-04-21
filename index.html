@@ -301,6 +301,7 @@ body{font-family:'Nunito',sans-serif;background:var(--navy);min-height:100vh;ove
       <button onclick="showCertificate(currentLevel)" style="padding:16px 32px;background:#FFD600;color:#1A1A2E;border:none;border-radius:16px;font-size:18px;font-weight:800;cursor:pointer;font-family:'Nunito';box-shadow:0 4px 15px rgba(0,0,0,0.2);">🏆 View my Certificate!</button>
     </div>
     <div style="text-align:center;">
+      <button onclick="openBeeBot()" style="padding:14px 28px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:16px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';margin-right:8px;">&#128029; BeeBot</button>
       <button onclick="openLeaderboard()" style="padding:14px 28px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:16px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#127942; Leaderboard</button>
     </div>
     <div class="badges-section">
@@ -1038,6 +1039,7 @@ function openPhase(ph,unit){
   else if(ph.id==='learn') openVideo(unit, function(){openLearn(unit);});
   else if(ph.id==='practice') openPractice(unit);
   else if(ph.id==='create') openCreate(unit);
+  else if(ph.id==='beebot') openBeeBot();
   else if(ph.id==='test') openTest(unit);
   else { showToast('Coming soon! 🚀'); }
 }
@@ -1761,6 +1763,116 @@ function renderTeacher(){
     '</div>';
   grid.appendChild(ac);
 }
+
+// ══════════════════════════════════════════════════════
+// BEEBOT SIMULATOR
+// ══════════════════════════════════════════════════════
+var BB = {
+  rows: 5, cols: 5,
+  bee: {r:0, c:0},
+  target: {r:4, c:4},
+  steps: 0,
+  score: 0,
+  level: 0,
+  levels: [
+    {bee:{r:0,c:0}, target:{r:2,c:2}, emoji:'📱', name:'Smartphone'},
+    {bee:{r:0,c:0}, target:{r:4,c:4}, emoji:'💻', name:'Laptop'},
+    {bee:{r:4,c:0}, target:{r:0,c:4}, emoji:'📟', name:'Tablet'},
+    {bee:{r:2,c:0}, target:{r:2,c:4}, emoji:'⌚', name:'Smartwatch'},
+    {bee:{r:0,c:0}, target:{r:4,c:2}, emoji:'🤖', name:'AI Robot'},
+  ]
+};
+
+function openBeeBot(){
+  BB.level = 0;
+  BB.score = 0;
+  g('bb-score').textContent = '0';
+  startBBLevel();
+  showScreen('scr-beebot');
+}
+
+function startBBLevel(){
+  var lv = BB.levels[BB.level % BB.levels.length];
+  BB.bee = {r: lv.bee.r, c: lv.bee.c};
+  BB.target = {r: lv.target.r, c: lv.target.c};
+  BB.steps = 0;
+  g('bb-steps').textContent = '0';
+  g('bb-message').textContent = 'Help BeeBot reach the ' + lv.name + '! ' + lv.emoji;
+  var next = g('bb-next');
+  if(next) next.style.display = 'none';
+  renderBBGrid();
+}
+
+function renderBBGrid(){
+  var grid = g('bb-grid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  var lv = BB.levels[BB.level % BB.levels.length];
+  for(var r=0; r<BB.rows; r++){
+    for(var c=0; c<BB.cols; c++){
+      var cell = document.createElement('div');
+      cell.style.cssText = 'width:100%;aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #E0E0E0;';
+      var isBee = BB.bee.r===r && BB.bee.c===c;
+      var isTarget = BB.target.r===r && BB.target.c===c;
+      if(isBee && isTarget){
+        cell.textContent = '&#128029;';
+        cell.style.background = '#FFD600';
+      } else if(isBee){
+        cell.innerHTML = '&#128029;';
+        cell.style.background = '#E3F2FD';
+        cell.style.borderColor = '#1A6EFF';
+      } else if(isTarget){
+        cell.textContent = lv.emoji;
+        cell.style.background = '#E8F5E9';
+        cell.style.borderColor = '#00C853';
+      } else {
+        cell.style.background = (r+c)%2===0 ? '#F9F8F6' : 'white';
+      }
+      grid.appendChild(cell);
+    }
+  }
+}
+
+function bbMove(dir){
+  var r = BB.bee.r, c = BB.bee.c;
+  if(dir==='up') r--;
+  if(dir==='down') r++;
+  if(dir==='left') c--;
+  if(dir==='right') c++;
+
+  if(r<0 || r>=BB.rows || c<0 || c>=BB.cols){
+    g('bb-message').textContent = 'Oops! BeeBot cannot go there! Try again! 😊';
+    return;
+  }
+
+  BB.bee = {r:r, c:c};
+  BB.steps++;
+  g('bb-steps').textContent = BB.steps;
+  renderBBGrid();
+
+  if(BB.bee.r===BB.target.r && BB.bee.c===BB.target.c){
+    var stars = BB.steps <= 5 ? 3 : BB.steps <= 8 ? 2 : 1;
+    BB.score += stars;
+    g('bb-score').textContent = BB.score;
+    var msg = stars===3 ? 'Amazing! Perfect route! &#11088;&#11088;&#11088;' : stars===2 ? 'Great job! &#11088;&#11088;' : 'Well done! &#11088;';
+    g('bb-message').innerHTML = msg;
+    var next = g('bb-next');
+    if(next) next.style.display = 'block';
+    markDone('beebot');
+    showToast('BeeBot reached the device! &#127942;');
+  }
+}
+
+function bbReset(){
+  startBBLevel();
+}
+
+function nextBBLevel(){
+  BB.level++;
+  startBBLevel();
+}
+
+
 selRole('student');
 initSupabase();
 </script>
@@ -1797,6 +1909,56 @@ initSupabase();
     </div>
     <div id="lb-list" style="display:flex;flex-direction:column;gap:10px;"></div>
     <div style="text-align:center;margin-top:20px;font-size:12px;color:rgba(255,255,255,0.5);">Resets every month &#183; First name only</div>
+  </div>
+</div>
+
+
+<div class="screen" id="scr-beebot">
+  <div class="topbar">
+    <div class="brand">&#127881; Digital <span>Devices</span></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
+  </div>
+  <div style="flex:1;padding:20px;max-width:800px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px;">
+    <div style="text-align:center;">
+      <div style="font-family:'Fredoka One';font-size:26px;color:white;">&#128029; BeeBot Explorer</div>
+      <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px;">Help BeeBot reach the device! Press the arrows to move!</div>
+    </div>
+
+    <!-- Grid -->
+    <div style="background:white;border-radius:20px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px;">
+      <div id="bb-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:320px;width:100%;"></div>
+      <div id="bb-message" style="font-size:16px;font-weight:800;color:#1A1A2E;min-height:24px;text-align:center;"></div>
+    </div>
+
+    <!-- Controls -->
+    <div style="background:rgba(255,255,255,0.1);border-radius:20px;padding:20px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;max-width:200px;margin:0 auto;">
+        <div></div>
+        <button onclick="bbMove('up')" style="height:56px;background:#FFD600;color:#1A1A2E;border:none;border-radius:12px;font-size:24px;cursor:pointer;font-weight:800;">&#8593;</button>
+        <div></div>
+        <button onclick="bbMove('left')" style="height:56px;background:#1A6EFF;color:white;border:none;border-radius:12px;font-size:24px;cursor:pointer;">&#8592;</button>
+        <button onclick="bbReset()" style="height:56px;background:#F03030;color:white;border:none;border-radius:12px;font-size:18px;cursor:pointer;font-weight:800;">&#128260;</button>
+        <button onclick="bbMove('right')" style="height:56px;background:#1A6EFF;color:white;border:none;border-radius:12px;font-size:24px;cursor:pointer;">&#8594;</button>
+        <div></div>
+        <button onclick="bbMove('down')" style="height:56px;background:#FFD600;color:#1A1A2E;border:none;border-radius:12px;font-size:24px;cursor:pointer;font-weight:800;">&#8595;</button>
+        <div></div>
+      </div>
+      <div style="text-align:center;margin-top:12px;font-size:13px;color:rgba(255,255,255,0.7);">&#128260; = Reset BeeBot</div>
+    </div>
+
+    <!-- Steps counter -->
+    <div style="display:flex;justify-content:center;gap:20px;">
+      <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:12px 20px;text-align:center;">
+        <div style="font-family:'Fredoka One';font-size:28px;color:#FFD600;" id="bb-steps">0</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);">Steps</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:12px 20px;text-align:center;">
+        <div style="font-family:'Fredoka One';font-size:28px;color:#00C853;" id="bb-score">0</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);">Score</div>
+      </div>
+    </div>
+
+    <button onclick="nextBBLevel()" id="bb-next" style="display:none;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#127381; Next Challenge!</button>
   </div>
 </div>
 
