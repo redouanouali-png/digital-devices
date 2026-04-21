@@ -71,7 +71,7 @@ async function supaLogin(naam, code) {
   --yellow:#FFD600;--pink:#E91E7A;
   --dark:#1A1A2E;--navy:#0A3FCC;
 }
-body{font-family:'Nunito',sans-serif;background:var(--navy);min-height:100vh;overflow-x:hidden;}
+body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0%,#0A3FCC 50%,#1A1A2E 100%);background-attachment:fixed;min-height:100vh;overflow-x:hidden;}
 
 /* ── SCREENS ── */
 .screen{display:none;min-height:100vh;}
@@ -124,7 +124,7 @@ body{font-family:'Nunito',sans-serif;background:var(--navy);min-height:100vh;ove
 .levels-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 @media(max-width:600px){.levels-grid{grid-template-columns:1fr;}}
 .level-card{border-radius:20px;padding:24px 16px;text-align:center;cursor:pointer;transition:transform 0.2s;position:relative;overflow:hidden;}
-.level-card:hover{transform:translateY(-4px);}
+.level-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.4);}
 .level-card.locked{opacity:0.5;cursor:not-allowed;}
 .level-card h3{font-family:'Fredoka One';font-size:24px;color:white;margin-bottom:6px;}
 .level-card p{font-size:13px;color:rgba(255,255,255,0.8);}
@@ -149,7 +149,7 @@ body{font-family:'Nunito',sans-serif;background:var(--navy);min-height:100vh;ove
 .progress-fill{background:var(--yellow);height:100%;border-radius:10px;transition:width 0.5s;}
 .phases-grid{display:flex;flex-direction:column;gap:12px;}
 .phase-btn{border-radius:18px;padding:18px 22px;display:flex;align-items:center;gap:16px;cursor:pointer;border:none;font-family:'Nunito';font-weight:800;font-size:18px;text-align:left;transition:transform 0.2s;width:100%;}
-.phase-btn:hover:not(.locked){transform:translateX(6px);}
+.phase-btn:hover:not(.locked){transform:translateX(6px);box-shadow:0 4px 20px rgba(0,0,0,0.2);}
 .phase-btn.locked{opacity:0.4;cursor:not-allowed;}
 .phase-icon{font-size:28px;flex-shrink:0;}
 .phase-info{flex:1;}
@@ -245,6 +245,7 @@ body{font-family:'Nunito',sans-serif;background:var(--navy);min-height:100vh;ove
       </div>
     </div>
       <div class="login-title">Welcome!</div>
+      <div style="font-size:11px;font-weight:700;color:#1A6EFF;letter-spacing:1px;margin-bottom:4px;">MOROCCO 2030 &#127474;&#127462;</div>
       <div class="login-sub">Who are you? Tap your role!</div>
       <div class="role-grid">
         <button class="role-btn student sel" onclick="selRole('student')">🎓 Student</button>
@@ -282,7 +283,7 @@ body{font-family:'Nunito',sans-serif;background:var(--navy);min-height:100vh;ove
         <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.8);margin-top:3px;">Redouan</div>
       </div>
     </div>
-    <div class="welcome-banner">
+    <div class="welcome-banner" style="background:linear-gradient(135deg,rgba(26,110,255,0.3),rgba(0,200,83,0.2));border:1px solid rgba(255,255,255,0.15);">
       <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.outerHTML='<div class=welcome-avatar>😊</div>'"/>
       <div class="welcome-text">
         <h2 id="st-welcome">Hello!</h2>
@@ -1395,10 +1396,11 @@ function openLearn(unit){
     card.className='device-card';
     card.style.background=d.color;
     card.style.transition='transform 0.3s';
+    var imgUrl = d.img || '';
     card.innerHTML=
-      '<span class="device-emoji">'+d.emoji+'</span>'+
+      (imgUrl ? '<img src="'+imgUrl+'" style="width:80px;height:80px;object-fit:contain;margin-bottom:8px;" onerror="this.style.display=\'none\'">' : '<span class="device-emoji" style="font-size:56px;display:block;margin-bottom:8px;">'+d.emoji+'</span>')+
       '<div class="device-name">'+d.name+'</div>'+
-      '<div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">Tap to learn! 👆</div>';
+      '<div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">Tap to learn! &#128070;</div>';
     card.onclick=function(){
       document.querySelectorAll('.device-card').forEach(function(c){
         c.classList.remove('active');
@@ -1927,7 +1929,10 @@ initSupabase();
     <!-- Grid -->
     <div style="background:white;border-radius:20px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px;">
       <div id="bb-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:320px;width:100%;"></div>
-      <div id="bb-message" style="font-size:16px;font-weight:800;color:#1A1A2E;min-height:24px;text-align:center;"></div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
+        <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;"/>
+        <div id="bb-message" style="font-size:16px;font-weight:800;color:#1A1A2E;min-height:24px;text-align:left;"></div>
+      </div>
     </div>
 
     <!-- Controls -->
