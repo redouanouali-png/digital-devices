@@ -21,23 +21,19 @@ export default async function handler(req, res) {
 
   const requestBody = {
     contents,
-    generationConfig: { maxOutputTokens: 100, temperature: 0.8 }
+    generationConfig: { maxOutputTokens: 80, temperature: 0.7 }
   };
 
   if (systemPrompt) {
     requestBody.system_instruction = { parts: [{ text: String(systemPrompt) }] };
   }
 
-  // Try models in order until one works
-  const models = [
-    'gemini-1.5-flash-latest',
-    'gemini-1.5-flash',
-    'gemini-pro'
-  ];
+  // Try models in order
+  const models = ['gemini-2.5-flash-lite', 'gemini-2.5-flash', 'gemini-1.5-flash'];
 
   for (const model of models) {
     try {
-      const geminiRes = await fetch(
+      const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
         {
           method: 'POST',
@@ -46,23 +42,22 @@ export default async function handler(req, res) {
         }
       );
 
-      const text = await geminiRes.text();
-      console.log(`Model ${model} status:`, geminiRes.status, text.slice(0, 200));
+      const text = await response.text();
+      console.log(`${model} → ${response.status}: ${text.slice(0, 150)}`);
 
-      if (geminiRes.status !== 200) continue;
+      if (!response.ok) continue;
 
       const data = JSON.parse(text);
       if (data.error) continue;
 
-      const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'Great answer! 🌟';
-      console.log('Reply:', reply.slice(0, 100));
-      return res.status(200).json({ reply });
+      const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (reply) return res.status(200).json({ reply: reply.trim() });
 
     } catch (e) {
-      console.error('Model error:', model, e.message);
+      console.error(model, e.message);
       continue;
     }
   }
 
-  return res.status(200).json({ reply: 'Wow, great answer! 🌟 Tell me more!' });
+  return res.status(200).json({ reply: 'Great answer! 🌟' });
 }
