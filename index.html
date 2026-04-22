@@ -1304,6 +1304,7 @@ function markDone(phId){
 function openActivate(unit){
   chatHistory=[];
   chatMessages=[];
+  meriemQIdx=0;
   var box=g('chat-box'); box.innerHTML='';
   var unitIdx=currentLevel?currentLevel.units.indexOf(unit):0;
   activateIdx=unitIdx;
@@ -1322,7 +1323,80 @@ function addMsg(who,text){
   box.scrollTop=box.scrollHeight;
 }
 
+
+var MERIEM_QA = {
+  u1: [
+    {q:"Hi! I am Meriem! 🌟 Can you name ONE digital device you know?",
+     keywords:['smartphone','phone','tablet','laptop','computer','smartwatch','watch','robot','ipad','mobile'],
+     correct:"Wow, great answer! 🎉 That is a digital device! Can you name another one?",
+     wrong:"Good try! 😊 Think about things that use electricity and a screen — like a phone or tablet!"},
+    {q:"What digital devices do you have at home? 🏠",
+     keywords:['phone','smartphone','tablet','laptop','computer','tv','television','watch','ipad','mobile'],
+     correct:"Amazing! 🌟 You have great devices at home! Are they fun to use?",
+     wrong:"Think about it! 💡 Does your family have a phone, tablet or computer at home?"},
+    {q:"What can you DO with a smartphone? 📱",
+     keywords:['call','photo','video','game','music','message','text','internet','camera','watch','play'],
+     correct:"Yes! 🎉 Smartphones can do so many things! That is why they are so useful!",
+     wrong:"Good try! 😊 You can call people, take photos and play games with a smartphone!"},
+    {q:"How is a tablet DIFFERENT from a smartphone? Think about the size! 🤔",
+     keywords:['big','bigger','large','size','screen','small','smaller'],
+     correct:"Excellent! ⭐ The tablet has a BIGGER screen than a smartphone! Well done!",
+     wrong:"Almost! 💡 Think about the SIZE — a tablet screen is much bigger than a phone screen!"},
+    {q:"A laptop has something a tablet does NOT have. Can you guess what? 💡",
+     keywords:['keyboard','keys','type','button','buttons'],
+     correct:"YES! 🏆 A laptop has a KEYBOARD! You can type on it just like a computer!",
+     wrong:"Hmm, think again! 😊 Look at a laptop — it has lots of letters you can press. It is a KEYBOARD!"},
+  ],
+  u2: [
+    {q:"Let's explore devices! Can you tell me ONE part of a smartphone you can see? 🔍",
+     keywords:['screen','camera','speaker','button','battery','charger','lens','microphone'],
+     correct:"Great observation! 🌟 You found a part of the device! Can you find another one?",
+     wrong:"Look carefully! 💡 Can you see the screen, camera or speaker on a smartphone?"},
+    {q:"What does the CAMERA on a device do? 📷",
+     keywords:['photo','picture','video','record','take','shoot','film'],
+     correct:"Perfect! 🎉 The camera takes photos and records videos! You are so smart!",
+     wrong:"Good try! 😊 The camera is like your eyes for the device — it takes PHOTOS!"},
+    {q:"What comes out of the SPEAKER? 🔊",
+     keywords:['sound','music','voice','audio','noise','song','talk'],
+     correct:"Yes! ⭐ Music, voices and sounds all come from the speaker! Well done!",
+     wrong:"Almost! 💡 Think about what you HEAR when you watch a video — that comes from the SPEAKER!"},
+    {q:"What happens when the BATTERY is empty? 🔋",
+     keywords:['charge','plug','dead','stop','off','power','electricity','charger'],
+     correct:"Exactly right! 🏆 You need to CHARGE it! Just like eating food gives you energy!",
+     wrong:"Think about it! 😊 When YOUR energy is gone you rest. When a battery is empty you need to CHARGE it!"},
+  ],
+  u3: [
+    {q:"TAP, SWIPE or TYPE? What action do you use to OPEN an app? 👆",
+     keywords:['tap','touch','click','press'],
+     correct:"YES! 🌟 You TAP to open an app! One quick touch and it opens!",
+     wrong:"Good try! 😊 To open an app you TAP — just touch the screen once quickly!"},
+    {q:"What action do you use to SCROLL DOWN a page? 👋",
+     keywords:['swipe','slide','scroll','move','drag'],
+     correct:"Amazing! 🎉 You SWIPE to scroll! Slide your finger up or down!",
+     wrong:"Almost! 💡 To scroll down you SWIPE — slide your finger across the screen!"},
+    {q:"How do you write a MESSAGE on a device? ✏️",
+     keywords:['type','keyboard','write','press','letters','keys'],
+     correct:"Perfect! ⭐ You TYPE to write messages! Press the letters on the keyboard!",
+     wrong:"Think about it! 😊 To write words you TYPE — press the letters on the keyboard!"},
+  ],
+  u4: [
+    {q:"Is sharing your PASSWORD with a friend safe or not safe? 🔒",
+     keywords:['not safe','no','never','unsafe','bad','wrong','secret'],
+     correct:"Exactly right! 🛡️ NEVER share your password! It is your secret key — keep it safe!",
+     wrong:"Think carefully! 💡 Your password is like a secret — you should NEVER share it with anyone!"},
+    {q:"What should you do BEFORE going online? 🙋",
+     keywords:['ask','parent','mum','mom','dad','teacher','adult','permission','grown'],
+     correct:"Perfect! 🌟 Always ask mum, dad or a teacher first! They keep you safe online!",
+     wrong:"Good try! 😊 Before going online you should always ASK a grown-up first!"},
+    {q:"Someone you do NOT know sends you a message online. What do you do? 🚫",
+     keywords:['ignore','tell','adult','parent','teacher','not reply','no','stop','block'],
+     correct:"Excellent! 🏆 Never reply to strangers online — tell a grown-up straight away!",
+     wrong:"Think about safety! 💡 Never talk to strangers online — tell a grown-up immediately!"},
+  ],
+};
+
 var chatMessages = [];
+var meriemQIdx = 0;
 
 function sendChat(){
   var inp=g('chat-inp');
@@ -1348,31 +1422,32 @@ function sendChat(){
   g('chat-box').appendChild(typing);
   g('chat-box').scrollTop=g('chat-box').scrollHeight;
   
-  // Call Vercel API function (key is safe on server)
-  fetch('/api/chat', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      messages: chatMessages,
-      systemPrompt: 'You are Meriem, a friendly digital guide for children age 6-7 in Morocco. Always cheerful and encouraging. Maximum 2 short sentences per reply. Always use 1 emoji. Simple English only. Only talk about digital devices (Smartphone, Tablet, Laptop, Smartwatch, AI Robot, Tap, Swipe, Type, internet safety). Celebrate correct answers loudly. Encourage gently when wrong. Never be negative.'
-    })
-  })
-  .then(function(r){return r.json();})
-  .then(function(data){
-    console.log('Meriem response received');
-    var reply = data.reply || 'Great answer! 🌟 Keep going!';
+  // Smart keyword matching - works without AI
+  var uid = currentUnit ? currentUnit.id : 'u1';
+  var qaList = MERIEM_QA[uid] || MERIEM_QA.u1;
+  var qa = qaList[meriemQIdx % qaList.length];
+  var valLower = val.toLowerCase();
+  var isCorrect = qa && qa.keywords && qa.keywords.some(function(kw){ return valLower.indexOf(kw) > -1; });
+  var reply = isCorrect ? (qa.correct || 'Amazing! 🌟') : (qa.wrong || 'Good try! 😊 Try again!');
+
+  // After correct answer, move to next question
+  if(isCorrect) {
+    meriemQIdx++;
+    var nextQA = qaList[meriemQIdx % qaList.length];
+    if(nextQA && meriemQIdx < qaList.length) {
+      setTimeout(function(){
+        addMsg('meriem', nextQA.q);
+      }, 1500);
+    }
+  }
+
+  // Simulate with promise for consistent flow
+  Promise.resolve({reply: reply}).then(function(data){
+    var reply = data.reply;
     var typingEl=g('typing-indicator');
     if(typingEl) typingEl.remove();
     addMsg('meriem', reply);
     chatMessages.push({role:'assistant', content:reply});
-    markDone('activate');
-  })
-  .catch(function(e){
-    console.error('Meriem API error:', e.message, e);
-    var typingEl=g('typing-indicator');
-    if(typingEl) typingEl.remove();
-    var fallback=rand(CONTENT.meriem_celebrates)+' Keep going! 😊';
-    addMsg('meriem', fallback);
     markDone('activate');
   })
   .finally(function(){
