@@ -542,11 +542,12 @@ var CONTENT = {
       type: 'match',
       instruction: 'Match each device to its name! Tap a device then tap its name!',
       pairs: [
-        {emoji:'📱', name:'Smartphone'},
-        {emoji:'📟', name:'Tablet'},
-        {emoji:'💻', name:'Laptop'},
-        {emoji:'⌚', name:'Smartwatch'},
-        {emoji:'🤖', name:'AI Robot'},
+        {emoji:'📱', name:'Smartphone', img:'https://i.imgur.com/hXGJrMs.png'},
+        {emoji:'📟', name:'Tablet', img:'https://i.imgur.com/p1WiBs5.png'},
+        {emoji:'💻', name:'Laptop', img:'https://i.imgur.com/eLWtSjo.png'},
+        {emoji:'⌚', name:'Smartwatch', img:'https://i.imgur.com/aVVcKc3.png'},
+        {emoji:'🤖', name:'AI Robot', img:'https://i.imgur.com/Gw5bsjy.png'},
+        {emoji:'🚁', name:'Drone', img:'https://i.imgur.com/lXILDN8.png'},
       ]
     },
     u2: {
@@ -582,21 +583,24 @@ var CONTENT = {
   },
   learn: {
     u1: [
-      {emoji:'📱', name:'Smartphone', color:'#1A6EFF', img:'https://i.imgur.com/p3UEpfi.png',
+      {emoji:'📱', name:'Smartphone', color:'#1A6EFF', img:'https://i.imgur.com/hXGJrMs.png',
        fact1:'A smartphone fits in your pocket!',
        fact2:'You can call, take photos and play games! 🎮'},
-      {emoji:'📟', name:'Tablet', color:'#00C853', img:'https://i.imgur.com/lCYvb4h.png',
+      {emoji:'📟', name:'Tablet', color:'#00C853', img:'https://i.imgur.com/p1WiBs5.png',
        fact1:'A tablet has a BIG screen!',
        fact2:'You can read books and draw on it! ✏️'},
-      {emoji:'💻', name:'Laptop', color:'#FF6B2B', img:'https://i.imgur.com/JcTWDmH.png',
+      {emoji:'💻', name:'Laptop', color:'#FF6B2B', img:'https://i.imgur.com/eLWtSjo.png',
        fact1:'A laptop has a keyboard!',
        fact2:'You can write and learn with it! 📚'},
-      {emoji:'⌚', name:'Smartwatch', color:'#9B27AF', img:'https://i.imgur.com/t6AYvwc.png',
+      {emoji:'⌚', name:'Smartwatch', color:'#9B27AF', img:'https://i.imgur.com/aVVcKc3.png',
        fact1:'A smartwatch goes on your wrist!',
        fact2:'It tells the time and counts your steps! 👣'},
-      {emoji:'🤖', name:'AI Robot', color:'#E91E7A', img:'https://i.imgur.com/OEV4ovj.png',
+      {emoji:'🤖', name:'AI Robot', color:'#E91E7A', img:'https://i.imgur.com/Gw5bsjy.png',
        fact1:'An AI robot is a smart computer!',
-       fact2:'It can talk and answer questions! 💬'},
+       fact2:'It can talk and answer questions! 💬'},,
+      {emoji:'🚁', name:'Drone', color:'#00B8CC', img:'https://i.imgur.com/lXILDN8.png',
+       fact1:'A drone is a flying device controlled by a remote!',
+       fact2:'Drones can take amazing photos from the sky! 📸'}
     ],
     u2: [
       {emoji:'🖥️', name:'Screen', color:'#1A6EFF',
@@ -713,35 +717,62 @@ var CONTENT = {
   meriem_encourage: ['Good try! 😊 Try again!','Almost there! 🌟 You can do it!','Nice thinking! 💭 Keep going!'],
   tests: {
     u1: [
-      {q:'Which of these is a digital device?', opts:['A book 📚','A smartphone 📱','A chair 🪑','A sandwich 🥪'], correct:1},
-      {q:'Where do you wear a smartwatch?', opts:['On your head 🧢','On your foot 👟','On your wrist ⌚','In your bag 🎒'], correct:2},
-      {q:'Which device has a keyboard AND a screen?', opts:['Tablet 📟','Smartwatch ⌚','Laptop 💻','Smartphone 📱'], correct:2},
-      {q:'TRUE or FALSE: A tablet screen is bigger than a smartphone screen.', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'What can an AI Robot do?', opts:['Cook food 🍳','Talk and answer questions 🤖','Drive a car 🚗','Fly a plane ✈️'], correct:1},
+      {q:'Which one is a digital device?', type:'img',
+       opts:[{img:'https://i.imgur.com/hXGJrMs.png',label:'Smartphone'},{img:'https://i.imgur.com/OyK0hZn.png',label:'Book'},{img:'https://i.imgur.com/d44fFu5.png',label:'Sandwich'},{img:'https://i.imgur.com/llTVX6X.png',label:'Shoe'}], correct:0},
+      {q:'Which device fits in your pocket?', type:'img',
+       opts:[{img:'https://i.imgur.com/eLWtSjo.png',label:'Laptop'},{img:'https://i.imgur.com/p1WiBs5.png',label:'Tablet'},{img:'https://i.imgur.com/hXGJrMs.png',label:'Smartphone'},{img:'https://i.imgur.com/UP3AXph.png',label:'Pan'}], correct:2},
+      {q:'Where do you wear a smartwatch?', type:'img',
+       opts:[{img:'https://i.imgur.com/w2LCfxp.png',label:'In a bag'},{img:'https://i.imgur.com/llTVX6X.png',label:'On foot'},{img:'https://i.imgur.com/dzCd4Na.png',label:'On wrist'},{img:'https://i.imgur.com/OyK0hZn.png',label:'In a book'}], correct:2},
+      {q:'Which device has a keyboard AND a screen?', type:'img',
+       opts:[{img:'https://i.imgur.com/p1WiBs5.png',label:'Tablet'},{img:'https://i.imgur.com/eLWtSjo.png',label:'Laptop'},{img:'https://i.imgur.com/aVVcKc3.png',label:'Smartwatch'},{img:'https://i.imgur.com/hXGJrMs.png',label:'Phone'}], correct:1},
+      {q:'Which one can FLY?', type:'img',
+       opts:[{img:'https://i.imgur.com/hXGJrMs.png',label:'Smartphone'},{img:'https://i.imgur.com/yM1HXfM.png',label:'Car'},{img:'https://i.imgur.com/lXILDN8.png',label:'Drone'},{img:'https://i.imgur.com/d44fFu5.png',label:'Sandwich'}], correct:2},
+      {q:'Which is NOT a digital device?', type:'img',
+       opts:[{img:'https://i.imgur.com/yM1HXfM.png',label:'Car'},{img:'https://i.imgur.com/p1WiBs5.png',label:'Tablet'},{img:'https://i.imgur.com/hXGJrMs.png',label:'Smartphone'},{img:'https://i.imgur.com/eLWtSjo.png',label:'Laptop'}], correct:0},
+      {q:'TRUE or FALSE: A tablet screen is bigger than a smartphone.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
+      {q:'Which device can talk and answer questions?', type:'img',
+       opts:[{img:'https://i.imgur.com/OyK0hZn.png',label:'Book'},{img:'https://i.imgur.com/Gw5bsjy.png',label:'AI Robot'},{img:'https://i.imgur.com/UP3AXph.png',label:'Pan'},{img:'https://i.imgur.com/llTVX6X.png',label:'Shoe'}], correct:1},
+      {q:'Which device goes on your WRIST?', type:'img',
+       opts:[{img:'https://i.imgur.com/hXGJrMs.png',label:'Smartphone'},{img:'https://i.imgur.com/w2LCfxp.png',label:'Bag'},{img:'https://i.imgur.com/aVVcKc3.png',label:'Smartwatch'},{img:'https://i.imgur.com/eLWtSjo.png',label:'Laptop'}], correct:2},
+      {q:'TRUE or FALSE: A laptop can fly like a drone.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
     ],
     u2: [
-      {q:'What does the CAMERA do?', opts:['Makes sounds 🔊','Shows the time ⏰','Takes photos 📷','Gives power 🔋'], correct:2},
-      {q:'What part makes music come out of a device?', opts:['Screen 🖥️','Battery 🔋','Camera 📷','Speaker 🔊'], correct:3},
-      {q:'What gives a device its power?', opts:['The screen 🖥️','The battery 🔋','The camera 📷','The speaker 🔊'], correct:1},
-      {q:'TRUE or FALSE: The screen shows you pictures and words.', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'What do you do when the battery is empty?', opts:['Throw it away 🗑️','Shake it 🤝','Charge it ⚡','Hit it 👊'], correct:2},
+      {q:'What does the CAMERA do?', type:'tf', opts:['Takes photos 📷','Makes sounds 🔊'], correct:0},
+      {q:'What comes out of the SPEAKER?', type:'tf', opts:['Sound 🔊','Photos 📷'], correct:0},
+      {q:'What gives a device power?', type:'tf', opts:['The screen','The battery 🔋'], correct:1},
+      {q:'TRUE or FALSE: The screen shows pictures and words.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
+      {q:'What do you do when the battery is empty?', type:'tf', opts:['Charge it ⚡','Throw it away 🗑️'], correct:0},
+      {q:'Which part takes photos?', type:'tf', opts:['Speaker 🔊','Camera 📷'], correct:1},
+      {q:'TRUE or FALSE: The speaker makes sounds.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
+      {q:'What do you LOOK AT on a device?', type:'tf', opts:['The screen 🖥️','The battery 🔋'], correct:0},
+      {q:'TRUE or FALSE: You charge a device when the battery is full.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
+      {q:'Which part do you use to HEAR music?', type:'tf', opts:['Camera 📷','Speaker 🔊'], correct:1},
     ],
     u3: [
-      {q:'TAP means...', opts:['Slide your finger across','Touch once quickly 👆','Press all letters','Shake the device'], correct:1},
-      {q:'SWIPE means...', opts:['Touch once','Slide your finger 👋','Type letters','Turn off'], correct:1},
-      {q:'What do you do to write a message?', opts:['Tap once','Swipe left','Type the letters ⌨️','Shake it'], correct:2},
-      {q:'You SWIPE to...', opts:['Open an app','Scroll down a page 📖','Write words','Take a photo'], correct:1},
-      {q:'TRUE or FALSE: You TAP to open an app.', opts:['TRUE ✅','FALSE ❌'], correct:0},
+      {q:'TAP means...', type:'tf', opts:['Touch once 👆','Slide your finger'], correct:0},
+      {q:'SWIPE means...', type:'tf', opts:['Touch once','Slide your finger 👋'], correct:1},
+      {q:'To OPEN an app you...', type:'tf', opts:['TAP it 👆','SWIPE it'], correct:0},
+      {q:'To SCROLL DOWN a page you...', type:'tf', opts:['TAP','SWIPE 👋'], correct:1},
+      {q:'To WRITE a message you...', type:'tf', opts:['TYPE ⌨️','SWIPE'], correct:0},
+      {q:'TRUE or FALSE: You TAP to open an app.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
+      {q:'TRUE or FALSE: You SWIPE to write words.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
+      {q:'Which action uses the keyboard?', type:'tf', opts:['TYPE ⌨️','TAP 👆'], correct:0},
+      {q:'TRUE or FALSE: SWIPE means slide your finger.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
+      {q:'To go to the next photo you...', type:'tf', opts:['SWIPE 👋','TYPE'], correct:0},
     ],
     u4: [
-      {q:'Is sharing your password with a friend safe?', opts:['YES — always ✅','NO — never! 🔒'], correct:1},
-      {q:'Before going online you should...', opts:['Just go online','Ask mum or dad first ✅','Tell a stranger','Keep it secret'], correct:1},
-      {q:'Is it safe to talk to strangers online?', opts:['YES ✅','NO — not safe! 🚫'], correct:1},
-      {q:'If something online makes you feel bad, you should...', opts:['Keep it secret','Ignore it','Tell a grown-up ✅','Share it with friends'], correct:2},
-      {q:'TRUE or FALSE: You should share your home address online.', opts:['TRUE ✅','FALSE — never! ❌'], correct:1},
+      {q:'Is sharing your PASSWORD safe?', type:'tf', opts:['YES ✅','NO — never! 🔒'], correct:1},
+      {q:'Before going online you should...', type:'tf', opts:['Ask a grown-up ✅','Just go online'], correct:0},
+      {q:'Is talking to strangers online safe?', type:'tf', opts:['YES ✅','NO — not safe! 🚫'], correct:1},
+      {q:'If something feels wrong online, you...', type:'tf', opts:['Tell a grown-up ✅','Keep it secret'], correct:0},
+      {q:'TRUE or FALSE: Share your home address online.', type:'tf', opts:['TRUE ✅','FALSE — never! ❌'], correct:1},
+      {q:'Is asking mum or dad before going online good?', type:'tf', opts:['YES ✅','NO ❌'], correct:0},
+      {q:'TRUE or FALSE: Your password is a secret.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
+      {q:'Should you share your real name with strangers online?', type:'tf', opts:['YES ✅','NO 🚫'], correct:1},
+      {q:'TRUE or FALSE: Take breaks from screens.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
+      {q:'Who do you tell if something online scares you?', type:'tf', opts:['A grown-up ✅','Nobody'], correct:0},
     ],
-  },
-};
+  },};
 
 // ══════════════════════════════════════════════════════
 // STATE
@@ -827,8 +858,8 @@ function showCertificate(level){
   if(el2) el2.textContent=(level?level.title+' — '+level.subtitle:'Level 1 — Discover');
   var el3=document.getElementById('cert-date');
   if(el3) el3.textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-  var el4=document.getElementById('cert-score');
-  if(el4) el4.textContent='⭐ '+(currentUser?currentUser.stars||0:0)+' stars earned';
+  var el4=document.getElementById('cert-stars');
+  if(el4) el4.textContent='&#11088; '+(currentUser?currentUser.stars||0:0)+' stars';
   showScreen('scr-cert');
 }
 
@@ -1054,7 +1085,7 @@ function openPractice(unit){
 
   if(data.type==='match'){
     // Shuffle pairs
-    var emojis = data.pairs.map(function(p){return {emoji:p.emoji,name:p.name};});
+    var emojis = data.pairs.map(function(p){return {emoji:p.emoji,name:p.name,img:p.img||''};});
     var names = data.pairs.map(function(p){return p.name;}).sort(function(){return Math.random()-0.5;});
     var selected = null;
     var correct = 0;
@@ -1065,8 +1096,14 @@ function openPractice(unit){
     emojiRow.style.cssText='display:flex;flex-wrap:wrap;gap:10px;justify-content:center;';
     emojis.forEach(function(p){
       var btn=document.createElement('button');
-      btn.style.cssText='width:80px;height:80px;border-radius:16px;background:'+['#1A6EFF','#00C853','#FF6B2B','#9B27AF','#E91E7A'][emojis.indexOf(p)%5]+';border:4px solid transparent;font-size:36px;cursor:pointer;transition:all 0.2s;';
-      btn.textContent=p.emoji;
+      var bgColor=['#1A6EFF','#00C853','#FF6B2B','#9B27AF','#E91E7A','#00B8CC'][emojis.indexOf(p)%6];
+      btn.style.cssText='width:90px;height:90px;border-radius:16px;background:'+bgColor+';border:4px solid transparent;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;overflow:hidden;';
+      if(p.img){
+        btn.innerHTML='<img src="'+p.img+'" style="width:75px;height:75px;object-fit:contain;"/>';
+      } else {
+        btn.style.fontSize='36px';
+        btn.textContent=p.emoji;
+      }
       btn.dataset.name=p.name;
       btn.onclick=function(){
         if(btn.dataset.matched) return;
@@ -1153,46 +1190,98 @@ function tfAnswer(btn,val,correct,idx){
 
 
 function openCreate(unit){
-  var titles={u1:'My Digital Day',u2:'My Favourite Device',u3:'My Story Strip',u4:'My Safety Poster'};
-  var subs={u1:'Which devices do you use every day?',u2:'Tell us about your favourite device!',u3:'Tell a story using Tap, Swipe and Type!',u4:'Create your own internet safety poster!'};
-  var prompts={
-    u1:[{l:'In the morning I use...',p:'Write a device...'},{l:'At school I use...',p:'Write a device...'},{l:'My favourite device is...',p:'Write here...'},{l:'I use it to...',p:'What do you do?'}],
-    u2:[{l:'My favourite device is...',p:'Name the device...'},{l:'It has a...',p:'Name one part...'},{l:'I use it to...',p:'What do you do?'},{l:'I like it because...',p:'Why?'}],
+  var uid = unit.id;
+  var titles = {u1:'My Digital Day',u2:'My Favourite Device',u3:'My Story Strip',u4:'My Safety Poster'};
+  var subs = {u1:'Pick a device and tell us about your digital day!',u2:'Choose your favourite device!',u3:'Tell a story using Tap, Swipe and Type!',u4:'Create your own internet safety poster!'};
+  var prompts = {
+    u1:[{l:'In the morning I use...',p:'Write here...'},{l:'At school I use...',p:'Write here...'},{l:'I use it to...',p:'What do you do?'}],
+    u2:[{l:'It has a...',p:'Name one part...'},{l:'I use it to...',p:'What do you do?'},{l:'I like it because...',p:'Why?'}],
     u3:[{l:'First I TAP to...',p:'What do you tap?'},{l:'Then I SWIPE to...',p:'What do you swipe?'},{l:'Finally I TYPE to...',p:'What do you type?'}],
-    u4:[{l:'Rule 1:',p:'Write a safety rule...'},{l:'Rule 2:',p:'Another rule...'},{l:'Rule 3:',p:'One more...'},{l:'My message to friends:',p:'What do you want to tell them?'}]
+    u4:[{l:'Rule 1:',p:'Write a safety rule...'},{l:'Rule 2:',p:'Another rule...'},{l:'Rule 3:',p:'One more...'},{l:'My message:',p:'What do you want to say?'}]
   };
-  var uid=unit.id;
-  // Show the screen FIRST so elements are visible
-  showScreen('scr-create');
-  var ct=g('create-title'); if(ct) ct.textContent='🎨 I Create — '+(titles[uid]||'My Creation');
+  var ct=g('create-title'); if(ct) ct.textContent='&#127912; I Create — '+(titles[uid]||'My Creation');
   var cs=g('create-sub'); if(cs) cs.textContent=subs[uid]||'Be creative!';
-  var area=g('create-area'); if(!area){console.error('create-area not found');return;} area.innerHTML='';
+  showScreen('scr-create');
+  var area=g('create-area'); if(!area) return; area.innerHTML='';
+
+  // Device picker for u1 and u2
+  if(uid==='u1'||uid==='u2'){
+    var devices=[
+      {name:'Smartphone',img:'https://i.imgur.com/hXGJrMs.png',color:'#1A6EFF'},
+      {name:'Tablet',img:'https://i.imgur.com/p1WiBs5.png',color:'#00C853'},
+      {name:'Laptop',img:'https://i.imgur.com/eLWtSjo.png',color:'#FF6B2B'},
+      {name:'Smartwatch',img:'https://i.imgur.com/aVVcKc3.png',color:'#9B27AF'},
+      {name:'AI Robot',img:'https://i.imgur.com/Gw5bsjy.png',color:'#E91E7A'},
+      {name:'Drone',img:'https://i.imgur.com/lXILDN8.png',color:'#00B8CC'},
+    ];
+    var pickerWrap=document.createElement('div');
+    pickerWrap.style.cssText='background:white;border-radius:16px;padding:16px;';
+    pickerWrap.innerHTML=
+      '<div style="font-size:16px;font-weight:800;color:#1A1A2E;margin-bottom:12px;">&#128070; Pick your favourite device!</div>'+
+      '<div id="device-picker" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:12px;"></div>'+
+      '<div id="picked-device" style="display:none;text-align:center;padding:14px;background:#F0F7FF;border-radius:12px;">'+
+        '<img id="picked-img" src="" style="width:90px;height:90px;object-fit:contain;"/>'+
+        '<div id="picked-name" style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;margin-top:6px;"></div>'+
+        '<div style="font-size:13px;color:#888;margin-top:2px;">Great choice! &#11088;</div>'+
+      '</div>';
+    area.appendChild(pickerWrap);
+    setTimeout(function(){
+      var picker=g('device-picker'); if(!picker) return;
+      devices.forEach(function(d){
+        var btn=document.createElement('button');
+        btn.style.cssText='width:68px;height:68px;border-radius:14px;background:'+d.color+';border:3px solid transparent;cursor:pointer;padding:6px;transition:all 0.2s;';
+        btn.innerHTML='<img src="'+d.img+'" style="width:100%;height:100%;object-fit:contain;"/>';
+        btn.title=d.name;
+        btn.onclick=function(){
+          document.querySelectorAll('#device-picker button').forEach(function(b){b.style.borderColor='transparent';b.style.transform='scale(1)';});
+          btn.style.borderColor='#FFD600'; btn.style.transform='scale(1.12)';
+          g('picked-img').src=d.img;
+          g('picked-name').textContent=d.name;
+          g('picked-device').style.display='block';
+          showToast('&#11088; '+d.name+' selected!');
+        };
+        picker.appendChild(btn);
+      });
+    },100);
+  }
+
+  // Prompts
   var ps=prompts[uid]||prompts.u1;
   ps.forEach(function(p){
     var wrap=document.createElement('div');
-    wrap.style.cssText='background:white;border-radius:16px;padding:16px 20px;';
-    wrap.innerHTML='<div style="font-size:16px;font-weight:800;color:#1A1A2E;margin-bottom:8px;">'+p.l+'</div><input type="text" placeholder="'+p.p+'" style="width:100%;padding:12px 14px;border:2.5px solid #E0E0E0;border-radius:10px;font-size:16px;font-family:Nunito;font-weight:700;outline:none;" class="create-inp"/>';
+    wrap.style.cssText='background:white;border-radius:16px;padding:16px;';
+    var inp=document.createElement('input');
+    inp.type='text'; inp.placeholder=p.p;
+    inp.style.cssText='width:100%;padding:12px 14px;border:2.5px solid #E0E0E0;border-radius:10px;font-size:16px;font-family:Nunito;font-weight:700;outline:none;margin-top:6px;box-sizing:border-box;';
+    inp.onfocus=function(){this.style.borderColor='#1A6EFF';};
+    inp.onblur=function(){this.style.borderColor='#E0E0E0';};
+    wrap.innerHTML='<div style="font-size:15px;font-weight:800;color:#1A1A2E;">'+p.l+'</div>';
+    wrap.appendChild(inp);
     area.appendChild(wrap);
   });
+
+  // Drawing canvas
   var cw=document.createElement('div');
   cw.style.cssText='background:white;border-radius:16px;padding:16px;';
-  cw.innerHTML='<div style="font-size:16px;font-weight:800;color:#1A1A2E;margin-bottom:10px;">Draw it! ✏️</div><canvas id="draw-canvas" width="700" height="180" style="width:100%;border:2.5px dashed #1A6EFF;border-radius:12px;cursor:crosshair;touch-action:none;background:#FAFFFE;"></canvas><div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;" id="color-btns"></div>';
+  cw.innerHTML=
+    '<div style="font-size:15px;font-weight:800;color:#1A1A2E;margin-bottom:10px;">&#9999;&#65039; Draw it!</div>'+
+    '<canvas id="draw-canvas" width="700" height="180" style="width:100%;border:2.5px dashed #1A6EFF;border-radius:12px;cursor:crosshair;touch-action:none;background:#FAFFFE;"></canvas>'+
+    '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;" id="color-btns"></div>';
   area.appendChild(cw);
   setTimeout(function(){
-    var btns=g('color-btns');
-    ['#1A6EFF','#FF6B2B','#00C853','#9B27AF','#FFD600','#1A1A2E'].forEach(function(c){
+    var btns_el=g('color-btns'); if(!btns_el) return;
+    ['#1A6EFF','#FF6B2B','#00C853','#9B27AF','#FFD600','#E91E7A','#1A1A2E'].forEach(function(c){
       var b=document.createElement('button');
       b.style.cssText='width:32px;height:32px;border-radius:50%;background:'+c+';border:3px solid white;cursor:pointer;';
       b.onclick=function(){drawColor=c;};
-      btns.appendChild(b);
+      btns_el.appendChild(b);
     });
     var cl=document.createElement('button');
     cl.style.cssText='padding:6px 14px;border-radius:8px;background:#FFEBEE;color:#F03030;border:none;font-weight:800;font-size:13px;cursor:pointer;font-family:Nunito;';
-    cl.textContent='Clear';
-    cl.onclick=clearCanvas;
-    btns.appendChild(cl);
+    cl.textContent='Clear'; cl.onclick=clearCanvas;
+    btns_el.appendChild(cl);
     initCanvas();
-  },100);
+  },150);
 }
 
 var drawColor='#1A6EFF',drawing=false,lastX=0,lastY=0;
@@ -1473,7 +1562,7 @@ function openLearn(unit){
     card.style.transition='transform 0.3s';
     var imgUrl = d.img || '';
     card.innerHTML=
-      (imgUrl ? '<img src="'+imgUrl+'" style="width:80px;height:80px;object-fit:contain;margin-bottom:8px;" onerror="this.style.display=\'none\'">' : '<span class="device-emoji" style="font-size:56px;display:block;margin-bottom:8px;">'+d.emoji+'</span>')+
+      (imgUrl ? '<img src="'+imgUrl+'" style="width:110px;height:110px;object-fit:contain;margin-bottom:8px;">' : '<span class="device-emoji" style="font-size:56px;display:block;margin-bottom:8px;">'+d.emoji+'</span>')+
       '<div class="device-name">'+d.name+'</div>'+
       '<div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">Tap to learn! &#128070;</div>';
     card.onclick=function(){
@@ -1497,7 +1586,11 @@ function openLearn(unit){
           showToast('⭐ Great! You learned everything!');
         }
       }
-      g('di-emoji').textContent=d.emoji;
+      if(d.img) {
+        g('di-emoji').innerHTML='<img src="'+d.img+'" style="width:120px;height:120px;object-fit:contain;"/>';
+      } else {
+        g('di-emoji').textContent=d.emoji;
+      }
       g('di-name').textContent=d.name;
       g('di-desc').innerHTML=
         '<div style="background:#F0F7FF;border-radius:12px;padding:14px;margin-bottom:10px;">'+
@@ -1521,44 +1614,130 @@ function openLearn(unit){
 // ══════════════════════════════════════════════════════
 function openTest(unit){
   testAnswers={};
-  var qs=CONTENT.tests[unit.id]||CONTENT.tests.u1; // each unit has own questions
+  var qs=(CONTENT.tests[unit.id]||CONTENT.tests.u1).slice(0,10);
+  _testScore={correct:0,answered:0,total:qs.length};
   var area=g('test-area'); area.innerHTML='';
-  var qNum=0;
+
+  // Score bar at top
+  var scoreBar=document.createElement('div');
+  scoreBar.style.cssText='background:white;border-radius:16px;padding:14px;text-align:center;margin-bottom:14px;';
+  scoreBar.innerHTML='<div style="font-size:13px;color:#888;margin-bottom:4px;">Your score</div><div style="font-family:Fredoka One;font-size:32px;color:#0A3FCC;" id="live-score">0 / '+qs.length+'</div>';
+  area.appendChild(scoreBar);
+
   qs.forEach(function(q,i){
     var card=document.createElement('div');
-    card.className='q-card';
-    var opts=q.opts.map(function(o,oi){
-      return '<button class="q-opt" onclick="answerQ('+i+','+oi+','+q.correct+',this)">'+o+'</button>';
-    }).join('');
-    card.innerHTML='<div class="q-num">Question '+(i+1)+' of '+qs.length+'</div><div class="q-text">'+q.q+'</div><div class="q-options">'+opts+'</div>';
+    card.className='q-card'; card.id='qcard-'+i;
+    var optsHtml='';
+    if(q.type==='img'){
+      optsHtml='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">';
+      q.opts.forEach(function(o,oi){
+        optsHtml+='<button class="q-opt-img" data-qi="'+i+'" data-oi="'+oi+'" onclick="answerQImg(this,'+i+','+oi+','+q.correct+')" style="border-radius:14px;border:3px solid #E0E0E0;padding:10px;cursor:pointer;background:white;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all 0.2s;">'+
+          '<img src="'+o.img+'" style="width:70px;height:70px;object-fit:contain;"/>'+
+          '<div style="font-size:13px;font-weight:700;color:#1A1A2E;">'+o.label+'</div>'+
+        '</button>';
+      });
+      optsHtml+='</div>';
+    } else {
+      optsHtml='<div style="display:flex;flex-direction:column;gap:8px;">';
+      q.opts.forEach(function(o,oi){
+        optsHtml+='<button class="q-opt" data-qi="'+i+'" onclick="answerQTF(this,'+i+','+oi+','+q.correct+')" style="padding:14px 18px;border-radius:12px;border:3px solid #E0E0E0;font-size:16px;font-weight:700;cursor:pointer;font-family:Nunito;background:white;text-align:left;">'+o+'</button>';
+      });
+      optsHtml+='</div>';
+    }
+    card.innerHTML=
+      '<div style="font-size:12px;font-weight:700;color:#999;margin-bottom:8px;">Question '+(i+1)+' of '+qs.length+'</div>'+
+      '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">'+
+        '<div style="font-size:18px;font-weight:800;color:#1A1A2E;line-height:1.4;flex:1;">'+q.q+'</div>'+
+        (q.type==='img'?'<div style="width:60px;height:60px;background:#F0F4FF;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">&#128247;</div>':'')+
+      '</div>'+
+      optsHtml+
+      '<div id="q-fb-'+i+'" style="margin-top:8px;font-size:14px;font-weight:800;min-height:20px;"></div>'+
+      '<div id="retry-'+i+'" style="display:none;margin-top:8px;"><button onclick="retryQuestion('+i+')" style="padding:8px 16px;background:#FFD600;color:#1A1A2E;border:none;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito;">&#128260; Try Again</button></div>';
     area.appendChild(card);
   });
-  var submitBtn=document.createElement('button');
-  submitBtn.className='btn-big'; submitBtn.style.cssText='background:var(--pink);color:white;width:100%;margin-top:10px;';
-  submitBtn.textContent='See my score! ⭐';
-  submitBtn.onclick=function(){showScore(qs);};
-  area.appendChild(submitBtn);
+  // See my score button
+  var seeScore=document.createElement('button');
+  seeScore.style.cssText='width:100%;padding:14px;background:#E91E7A;color:white;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:Nunito;margin-top:10px;';
+  seeScore.innerHTML='&#11088; See my score!';
+  seeScore.onclick=showFinalScore;
+  area.appendChild(seeScore);
   showScreen('scr-test');
 }
 
-function answerQ(qi,oi,correct,el){
-  if(testAnswers[qi]!==undefined) return;
-  testAnswers[qi]=oi;
-  var opts=el.parentElement.querySelectorAll('.q-opt');
-  opts.forEach(function(o){o.style.pointerEvents='none';});
-  if(oi===correct){el.classList.add('correct');showToast('Correct! ⭐');}
-  else{el.classList.add('wrong');opts[correct].classList.add('correct');showToast('Try again next time! 😊');}
+var _testScore={correct:0,answered:0,total:0};
+
+function answerQImg(btn,qi,oi,correct){
+  var card=g('qcard-'+qi);
+  if(card&&card.dataset.done) return;
+  if(oi===correct){
+    btn.style.borderColor='#00C853';btn.style.background='#E8F5E9';
+    if(card){card.dataset.done='1';card.querySelectorAll('.q-opt-img').forEach(function(b){b.style.pointerEvents='none';});}
+    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#00C853;">&#10003; Correct! &#11088;</span>';
+    _testScore.correct++;_testScore.answered++;
+    var ls=g('live-score');if(ls)ls.textContent=_testScore.correct+' / '+_testScore.total;
+    if(_testScore.answered>=_testScore.total)setTimeout(showFinalScore,600);
+  } else {
+    btn.style.borderColor='#F03030';btn.style.background='#FFEBEE';
+    setTimeout(function(){btn.style.borderColor='#E0E0E0';btn.style.background='white';},800);
+    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#FF6B2B;">Not right — try again! &#128522;</span>';
+    var rb=g('retry-'+qi);if(rb)rb.style.display='block';
+  }
 }
 
-function showScore(qs){
-  var correct=0;
-  qs.forEach(function(q,i){if(testAnswers[i]===q.correct)correct++;});
-  var pct=Math.round(correct/qs.length*100);
-  var emoji=pct>=80?'🏆':pct>=60?'⭐':'😊';
-  var area=g('test-area');
-  area.innerHTML='<div class="score-card"><div class="score-emoji">'+emoji+'</div><div class="score-num">'+correct+'/'+qs.length+'</div><div class="score-label">'+(pct>=70?'Amazing! You earned a badge! 🏅':'Good effort! Keep practicing! 💪')+'</div><button class="btn-big" style="background:var(--navy);color:white;" onclick="goBack()">← Back to Unit</button></div>';
-  if(pct>=70){markDone('test');if(!currentUser.badges)currentUser.badges=[];if(currentUser.badges.indexOf('b'+currentLevel.units.indexOf(currentUnit)+1)<0){currentUser.badges.push('b'+(currentLevel.units.indexOf(currentUnit)+1));g('st-badges').textContent='🏅 '+currentUser.badges.length+' badges';}}
+function answerQTF(btn,qi,oi,correct){
+  var card=g('qcard-'+qi);
+  if(card&&card.dataset.done) return;
+  if(oi===correct){
+    btn.style.borderColor='#00C853';btn.style.background='#E8F5E9';btn.style.color='#00C853';
+    if(card){card.dataset.done='1';card.querySelectorAll('.q-opt').forEach(function(b){b.style.pointerEvents='none';});}
+    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#00C853;">&#10003; Correct! &#11088;</span>';
+    _testScore.correct++;_testScore.answered++;
+    var ls=g('live-score');if(ls)ls.textContent=_testScore.correct+' / '+_testScore.total;
+    if(_testScore.answered>=_testScore.total)setTimeout(showFinalScore,600);
+  } else {
+    btn.style.borderColor='#F03030';btn.style.background='#FFEBEE';
+    setTimeout(function(){btn.style.borderColor='#E0E0E0';btn.style.background='white';btn.style.color='';},900);
+    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#FF6B2B;">Not quite — try again! &#128522;</span>';
+    var rb=g('retry-'+qi);if(rb)rb.style.display='block';
+  }
 }
+
+function showFinalScore(){
+  var pct=Math.round(_testScore.correct/_testScore.total*100);
+  var emoji=pct>=80?'&#127942;':pct>=60?'&#11088;':'&#128522;';
+  var msg=pct>=70?'Amazing! You earned a badge! &#127885;':'Good effort! Keep practicing! &#128170;';
+  // Replace entire test area with result
+  var area=g('test-area');
+  area.innerHTML=
+    '<div class="score-card" style="margin-top:0;">'+
+      '<div style="font-size:72px;margin-bottom:16px;">'+emoji+'</div>'+
+      '<div class="score-num">'+_testScore.correct+'/'+_testScore.total+'</div>'+
+      '<div class="score-label" style="margin:12px 0 24px;">'+msg+'</div>'+
+      '<div style="display:flex;gap:12px;">'+
+        '<button class="btn-big" style="background:#0A3FCC;color:white;flex:1;font-size:16px;" onclick="retryTest()">&#128260; Try Again</button>'+
+        '<button class="btn-big" style="background:#FFD600;color:#1A1A2E;flex:1;font-size:16px;" onclick="goBack()">&#8592; Back</button>'+
+      '</div>'+
+    '</div>';
+  if(pct>=70) markDone('test');
+  if(supa&&currentUser&&currentUser.supaId&&currentUnit){
+    supa.from('voortgang').insert({leerling_id:currentUser.supaId,unit_id:currentUnit.id,phase_id:'test_score',score:_testScore.correct,datum:new Date().toISOString()}).then(function(r){if(r.error)console.error(r.error.message);else console.log('score saved');});
+  }
+  window.scrollTo(0,0);
+}
+
+
+function retryQuestion(qi){
+  var card=g('qcard-'+qi); if(!card) return;
+  var fb=g('q-fb-'+qi); if(fb) fb.innerHTML='';
+  var rb=g('retry-'+qi); if(rb) rb.style.display='none';
+  card.querySelectorAll('.q-opt-img,.q-opt').forEach(function(b){
+    b.style.borderColor='#E0E0E0';b.style.background='white';b.style.color='';b.style.pointerEvents='auto';
+  });
+}
+
+function retryTest(){_testScore={correct:0,answered:0,total:0};openTest(currentUnit);}
+
+
 
 // ══════════════════════════════════════════════════════
 // OWNER DASHBOARD
@@ -1888,14 +2067,14 @@ function renderBBGrid(){
   for(var r=0; r<BB.rows; r++){
     for(var c=0; c<BB.cols; c++){
       var cell = document.createElement('div');
-      cell.style.cssText = 'width:100%;aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #E0E0E0;';
+      cell.style.cssText = 'width:100%;aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid #E0E0E0;min-width:0;overflow:hidden;';
       var isBee = BB.bee.r===r && BB.bee.c===c;
       var isTarget = BB.target.r===r && BB.target.c===c;
       if(isBee && isTarget){
-        cell.textContent = '&#128029;';
+        cell.textContent = '🏆';
         cell.style.background = '#FFD600';
       } else if(isBee){
-        cell.innerHTML = '&#128029;';
+        cell.textContent = '🐝';
         cell.style.background = '#E3F2FD';
         cell.style.borderColor = '#1A6EFF';
       } else if(isTarget){
@@ -1931,7 +2110,7 @@ function bbMove(dir){
     var stars = BB.steps <= 5 ? 3 : BB.steps <= 8 ? 2 : 1;
     BB.score += stars;
     g('bb-score').textContent = BB.score;
-    var msg = stars===3 ? 'Amazing! Perfect route! &#11088;&#11088;&#11088;' : stars===2 ? 'Great job! &#11088;&#11088;' : 'Well done! &#11088;';
+    var msg = stars===3 ? 'Amazing! Perfect route! ⭐⭐⭐' : stars===2 ? 'Great job! ⭐⭐' : 'Well done! ⭐';
     g('bb-message').innerHTML = msg;
     var next = g('bb-next');
     if(next) next.style.display = 'block';
@@ -2039,6 +2218,53 @@ initSupabase();
     </div>
 
     <button onclick="nextBBLevel()" id="bb-next" style="display:none;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#127381; Next Challenge!</button>
+  </div>
+</div>
+
+
+<div class="screen" id="scr-cert">
+  <div class="topbar">
+    <div class="brand">&#127881; Digital <span>Devices</span></div>
+    <div class="tb-r">
+      <button class="tb-btn" onclick="showScreen('scr-student');renderLevels();">&#8592; Home</button>
+    </div>
+  </div>
+  <div style="flex:1;padding:20px;display:flex;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:24px;padding:36px;max-width:560px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="font-size:56px;margin-bottom:12px;">&#127942;</div>
+      <div style="background:linear-gradient(135deg,#0A3FCC,#1A6EFF);border-radius:16px;padding:20px;margin-bottom:20px;">
+        <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.7);letter-spacing:2px;margin-bottom:6px;">CERTIFICATE OF COMPLETION</div>
+        <div style="font-family:'Fredoka One';font-size:26px;color:#FFD600;margin-bottom:4px;">Digital Devices</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.8);" id="cert-level">Level 1 — Discover</div>
+      </div>
+      <div style="font-size:14px;color:#666;margin-bottom:6px;">This certifies that</div>
+      <div style="font-family:'Fredoka One';font-size:32px;color:#0A3FCC;margin-bottom:6px;" id="cert-name">Student</div>
+      <div style="font-size:14px;color:#666;margin-bottom:20px;">has completed the Digital Devices programme!</div>
+      <div style="display:flex;justify-content:center;gap:12px;margin-bottom:20px;">
+        <span style="font-size:32px;">&#129353;</span>
+        <span style="font-size:32px;">&#129352;</span>
+        <span style="font-size:32px;">&#129351;</span>
+        <span style="font-size:32px;">&#127942;</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;border-top:2px solid #E0E0E0;padding-top:16px;margin-bottom:20px;">
+        <div style="text-align:left;">
+          <div style="font-size:11px;color:#999;font-weight:700;">DATE</div>
+          <div style="font-size:14px;font-weight:800;color:#1A1A2E;" id="cert-date"></div>
+        </div>
+        <div style="text-align:center;">
+          <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:44px;height:44px;border-radius:50%;object-fit:cover;"/>
+          <div style="font-size:11px;color:#999;font-weight:700;margin-top:2px;">Meriem</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:11px;color:#999;font-weight:700;">STARS</div>
+          <div style="font-size:14px;font-weight:800;color:#0A3FCC;" id="cert-stars">&#11088; 0</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="window.print()" style="flex:1;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#128424; Print</button>
+        <button onclick="showScreen('scr-student');renderLevels();" style="flex:1;padding:14px;background:#0A3FCC;color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#8592; Home</button>
+      </div>
+    </div>
   </div>
 </div>
 
