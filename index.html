@@ -1965,308 +1965,100 @@ function renderTeacher(){
     return l.school_id===currentUser.school_id&&l.klas===currentUser.klas;
   });
 
-  // Overview card
+  // ── CLASS OVERVIEW ──
   var ov=document.createElement('div'); ov.className='dash-card';
   var avgStars=myStudents.length?Math.round(myStudents.reduce(function(a,s){return a+(s.stars||0);},0)/myStudents.length):0;
+  var certs=myStudents.filter(function(s){
+    var prog=DB.voortgang[s.id]||{};
+    return CONTENT.levels[0].units.every(function(u){
+      var done=prog[u.id]||{};
+      return u.phases.every(function(p){return done[p.id];});
+    });
+  }).length;
   ov.innerHTML='<h3>&#128202; Class Overview — '+currentUser.klas+'</h3>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">'+
     '<div style="background:#E3F2FD;border-radius:12px;padding:14px;text-align:center;"><div style="font-family:Fredoka One;font-size:28px;color:#1A6EFF;">'+myStudents.length+'</div><div style="font-size:12px;font-weight:700;color:#666;">Students</div></div>'+
     '<div style="background:#E8F5E9;border-radius:12px;padding:14px;text-align:center;"><div style="font-family:Fredoka One;font-size:28px;color:#00C853;">'+avgStars+'</div><div style="font-size:12px;font-weight:700;color:#666;">Avg Stars</div></div>'+
-    '<div style="background:#FFF9C4;border-radius:12px;padding:14px;text-align:center;"><div style="font-family:Fredoka One;font-size:28px;color:#FF6B2B;">'+myStudents.filter(function(s){return (s.badges&&s.badges.length>=4);}).length+'</div><div style="font-size:12px;font-weight:700;color:#666;">Certificates</div></div>'+
+    '<div style="background:#FFF9C4;border-radius:12px;padding:14px;text-align:center;"><div style="font-family:Fredoka One;font-size:28px;color:#FF6B2B;">'+certs+'</div><div style="font-size:12px;font-weight:700;color:#666;">Certificates</div></div>'+
     '</div>';
   grid.appendChild(ov);
 
-  // Students card
+  // ── STUDENTS LIST ──
   var sc=document.createElement('div'); sc.className='dash-card';
   var h='<h3>&#127891; My Students ('+myStudents.length+')</h3>';
-  if(!myStudents.length){h+='<p style="color:#999;font-size:14px;padding:16px 0;text-align:center;">No students yet.</p>';}
+  if(!myStudents.length){
+    h+='<p style="color:#999;font-size:14px;padding:16px 0;text-align:center;">No students yet. Add students below.</p>';
+  }
   myStudents.forEach(function(s){
     var prog=DB.voortgang[s.id]||{};
-    var units=CONTENT.levels[0].units;
+    var units=CONTENT.levels[0]?CONTENT.levels[0].units:[];
+    var allDone=units.length>0&&units.every(function(u){
+      var done=prog[u.id]||{};
+      return u.phases&&u.phases.every(function(p){return done[p.id];});
+    });
     var bars=units.map(function(u){
       var done=prog[u.id]||{};
-      var pct=Math.round(Object.keys(done).length/u.phases.length*100);
+      var total=u.phases?u.phases.length:5;
+      var pct=Math.round(Object.keys(done).length/total*100);
       return '<div style="flex:1;text-align:center;">'+
-        '<div style="font-size:10px;font-weight:700;color:#888;margin-bottom:2px;">'+u.title+'</div>'+
+        '<div style="font-size:9px;font-weight:700;color:#888;margin-bottom:2px;">'+u.title+'</div>'+
         '<div style="background:#E0E0E0;border-radius:4px;height:8px;overflow:hidden;">'+
-          '<div style="background:'+(pct>=100?'#00C853':pct>0?'#1A6EFF':'#E0E0E0')+';height:100%;width:'+pct+'%;transition:width 0.4s;"></div>'+
+          '<div style="background:'+(pct>=100?'#00C853':pct>0?'#1A6EFF':'#E0E0E0')+';height:100%;width:'+pct+'%;"></div>'+
         '</div>'+
-        '<div style="font-size:10px;color:#888;margin-top:1px;">'+pct+'%</div></div>';
+        '<div style="font-size:9px;color:#888;margin-top:1px;">'+pct+'%</div></div>';
     }).join('');
-    var cert=s.badges&&s.badges.length>=4;
-    h+='<div style="padding:14px 0;border-bottom:1px solid #F0EDE8;">'+
-      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">'+
-        '<div>'+
-          '<div style="font-size:15px;font-weight:800;color:#1A1A2E;">'+s.naam+(cert?' <span style="background:#FFD600;color:#1A1A2E;font-size:10px;padding:2px 8px;border-radius:10px;">&#127942; CERT</span>':'')+'</div>'+
-          '<div style="font-size:12px;color:#888;">Code: '+s.code+' &nbsp;&#11088; '+(s.stars||0)+' &nbsp;&#127885; '+(s.badges?s.badges.length:0)+'</div>'+
+    h+=
+      '<div style="padding:14px 0;border-bottom:1px solid #F0EDE8;">'+
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">'+
+          '<div>'+
+            '<div style="font-size:15px;font-weight:800;color:#1A1A2E;">'+s.naam+
+              (allDone?' <span style="background:#FFD600;color:#1A1A2E;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:800;">&#127942; CERT</span>':'')+'</div>'+
+            '<div style="font-size:12px;color:#888;">Code: '+s.code+' &nbsp;&#11088; '+(s.stars||0)+'</div>'+
+          '</div>'+
+          (hasRight('viewStudent')?'<button data-naam="'+s.naam+'" onclick="viewAsStudent(this.dataset.naam)" style="padding:8px 14px;background:#1A6EFF;color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:Nunito;">&#128065; View</button>':'')+
         '</div>'+
-        '<button data-naam="'+s.naam+'" onclick="viewAsStudent(this.dataset.naam)" style="padding:8px 14px;background:#1A6EFF;color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:Nunito;">&#128065; View</button>'+
-      '</div>'+
-      '<div style="display:flex;gap:8px;">'+bars+'</div>'+
-    '</div>';
+        '<div style="display:flex;gap:6px;">'+bars+'</div>'+
+      '</div>';
   });
   sc.innerHTML=h;
   grid.appendChild(sc);
 
-  // Add student card
-  if(!hasRight('addStudent')) return;
-  var ac=document.createElement('div'); ac.className='dash-card';
-  ac.innerHTML='<h3>&#43; Add Student</h3>'+
-    '<input class="inp" id="tc-st-name" placeholder="Student name" style="margin-bottom:8px;width:100%;"/>'+
-    '<div style="display:flex;gap:8px;">'+
-      '<input class="inp" id="tc-st-code" placeholder="Code e.g. AM001" style="flex:1;"/>'+
-      '<button onclick="tcAddStudent()" style="padding:10px 16px;background:#1A6EFF;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:Nunito;white-space:nowrap;">+ Add</button>'+
-    '</div>';
-  grid.appendChild(ac);
-}
+  // ── VIDEO LINKS ──
+  var vcCard=document.createElement('div'); vcCard.className='dash-card';
+  var vcHtml='<h3>&#127916; Video Links per Unit</h3><div style="font-size:13px;color:#888;margin-bottom:12px;">Paste YouTube links for each unit</div>';
+  if(CONTENT.levels[0]){
+    CONTENT.levels[0].units.forEach(function(u){
+      var vid=CONTENT.videos&&CONTENT.videos[u.id]?CONTENT.videos[u.id]:{url:''};
+      vcHtml+=
+        '<div style="margin-bottom:10px;">'+
+          '<div style="font-size:13px;font-weight:800;color:#1A1A2E;margin-bottom:4px;">'+u.title+' — '+u.topic+'</div>'+
+          '<div style="display:flex;gap:8px;">'+
+            '<input class="inp" id="vid-'+u.id+'" placeholder="https://youtube.com/watch?v=..." value="'+(vid.url||'')+'" style="flex:1;font-size:12px;"/>'+
+            '<button data-uid="'+u.id+'" onclick="saveVideoLink(this)" style="padding:8px 12px;background:#FF6B2B;color:white;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito;">Save</button>'+
+          '</div>'+
+        '</div>';
+    });
+  }
+  vcCard.innerHTML=vcHtml;
+  grid.appendChild(vcCard);
 
-// ══════════════════════════════════════════════════════
-// BEEBOT SIMULATOR
-// ══════════════════════════════════════════════════════
-var BB = {
-  rows: 5, cols: 5,
-  bee: {r:0, c:0},
-  target: {r:4, c:4},
-  steps: 0,
-  score: 0,
-  level: 0,
-  levels: [
-    {bee:{r:0,c:0}, target:{r:2,c:2}, emoji:'📱', name:'Smartphone'},
-    {bee:{r:0,c:0}, target:{r:4,c:4}, emoji:'💻', name:'Laptop'},
-    {bee:{r:4,c:0}, target:{r:0,c:4}, emoji:'📟', name:'Tablet'},
-    {bee:{r:2,c:0}, target:{r:2,c:4}, emoji:'⌚', name:'Smartwatch'},
-    {bee:{r:0,c:0}, target:{r:4,c:2}, emoji:'🤖', name:'AI Robot'},
-  ]
-};
-
-function openBeeBot(){
-  BB.level = 0;
-  BB.score = 0;
-  g('bb-score').textContent = '0';
-  startBBLevel();
-  showScreen('scr-beebot');
-}
-
-function startBBLevel(){
-  var lv = BB.levels[BB.level % BB.levels.length];
-  BB.bee = {r: lv.bee.r, c: lv.bee.c};
-  BB.target = {r: lv.target.r, c: lv.target.c};
-  BB.steps = 0;
-  g('bb-steps').textContent = '0';
-  g('bb-message').textContent = 'Help BeeBot reach the ' + lv.name + '! ' + lv.emoji;
-  var next = g('bb-next');
-  if(next) next.style.display = 'none';
-  renderBBGrid();
-}
-
-function renderBBGrid(){
-  var grid = g('bb-grid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  var lv = BB.levels[BB.level % BB.levels.length];
-  for(var r=0; r<BB.rows; r++){
-    for(var c=0; c<BB.cols; c++){
-      var cell = document.createElement('div');
-      cell.style.cssText = 'width:100%;aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid #E0E0E0;min-width:0;overflow:hidden;';
-      var isBee = BB.bee.r===r && BB.bee.c===c;
-      var isTarget = BB.target.r===r && BB.target.c===c;
-      if(isBee && isTarget){
-        cell.textContent = '🏆';
-        cell.style.background = '#FFD600';
-      } else if(isBee){
-        cell.textContent = '🐝';
-        cell.style.background = '#E3F2FD';
-        cell.style.borderColor = '#1A6EFF';
-      } else if(isTarget){
-        cell.textContent = lv.emoji;
-        cell.style.background = '#E8F5E9';
-        cell.style.borderColor = '#00C853';
-      } else {
-        cell.style.background = (r+c)%2===0 ? '#F9F8F6' : 'white';
-      }
-      grid.appendChild(cell);
-    }
+  // ── ADD STUDENT ──
+  if(hasRight('addStudent')){
+    var ac=document.createElement('div'); ac.className='dash-card';
+    ac.innerHTML='<h3>&#43; Add Student</h3>'+
+      '<input class="inp" id="tc-st-name" placeholder="Student name" style="margin-bottom:8px;width:100%;"/>'+
+      '<div style="display:flex;gap:8px;margin-bottom:8px;">'+
+        '<input class="inp" id="tc-st-code" placeholder="Code (e.g. AM001)" style="flex:1;"/>'+
+        '<input class="inp" id="tc-st-klas" placeholder="Class" style="max-width:80px;"/>'+
+      '</div>'+
+      '<button onclick="tcAddStudent()" style="width:100%;padding:12px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">&#43; Add Student</button>';
+    grid.appendChild(ac);
   }
 }
-
-function bbMove(dir){
-  var r = BB.bee.r, c = BB.bee.c;
-  if(dir==='up') r--;
-  if(dir==='down') r++;
-  if(dir==='left') c--;
-  if(dir==='right') c++;
-
-  if(r<0 || r>=BB.rows || c<0 || c>=BB.cols){
-    g('bb-message').textContent = 'Oops! BeeBot cannot go there! Try again! 😊';
-    return;
-  }
-
-  BB.bee = {r:r, c:c};
-  BB.steps++;
-  g('bb-steps').textContent = BB.steps;
-  renderBBGrid();
-
-  if(BB.bee.r===BB.target.r && BB.bee.c===BB.target.c){
-    var stars = BB.steps <= 5 ? 3 : BB.steps <= 8 ? 2 : 1;
-    BB.score += stars;
-    g('bb-score').textContent = BB.score;
-    var msg = stars===3 ? 'Amazing! Perfect route! ⭐⭐⭐' : stars===2 ? 'Great job! ⭐⭐' : 'Well done! ⭐';
-    g('bb-message').innerHTML = msg;
-    var next = g('bb-next');
-    if(next) next.style.display = 'block';
-    markDone('beebot');
-    showToast('BeeBot reached the device! &#127942;');
-  }
-}
-
-function bbReset(){
-  startBBLevel();
-}
-
-function nextBBLevel(){
-  BB.level++;
-  startBBLevel();
-}
-
 
 selRole('student');
 initSupabase();
+checkDeepLink();
 </script>
-
-<div class="screen" id="scr-create">
-  <div class="topbar">
-    <div class="brand">&#127881; Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
-  </div>
-  <div style="flex:1;padding:20px;max-width:800px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px;">
-    <div style="text-align:center;">
-      <div style="font-family:'Fredoka One';font-size:26px;color:white;" id="create-title">&#127912; I Create</div>
-      <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px;" id="create-sub">Be creative! &#10024;</div>
-    </div>
-    <div id="create-area" style="display:flex;flex-direction:column;gap:14px;"></div>
-    <div style="display:flex;gap:10px;">
-      <button onclick="saveCreate()" style="flex:2;padding:16px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#128190; Save my work! &#11088;</button>
-      <button onclick="goBack()" style="flex:1;padding:16px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#8592; Back</button>
-    </div>
-  </div>
-</div>
-
-
-<div class="screen" id="scr-leaderboard">
-  <div class="topbar">
-    <div class="brand">&#127881; Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="showScreen('scr-student');renderLevels();">&#8592; Home</button></div>
-  </div>
-  <div style="flex:1;padding:20px;max-width:700px;margin:0 auto;width:100%;">
-    <div style="text-align:center;margin-bottom:24px;">
-      <div style="font-size:48px;">&#127942;</div>
-      <div style="font-family:'Fredoka One';font-size:28px;color:white;">Top of the Class!</div>
-      <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px;" id="lb-class-name">Class Leaderboard</div>
-    </div>
-    <div id="lb-list" style="display:flex;flex-direction:column;gap:10px;"></div>
-    <div style="text-align:center;margin-top:20px;font-size:12px;color:rgba(255,255,255,0.5);">Resets every month &#183; First name only</div>
-  </div>
-</div>
-
-
-<div class="screen" id="scr-beebot">
-  <div class="topbar">
-    <div class="brand">&#127881; Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
-  </div>
-  <div style="flex:1;padding:20px;max-width:800px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px;">
-    <div style="text-align:center;">
-      <div style="font-family:'Fredoka One';font-size:26px;color:white;">&#128029; BeeBot Explorer</div>
-      <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px;">Help BeeBot reach the device! Press the arrows to move!</div>
-    </div>
-
-    <!-- Grid -->
-    <div style="background:white;border-radius:20px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px;">
-      <div id="bb-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:320px;width:100%;"></div>
-      <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
-        <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;"/>
-        <div id="bb-message" style="font-size:16px;font-weight:800;color:#1A1A2E;min-height:24px;text-align:left;"></div>
-      </div>
-    </div>
-
-    <!-- Controls -->
-    <div style="background:rgba(255,255,255,0.1);border-radius:20px;padding:20px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;max-width:200px;margin:0 auto;">
-        <div></div>
-        <button onclick="bbMove('up')" style="height:56px;background:#FFD600;color:#1A1A2E;border:none;border-radius:12px;font-size:24px;cursor:pointer;font-weight:800;">&#8593;</button>
-        <div></div>
-        <button onclick="bbMove('left')" style="height:56px;background:#1A6EFF;color:white;border:none;border-radius:12px;font-size:24px;cursor:pointer;">&#8592;</button>
-        <button onclick="bbReset()" style="height:56px;background:#F03030;color:white;border:none;border-radius:12px;font-size:18px;cursor:pointer;font-weight:800;">&#128260;</button>
-        <button onclick="bbMove('right')" style="height:56px;background:#1A6EFF;color:white;border:none;border-radius:12px;font-size:24px;cursor:pointer;">&#8594;</button>
-        <div></div>
-        <button onclick="bbMove('down')" style="height:56px;background:#FFD600;color:#1A1A2E;border:none;border-radius:12px;font-size:24px;cursor:pointer;font-weight:800;">&#8595;</button>
-        <div></div>
-      </div>
-      <div style="text-align:center;margin-top:12px;font-size:13px;color:rgba(255,255,255,0.7);">&#128260; = Reset BeeBot</div>
-    </div>
-
-    <!-- Steps counter -->
-    <div style="display:flex;justify-content:center;gap:20px;">
-      <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:12px 20px;text-align:center;">
-        <div style="font-family:'Fredoka One';font-size:28px;color:#FFD600;" id="bb-steps">0</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.7);">Steps</div>
-      </div>
-      <div style="background:rgba(255,255,255,0.1);border-radius:12px;padding:12px 20px;text-align:center;">
-        <div style="font-family:'Fredoka One';font-size:28px;color:#00C853;" id="bb-score">0</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.7);">Score</div>
-      </div>
-    </div>
-
-    <button onclick="nextBBLevel()" id="bb-next" style="display:none;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#127381; Next Challenge!</button>
-  </div>
-</div>
-
-
-<div class="screen" id="scr-cert">
-  <div class="topbar">
-    <div class="brand">&#127881; Digital <span>Devices</span></div>
-    <div class="tb-r">
-      <button class="tb-btn" onclick="showScreen('scr-student');renderLevels();">&#8592; Home</button>
-    </div>
-  </div>
-  <div style="flex:1;padding:20px;display:flex;align-items:center;justify-content:center;">
-    <div style="background:white;border-radius:24px;padding:36px;max-width:560px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-      <div style="font-size:56px;margin-bottom:12px;">&#127942;</div>
-      <div style="background:linear-gradient(135deg,#0A3FCC,#1A6EFF);border-radius:16px;padding:20px;margin-bottom:20px;">
-        <div style="font-size:12px;font-weight:800;color:rgba(255,255,255,0.7);letter-spacing:2px;margin-bottom:6px;">CERTIFICATE OF COMPLETION</div>
-        <div style="font-family:'Fredoka One';font-size:26px;color:#FFD600;margin-bottom:4px;">Digital Devices</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.8);" id="cert-level">Level 1 — Discover</div>
-      </div>
-      <div style="font-size:14px;color:#666;margin-bottom:6px;">This certifies that</div>
-      <div style="font-family:'Fredoka One';font-size:32px;color:#0A3FCC;margin-bottom:6px;" id="cert-name">Student</div>
-      <div style="font-size:14px;color:#666;margin-bottom:20px;">has completed the Digital Devices programme!</div>
-      <div style="display:flex;justify-content:center;gap:12px;margin-bottom:20px;">
-        <span style="font-size:32px;">&#129353;</span>
-        <span style="font-size:32px;">&#129352;</span>
-        <span style="font-size:32px;">&#129351;</span>
-        <span style="font-size:32px;">&#127942;</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;border-top:2px solid #E0E0E0;padding-top:16px;margin-bottom:20px;">
-        <div style="text-align:left;">
-          <div style="font-size:11px;color:#999;font-weight:700;">DATE</div>
-          <div style="font-size:14px;font-weight:800;color:#1A1A2E;" id="cert-date"></div>
-        </div>
-        <div style="text-align:center;">
-          <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:44px;height:44px;border-radius:50%;object-fit:cover;"/>
-          <div style="font-size:11px;color:#999;font-weight:700;margin-top:2px;">Meriem</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-size:11px;color:#999;font-weight:700;">STARS</div>
-          <div style="font-size:14px;font-weight:800;color:#0A3FCC;" id="cert-stars">&#11088; 0</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:10px;">
-        <button onclick="window.print()" style="flex:1;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#128424; Print</button>
-        <button onclick="showScreen('scr-student');renderLevels();" style="flex:1;padding:14px;background:#0A3FCC;color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#8592; Home</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
