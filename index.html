@@ -1836,7 +1836,7 @@ function renderAdmin(){
   // Load from Supabase first, then render
   if(supa){
     Promise.all([
-      supa.from('gebruikers').select('*').eq('rol','leerling').eq('school_id', currentSchool.id),
+      supa.from('students').select('*').eq('school_id', currentSchool.id),
       supa.from('klassen').select('*').eq('school_id', currentSchool.id)
     ]).then(function(results){
       var studentsRes = results[0];
@@ -2005,9 +2005,9 @@ function addStudent(){
   if(DB.leerlingen.find(function(l){return l.code===code;})){showToast('Code already in use!');return;}
   DB.leerlingen.push({id:'st'+Date.now(),naam:naam,code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0,badges:[]});
   if(supa){
-    supa.from('gebruikers').insert({naam:naam,rol:'leerling',code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0}).then(function(r){
+    supa.from('students').insert({naam:naam,code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0}).then(function(r){
       if(r.error) console.error('student error:', r.error.message);
-      else console.log('Student saved:', naam);
+      else console.log('Student saved to students table:', naam);
     });
   }
   showToast('&#10003; '+naam+' added!');
@@ -2044,11 +2044,11 @@ function uploadCSV(input){
       if(!naam||!code){skipped++;return;}
       if(DB.leerlingen.find(function(l){return l.code===code;})){skipped++;return;}
       DB.leerlingen.push({id:'st'+Date.now()+added,naam:naam,code:code,klas:klas,school_id:currentSchool.id,actief:true,stars:0,badges:[]});
-      toInsert.push({naam:naam,rol:'leerling',code:code,klas:klas,school_id:currentSchool.id,actief:true,stars:0});
+      toInsert.push({naam:naam,code:code,klas:klas,school_id:currentSchool.id,actief:true,stars:0});
       added++;
     });
     if(supa&&toInsert.length>0){
-      supa.from('gebruikers').insert(toInsert).then(function(r){
+      supa.from('students').insert(toInsert).then(function(r){
         if(r.error){
           console.error('CSV import error:',r.error.message);
           if(statusEl) statusEl.innerHTML='<span style="color:#F03030;">Error: '+r.error.message+'</span>';
@@ -2321,13 +2321,13 @@ function tcAddStudent(){
   DB.leerlingen.push(newStudent);
   // Save to Supabase
   if(supa){
-    supa.from('gebruikers').insert({
-      naam:naam, rol:'leerling', code:code,
+    supa.from('students').insert({
+      naam:naam, code:code,
       school_id:currentUser.school_id||null,
       klas:klas, actief:true, stars:0
     }).then(function(r){
       if(r.error) console.error('Add student error:', r.error.message);
-      else console.log('Student saved to Supabase:', naam);
+      else console.log('Student saved to students table:', naam);
     });
   }
   showToast('&#10003; '+naam+' added!');
