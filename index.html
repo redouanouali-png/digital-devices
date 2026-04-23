@@ -1974,12 +1974,16 @@ function addKlas(){
   DB.klassen.push(newKlas);
   if(supa){
     supa.from('klassen').insert({naam:naam, school_id:currentSchool.id}).then(function(r){
-      if(r.error) console.error('klas error:', r.error.message);
-      else console.log('Klas saved:', naam);
+      if(r.error){
+        console.error('klas error:', r.error.message);
+        showToast('Error: '+r.error.message);
+      } else {
+        console.log('Klas saved to Supabase:', naam);
+      }
     });
   }
   showToast('&#10003; Class '+naam+' added!');
-  renderAdmin();
+  renderAdminUI();
 }
 
 function deleteKlas(kid){
@@ -2006,14 +2010,18 @@ function addStudent(){
   DB.leerlingen.push({id:'st'+Date.now(),naam:naam,code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0,badges:[]});
   if(supa){
     supa.from('students').insert({naam:naam,code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0}).then(function(r){
-      if(r.error) console.error('student error:', r.error.message);
-      else console.log('Student saved to students table:', naam);
+      if(r.error){
+        console.error('student error:', r.error.message);
+        showToast('Error: '+r.error.message);
+      } else {
+        console.log('Student saved to students table:', naam);
+      }
     });
   }
   showToast('&#10003; '+naam+' added!');
   if(g('new-st-name')) g('new-st-name').value='';
   if(g('new-st-code')) g('new-st-code').value='';
-  renderAdmin();
+  renderAdminUI();
 }
 
 function downloadTemplate(){
