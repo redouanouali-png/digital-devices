@@ -1832,96 +1832,239 @@ function addSchool(){
 // ══════════════════════════════════════════════════════
 function renderAdmin(){
   var grid=g('admin-grid'); grid.innerHTML='';
-  var myTeachers=DB.docenten.filter(function(d){return d.school_id===currentSchool.id;});
-  var myStudents=DB.leerlingen.filter(function(l){return l.school_id===currentSchool.id;});
+  
+  // Load from Supabase first, then render
+  if(supa){
+    Promise.all([
+      supa.from('gebruikers').select('*').eq('rol','leerling').eq('school_id', currentSchool.id),
+      supa.from('klassen').select('*').eq('school_id', currentSchool.id)
+    ]).then(function(results){
+      var studentsRes = results[0];
+      var klassRes = results[1];
+      if(!studentsRes.error && studentsRes.data){
+        DB.leerlingen = studentsRes.data.map(function(s){
+          return {id:s.id, naam:s.naam, code:s.code||'', klas:s.klas||'', school_id:s.school_id, actief:s.actief, stars:s.stars||0, badges:[]};
+        });
+      }
+      if(!klassRes.error && klassRes.data){
+        DB.klassen = klassRes.data.map(function(k){
+          return {id:k.id, naam:k.naam, school_id:k.school_id};
+        });
+      }
+      renderAdminUI();
+    }).catch(function(){renderAdminUI();});
+  } else {
+    renderAdminUI();
+  }
+}
 
-  // ── TEACHERS CARD ──
-  var tcCard=document.createElement('div'); tcCard.className='dash-card';
-  var tcHtml='<h3>&#128105;&#8205;&#127979; Teachers ('+myTeachers.length+')</h3>';
-  if(!myTeachers.length) tcHtml+='<p style="color:#999;font-size:14px;padding:12px 0;">No teachers yet.</p>';
-  myTeachers.forEach(function(t){
-    var r=t.rechten||{leerlingen:true,voortgang:true,viewStudent:true,addStudent:true};
-    tcHtml+=
-      '<div style="padding:14px 0;border-bottom:1px solid #F0EDE8;">'+
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">'+
-          '<div>'+
-            '<div style="font-size:15px;font-weight:800;color:#1A1A2E;">'+t.naam+'</div>'+
-            '<div style="font-size:12px;color:#888;">'+t.email+' &nbsp;&#183;&nbsp; PIN: '+t.pin+'</div>'+
-          '</div>'+
-          '<span style="font-size:12px;font-weight:700;color:'+(t.actief?'#00C853':'#F03030')+';">'+(t.actief?'Active':'Inactive')+'</span>'+
-        '</div>'+
-        '<div style="font-size:12px;font-weight:800;color:#666;margin-bottom:8px;">RIGHTS:</div>'+
-        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">'+
-          '<div class="toggle-row" style="padding:6px 0;">'+
-            '<span style="font-size:13px;font-weight:700;">&#128100; View students</span>'+
-            '<button class="toggle'+(r.leerlingen?' on':'')+'" data-tid="'+t.id+'" data-right="leerlingen" onclick="toggleRecht(this)"></button>'+
-          '</div>'+
-          '<div class="toggle-row" style="padding:6px 0;">'+
-            '<span style="font-size:13px;font-weight:700;">&#128202; View progress</span>'+
-            '<button class="toggle'+(r.voortgang?' on':'')+'" data-tid="'+t.id+'" data-right="voortgang" onclick="toggleRecht(this)"></button>'+
-          '</div>'+
-          '<div class="toggle-row" style="padding:6px 0;">'+
-            '<span style="font-size:13px;font-weight:700;">&#128065; View as student</span>'+
-            '<button class="toggle'+(r.viewStudent?' on':'')+'" data-tid="'+t.id+'" data-right="viewStudent" onclick="toggleRecht(this)"></button>'+
-          '</div>'+
-          '<div class="toggle-row" style="padding:6px 0;">'+
-            '<span style="font-size:13px;font-weight:700;">&#43; Add students</span>'+
-            '<button class="toggle'+(r.addStudent?' on':'')+'" data-tid="'+t.id+'" data-right="addStudent" onclick="toggleRecht(this)"></button>'+
-          '</div>'+
-        '</div>'+
-      '</div>';
+function renderAdminUI(){
+  var grid=g('admin-grid'); grid.innerHTML='';
+  var myStudents=DB.leerlingen.filter(function(l){return l.school_id===currentSchool.id;});
+  var myKlassen=DB.klassen.filter(function(k){return k.school_id===currentSchool.id;});
+
+  // ── CLASSES CARD ──
+  var kc=document.createElement('div'); kc.className='dash-card';
+  var kh='<h3>&#127979; Classes ('+myKlassen.length+')</h3>';
+  if(!myKlassen.length) kh+='<p style="color:#999;font-size:13px;padding:8px 0;">No classes yet.</p>';
+  myKlassen.forEach(function(k){
+    var count=myStudents.filter(function(s){return s.klas===k.naam;}).length;
+    kh+='<div class="school-row"><div><div class="school-name">'+k.naam+'</div><div class="school-plan">'+count+' students</div></div>'+
+      '<button data-kid="'+k.id+'" onclick="deleteKlas(this.dataset.kid)" style="padding:4px 10px;background:#FFEBEE;color:#F03030;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:Nunito;">&#10005;</button></div>';
   });
-  tcHtml+=
-    '<div style="margin-top:16px;border-top:1px solid #F0EDE8;padding-top:16px;">'+
-      '<div style="font-weight:800;font-size:14px;margin-bottom:8px;">&#43; Add Teacher</div>'+
-      '<input class="inp" id="new-tc-name" placeholder="Name" style="margin-bottom:8px;"/>'+
-      '<input class="inp" id="new-tc-email" placeholder="Email" style="margin-bottom:8px;"/>'+
-      '<div style="display:flex;gap:8px;">'+
-        '<input class="inp" id="new-tc-pin" placeholder="PIN"/>'+
-        '<input class="inp" id="new-tc-klas" placeholder="Class"/>'+
-      '</div>'+
-      '<button onclick="addTeacher()" style="width:100%;margin-top:8px;padding:12px;background:#00C853;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">&#43; Add Teacher</button>'+
-    '</div>';
-  tcCard.innerHTML=tcHtml;
-  grid.appendChild(tcCard);
+  kh+='<div style="display:flex;gap:8px;margin-top:12px;">'+
+    '<input class="inp" id="new-klas-naam" placeholder="Class name e.g. 1A" style="flex:1;"/>'+
+    '<button onclick="addKlas()" style="padding:10px 16px;background:#00C853;color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-family:Nunito;">+ Add</button>'+
+  '</div>';
+  kc.innerHTML=kh; grid.appendChild(kc);
 
   // ── STUDENTS CARD ──
-  var stCard=document.createElement('div'); stCard.className='dash-card';
-  var stHtml='<h3>&#127891; Students ('+myStudents.length+')</h3>';
-  if(!myStudents.length) stHtml+='<p style="color:#999;font-size:14px;padding:12px 0;">No students yet.</p>';
-  myStudents.forEach(function(s){
-    stHtml+=
-      '<div class="school-row">'+
-        '<div>'+
-          '<div class="school-name">'+s.naam+'</div>'+
-          '<div class="school-plan">Code: '+s.code+' &nbsp;&#183;&nbsp; Class: '+s.klas+'</div>'+
-        '</div>'+
-        '<span style="font-size:16px;">&#11088; '+(s.stars||0)+'</span>'+
-      '</div>';
+  var sc=document.createElement('div'); sc.className='dash-card';
+  var sh='<h3>&#127891; Students ('+myStudents.length+')</h3>';
+  if(!myStudents.length) sh+='<p style="color:#999;font-size:13px;padding:8px 0;">No students yet. Add below or import CSV.</p>';
+  myStudents.slice(0,20).forEach(function(s){
+    sh+='<div class="school-row"><div><div class="school-name">'+s.naam+'</div>'+
+      '<div class="school-plan">Code: '+s.code+' &nbsp;&#183;&nbsp; Class: '+s.klas+'</div></div>'+
+      '<span style="font-size:13px;color:#888;">&#11088; '+(s.stars||0)+'</span></div>';
   });
-  stHtml+=
-    '<div style="margin-top:16px;border-top:1px solid #F0EDE8;padding-top:16px;">'+
-      '<div style="font-weight:800;font-size:14px;margin-bottom:8px;">&#43; Add Student</div>'+
-      '<input class="inp" id="new-st-name" placeholder="Name" style="margin-bottom:8px;"/>'+
-      '<div style="display:flex;gap:8px;">'+
-        '<input class="inp" id="new-st-code" placeholder="Code (e.g. AM001)"/>'+
-        '<input class="inp" id="new-st-klas" placeholder="Class"/>'+
+  if(myStudents.length>20) sh+='<div style="font-size:12px;color:#888;padding:8px 0;">...and '+(myStudents.length-20)+' more</div>';
+  
+  // Add student form
+  var klasOptions = '<option value="">Select class</option>'+
+    myKlassen.map(function(k){return '<option value="'+k.naam+'">'+k.naam+'</option>';}).join('');
+  
+  sh+='<div style="margin-top:16px;border-top:1px solid #F0EDE8;padding-top:16px;">'+
+    '<div style="font-weight:800;font-size:14px;margin-bottom:10px;">&#43; Add Student</div>'+
+    '<input class="inp" id="new-st-name" placeholder="Full name" style="margin-bottom:8px;width:100%;"/>'+
+    '<div style="display:flex;gap:8px;margin-bottom:8px;">'+
+      '<input class="inp" id="new-st-code" placeholder="Code e.g. AM001" style="flex:1;"/>'+
+      '<select class="inp" id="new-st-klas" style="flex:1;">'+klasOptions+'</select>'+
+    '</div>'+
+    '<button onclick="addStudent()" style="width:100%;padding:12px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">&#43; Add Student</button>'+
+  '</div>';
+  sc.innerHTML=sh; grid.appendChild(sc);
+
+  // ── CSV IMPORT CARD ──
+  var cc=document.createElement('div'); cc.className='dash-card';
+  cc.innerHTML='<h3>&#128196; Import Students via CSV</h3>'+
+    '<div style="font-size:13px;color:#888;margin-bottom:12px;">Upload a CSV file with your students. First download the template.</div>'+
+    '<button onclick="downloadTemplate()" style="width:100%;padding:10px;background:#F0F7FF;color:#1A6EFF;border:1.5px solid #1A6EFF;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:Nunito;margin-bottom:10px;">&#11015; Download Template (Excel/CSV)</button>'+
+    '<div style="font-size:12px;color:#888;margin-bottom:8px;">Format: naam, code, klas — one student per row</div>'+
+    '<input type="file" id="csv-upload" accept=".csv" onchange="uploadCSV(this)" style="width:100%;font-size:13px;cursor:pointer;padding:8px;border:1.5px dashed #E0E0E0;border-radius:8px;"/>'+
+    '<div id="csv-status" style="margin-top:8px;font-size:13px;font-weight:700;min-height:20px;"></div>';
+  grid.appendChild(cc);
+
+  // ── TEACHERS CARD ──
+  var myTeachers=DB.docenten.filter(function(d){return d.school_id===currentSchool.id;});
+  var tc=document.createElement('div'); tc.className='dash-card';
+  var th='<h3>&#128105;&#8205;&#127979; Teachers ('+myTeachers.length+')</h3>';
+  myTeachers.forEach(function(t){
+    var r=t.rechten||{};
+    th+='<div style="padding:10px 0;border-bottom:1px solid #F0EDE8;">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'+
+        '<div><div style="font-weight:800;color:#1A1A2E;">'+t.naam+'</div>'+
+        '<div style="font-size:12px;color:#888;">'+t.email+' &nbsp;&#183;&nbsp; PIN: '+t.pin+'</div></div>'+
+        '<span style="font-size:12px;font-weight:700;color:'+(t.actief?'#00C853':'#F03030')+';">'+(t.actief?'Active':'Inactive')+'</span>'+
       '</div>'+
-      '<button onclick="addStudent()" style="width:100%;margin-top:8px;padding:12px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">&#43; Add Student</button>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">'+
+        makeToggle(t.id,'leerlingen','View students',r.leerlingen!==false)+
+        makeToggle(t.id,'voortgang','View progress',r.voortgang!==false)+
+        makeToggle(t.id,'viewStudent','View as student',r.viewStudent!==false)+
+        makeToggle(t.id,'addStudent','Add students',r.addStudent!==false)+
+      '</div>'+
     '</div>';
-  stCard.innerHTML=stHtml;
-  grid.appendChild(stCard);
+  });
+  th+='<div style="margin-top:12px;border-top:1px solid #F0EDE8;padding-top:12px;">'+
+    '<div style="font-weight:800;font-size:14px;margin-bottom:8px;">&#43; Add Teacher</div>'+
+    '<input class="inp" id="new-tc-name" placeholder="Name" style="margin-bottom:8px;width:100%;"/>'+
+    '<input class="inp" id="new-tc-email" placeholder="Email" style="margin-bottom:8px;width:100%;"/>'+
+    '<div style="display:flex;gap:8px;">'+
+      '<input class="inp" id="new-tc-pin" placeholder="PIN"/>'+
+      '<input class="inp" id="new-tc-klas" placeholder="Class"/>'+
+    '</div>'+
+    '<button onclick="addTeacher()" style="width:100%;margin-top:8px;padding:12px;background:#00C853;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">&#43; Add Teacher</button>'+
+  '</div>';
+  tc.innerHTML=th; grid.appendChild(tc);
 
   // ── MODULES CARD ──
-  var modCard=document.createElement('div'); modCard.className='dash-card';
+  var mc=document.createElement('div'); mc.className='dash-card';
   var mods=currentSchool.modules||{};
-  modCard.innerHTML='<h3>&#9989; Active Modules</h3>'+
+  mc.innerHTML='<h3>&#9989; Active Modules</h3>'+
     (mods.setActive?'<div class="school-row"><span>&#128218; Full Set</span><span style="color:#00C853;font-weight:700;">Active</span></div>':'<div class="school-row"><span>&#128218; Full Set</span><span style="color:#F03030;font-weight:700;">Inactive</span></div>')+
     (mods.meriem?'<div class="school-row"><span>&#129302; Meriem AI</span><span style="color:#00C853;font-weight:700;">Active</span></div>':'')+
     (mods.beebot?'<div class="school-row"><span>&#128029; BeeBot</span><span style="color:#00C853;font-weight:700;">Active</span></div>':'')+
     (mods.certificate?'<div class="school-row"><span>&#127885; Certificates</span><span style="color:#00C853;font-weight:700;">Active</span></div>':'');
-  grid.appendChild(modCard);
+  grid.appendChild(mc);
 }
+
+function makeToggle(tid, right, label, isOn){
+  return '<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;">'+
+    '<span style="font-size:12px;font-weight:700;color:#1A1A2E;">'+label+'</span>'+
+    '<button class="toggle'+(isOn?' on':'')+'" data-tid="'+tid+'" data-right="'+right+'" onclick="toggleRecht(this)" style="flex-shrink:0;"></button>'+
+  '</div>';
+}
+
+function addKlas(){
+  var naam=(g('new-klas-naam')||{value:''}).value.trim();
+  if(!naam){showToast('Fill in a class name!');return;}
+  if(DB.klassen.find(function(k){return k.naam===naam&&k.school_id===currentSchool.id;})){
+    showToast('Class already exists!');return;
+  }
+  var newKlas={id:'k'+Date.now(), naam:naam, school_id:currentSchool.id};
+  DB.klassen.push(newKlas);
+  if(supa){
+    supa.from('klassen').insert({naam:naam, school_id:currentSchool.id}).then(function(r){
+      if(r.error) console.error('klas error:', r.error.message);
+      else console.log('Klas saved:', naam);
+    });
+  }
+  showToast('&#10003; Class '+naam+' added!');
+  renderAdmin();
+}
+
+function deleteKlas(kid){
+  DB.klassen=DB.klassen.filter(function(k){return k.id!==kid;});
+  if(supa){
+    supa.from('klassen').delete().eq('id', kid).then(function(r){
+      if(r.error) console.error('delete klas error:', r.error.message);
+    });
+  }
+  showToast('Class removed');
+  renderAdmin();
+}
+
+function addStudent(){
+  var naam=(g('new-st-name')||{value:''}).value.trim();
+  var code=(g('new-st-code')||{value:''}).value.trim().toUpperCase();
+  var klas=(g('new-st-klas')||{value:''}).value.trim();
+  // Sanitize
+  naam = naam.replace(/</g,'').replace(/>/g,'').slice(0,50);
+  code = code.replace(/[^A-Z0-9]/g,'').slice(0,10);
+  if(!naam){showToast('Please fill in a name!');return;}
+  if(!code){showToast('Please fill in a code!');return;}
+  if(DB.leerlingen.find(function(l){return l.code===code;})){showToast('Code already in use!');return;}
+  DB.leerlingen.push({id:'st'+Date.now(),naam:naam,code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0,badges:[]});
+  if(supa){
+    supa.from('gebruikers').insert({naam:naam,rol:'leerling',code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0}).then(function(r){
+      if(r.error) console.error('student error:', r.error.message);
+      else console.log('Student saved:', naam);
+    });
+  }
+  showToast('&#10003; '+naam+' added!');
+  if(g('new-st-name')) g('new-st-name').value='';
+  if(g('new-st-code')) g('new-st-code').value='';
+  renderAdmin();
+}
+
+function downloadTemplate(){
+  var csv='naam,code,klas\nAmina Karimi,AM001,1A\nYoussef Benali,YB002,1A\nFatima Hassan,FH003,1B';
+  var blob=new Blob([csv],{type:'text/csv'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='students_template.csv';
+  a.click();
+  showToast('&#10003; Template downloaded!');
+}
+
+function uploadCSV(input){
+  var file=input.files[0];
+  if(!file) return;
+  var statusEl=g('csv-status');
+  if(statusEl) statusEl.textContent='Reading file...';
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var lines=e.target.result.split('\n').filter(function(l){return l.trim();});
+    // Skip header
+    if(lines.length && (lines[0].toLowerCase().indexOf('naam')>-1||lines[0].toLowerCase().indexOf('name')>-1)) lines.shift();
+    var toInsert=[], skipped=0, added=0;
+    lines.forEach(function(line){
+      var parts=line.split(',').map(function(p){return p.trim().replace(/"/g,'').replace(/</g,'').replace(/>/g,'');});
+      if(parts.length<2) return;
+      var naam=parts[0].slice(0,50), code=parts[1].toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,10), klas=parts[2]||'';
+      if(!naam||!code){skipped++;return;}
+      if(DB.leerlingen.find(function(l){return l.code===code;})){skipped++;return;}
+      DB.leerlingen.push({id:'st'+Date.now()+added,naam:naam,code:code,klas:klas,school_id:currentSchool.id,actief:true,stars:0,badges:[]});
+      toInsert.push({naam:naam,rol:'leerling',code:code,klas:klas,school_id:currentSchool.id,actief:true,stars:0});
+      added++;
+    });
+    if(supa&&toInsert.length>0){
+      supa.from('gebruikers').insert(toInsert).then(function(r){
+        if(r.error){
+          console.error('CSV import error:',r.error.message);
+          if(statusEl) statusEl.innerHTML='<span style="color:#F03030;">Error: '+r.error.message+'</span>';
+        } else {
+          if(statusEl) statusEl.innerHTML='<span style="color:#00C853;">&#10003; '+added+' students imported!</span>';
+          console.log('CSV imported:',added,'students');
+        }
+      });
+    } else {
+      if(statusEl) statusEl.innerHTML='<span style="color:#00C853;">&#10003; '+added+' students added'+(skipped?' ('+skipped+' skipped)':'')+'</span>';
+    }
+    renderAdmin();
+  };
+  reader.readAsText(file);
+}
+
 
 function toggleRecht(btn){
   var tid=btn.dataset.tid;
@@ -2028,17 +2171,21 @@ function renderTeacher(){
 
   // ── VIDEO LINKS ──
   var vcCard=document.createElement('div'); vcCard.className='dash-card';
-  var vcHtml='<h3>&#127916; Video Links per Unit</h3><div style="font-size:13px;color:#888;margin-bottom:12px;">Paste YouTube links for each unit</div>';
+  var vcHtml='<h3>&#127916; Video Links per Unit</h3><div style="font-size:13px;color:#888;margin-bottom:12px;">Paste a video link for each unit</div>';
   if(CONTENT.levels[0]){
     CONTENT.levels[0].units.forEach(function(u){
       var vid=CONTENT.videos&&CONTENT.videos[u.id]?CONTENT.videos[u.id]:{url:''};
+      var hasUrl = !!(vid.url && vid.url.trim());
       vcHtml+=
-        '<div style="margin-bottom:10px;">'+
-          '<div style="font-size:13px;font-weight:800;color:#1A1A2E;margin-bottom:4px;">'+u.title+' — '+u.topic+'</div>'+
-          '<div style="display:flex;gap:8px;">'+
-            '<input class="inp" id="vid-'+u.id+'" placeholder="https://youtube.com/watch?v=..." value="'+(vid.url||'')+'" style="flex:1;font-size:12px;"/>'+
-            '<button data-uid="'+u.id+'" onclick="saveVideoLink(this)" style="padding:8px 12px;background:#FF6B2B;color:white;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito;">Save</button>'+
-          '</div>'+
+        '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #F0EDE8;">'+
+          '<div style="font-size:13px;font-weight:800;color:#1A1A2E;margin-bottom:6px;">'+u.title+' — '+u.topic+'</div>'+
+          (hasUrl ?
+            '<div style="background:#E8F5E9;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:6px;">'+
+              '<span style="font-size:12px;color:#00C853;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">&#10003; '+vid.url+'</span>'+
+              '<button data-uid="'+u.id+'" onclick="deleteVideoLink(this)" style="padding:4px 10px;background:#FFEBEE;color:#F03030;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:Nunito;flex-shrink:0;">&#10005; Remove</button>'+
+            '</div>' : '')+
+          '<textarea id="vid-'+u.id+'" placeholder="Paste video link here..." rows="2" style="width:100%;padding:10px 12px;border:2px solid #E0E0E0;border-radius:8px;font-size:13px;font-family:Nunito;outline:none;resize:none;box-sizing:border-box;"></textarea>'+
+          '<button data-uid="'+u.id+'" onclick="saveVideoLink(this)" style="margin-top:6px;width:100%;padding:10px;background:#FF6B2B;color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:Nunito;">&#128190; Save Link</button>'+
         '</div>';
     });
   }
@@ -2085,11 +2232,28 @@ function handleDeepLinkAfterLogin(){
   }
 }
 
+
+function deleteVideoLink(btn){
+  var uid = btn.dataset.uid;
+  if(!CONTENT.videos || !CONTENT.videos[uid]) return;
+  CONTENT.videos[uid].url = '';
+  if(supa){
+    var schoolId = currentUser&&currentUser.school_id ? currentUser.school_id : 's1';
+    supa.from('video_links').delete().eq('unit_id', uid).eq('school_id', schoolId).then(function(r){
+      if(r.error) console.error('delete error:', r.error.message);
+      else console.log('Video link deleted:', uid);
+    });
+  }
+  showToast('&#10003; Video removed');
+  renderTeacher();
+}
+
 function saveVideoLink(btn){
   var uid = btn.dataset.uid;
   var inp = g('vid-'+uid);
   if(!inp) return;
   var url = inp.value.trim();
+  if(!url){showToast('Please paste a link first!');return;}
   if(!CONTENT.videos) CONTENT.videos = {};
   if(!CONTENT.videos[uid]) CONTENT.videos[uid]={title:'Video',duration:'2 min',url:'',goals:[]};
   CONTENT.videos[uid].url = url;
@@ -2150,11 +2314,25 @@ function viewAsStudent(naam){
 function tcAddStudent(){
   var naam=(g('tc-st-name')||{value:''}).value.trim();
   var code=(g('tc-st-code')||{value:''}).value.trim().toUpperCase();
-  var klas=(g('tc-st-klas')||{value:''}).value.trim();
+  var klas=(g('tc-st-klas')||{value:''}).value.trim()||currentUser.klas||'';
   if(!naam||!code){showToast('Fill in name and code!');return;}
   if(DB.leerlingen.find(function(l){return l.code===code;})){showToast('Code already in use!');return;}
-  DB.leerlingen.push({id:'st'+Date.now(),naam:naam,code:code,school_id:currentUser.school_id,klas:klas||currentUser.klas,actief:true,stars:0,badges:[]});
+  var newStudent = {id:'st'+Date.now(),naam:naam,code:code,school_id:currentUser.school_id,klas:klas,actief:true,stars:0,badges:[]};
+  DB.leerlingen.push(newStudent);
+  // Save to Supabase
+  if(supa){
+    supa.from('gebruikers').insert({
+      naam:naam, rol:'leerling', code:code,
+      school_id:currentUser.school_id||null,
+      klas:klas, actief:true, stars:0
+    }).then(function(r){
+      if(r.error) console.error('Add student error:', r.error.message);
+      else console.log('Student saved to Supabase:', naam);
+    });
+  }
   showToast('&#10003; '+naam+' added!');
+  if(g('tc-st-name')) g('tc-st-name').value='';
+  if(g('tc-st-code')) g('tc-st-code').value='';
   renderTeacher();
 }
 
