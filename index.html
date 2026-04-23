@@ -2114,10 +2114,27 @@ function hasRight(right){
 }
 
 function renderTeacher(){
+  var grid=g('teacher-grid'); grid.innerHTML='<div style="padding:20px;text-align:center;color:rgba(255,255,255,0.7);">Loading...</div>';
+  if(supa && currentUser && currentUser.school_id){
+    supa.from('students').select('*').eq('school_id', currentUser.school_id).then(function(r){
+      if(!r.error && r.data){
+        DB.leerlingen = r.data.map(function(s){
+          return {id:s.id,naam:s.naam,code:s.code||'',klas:s.klas||'',school_id:s.school_id,actief:s.actief,stars:s.stars||0,badges:[]};
+        });
+      }
+      renderTeacherUI();
+    }).catch(function(){renderTeacherUI();});
+  } else {
+    renderTeacherUI();
+  }
+}
+
+function renderTeacherUI(){
   var grid=g('teacher-grid'); grid.innerHTML='';
   var myStudents=DB.leerlingen.filter(function(l){
-    return l.school_id===currentUser.school_id&&l.klas===currentUser.klas;
+    return l.school_id===currentUser.school_id;
   });
+  // Also include students added by teacher (tcAddStudent)
 
   // ── CLASS OVERVIEW ──
   var ov=document.createElement('div'); ov.className='dash-card';
@@ -2334,14 +2351,21 @@ function tcAddStudent(){
       school_id:currentUser.school_id||null,
       klas:klas, actief:true, stars:0
     }).then(function(r){
-      if(r.error) console.error('Add student error:', r.error.message);
-      else console.log('Student saved to students table:', naam);
+      if(r.error){
+        console.error('Add student error:', r.error.message);
+        showToast('Error: '+r.error.message);
+      } else {
+        console.log('Student saved:', naam);
+        showToast('&#10003; '+naam+' added!');
+        renderTeacher();
+      }
     });
+  } else {
+    showToast('&#10003; '+naam+' added!');
+    renderTeacherUI();
   }
-  showToast('&#10003; '+naam+' added!');
   if(g('tc-st-name')) g('tc-st-name').value='';
   if(g('tc-st-code')) g('tc-st-code').value='';
-  renderTeacher();
 }
 
 
