@@ -2,61 +2,7 @@
 <html lang="en">
 <head>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-// Initialize Supabase after CDN loads
-var SUPA_URL = 'https://kqvhndrmbrxnhseqkvia.supabase.co';
-var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxdmhuZHJtYnJ4bmhzZXFrdmlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2OTIwOTQsImV4cCI6MjA5MjI2ODA5NH0.elI1TMpqL2mtjiT2eC9LC7HowEZ4RpS4LPDB3qiTz7s';
-var supa = null;
 
-function initSupabase() {
-  try {
-    supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
-    console.log('Supabase connected!');
-  } catch(e) {
-    console.warn('Supabase error:', e.message);
-  }
-}
-
-async function saveVoortgang(unit_id, phase_id) {
-  if (!supa || !window._supaLeerlingId) return;
-  var result = await supa.from('voortgang').insert({
-    leerling_id: window._supaLeerlingId,
-    unit_id: unit_id,
-    phase_id: phase_id,
-    score: 1,
-    datum: new Date().toISOString()
-  });
-  if (result.error) console.error('voortgang error:', result.error.message);
-  else console.log('voortgang saved:', unit_id, phase_id);
-}
-
-async function loadVoortgang(supaId) {
-  if (!supa) return;
-  var result = await supa.from('voortgang').select('*').eq('leerling_id', supaId);
-  if (result.error) { console.error('load error:', result.error.message); return; }
-  result.data.forEach(function(row) {
-    if (!DB.voortgang[currentUser.id]) DB.voortgang[currentUser.id] = {};
-    if (!DB.voortgang[currentUser.id][row.unit_id]) DB.voortgang[currentUser.id][row.unit_id] = {};
-    DB.voortgang[currentUser.id][row.unit_id][row.phase_id] = true;
-  });
-  console.log('voortgang loaded:', result.data.length, 'items');
-}
-
-async function supaLogin(naam, code) {
-  if (!supa) return null;
-  var check = await supa.from('gebruikers').select('*').eq('naam', naam).eq('rol', 'leerling').limit(1);
-  if (check.data && check.data.length > 0) {
-    console.log('Existing student:', naam);
-    return check.data[0];
-  }
-  var ins = await supa.from('gebruikers').insert({
-    naam: naam, rol: 'leerling', code: code, actief: true, stars: 0
-  }).select('*');
-  if (ins.error) { console.error('insert error:', ins.error.message); return null; }
-  console.log('New student created:', naam);
-  return ins.data && ins.data[0] ? ins.data[0] : null;
-}
-</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Digital Devices — Primary School Platform</title>
@@ -492,7 +438,64 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 
 <div class="toast" id="toast"></div>
 
+
 <script>
+
+// Initialize Supabase after CDN loads
+var SUPA_URL = 'https://kqvhndrmbrxnhseqkvia.supabase.co';
+var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxdmhuZHJtYnJ4bmhzZXFrdmlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2OTIwOTQsImV4cCI6MjA5MjI2ODA5NH0.elI1TMpqL2mtjiT2eC9LC7HowEZ4RpS4LPDB3qiTz7s';
+var supa = null;
+
+function initSupabase() {
+  try {
+    supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    console.log('Supabase connected!');
+  } catch(e) {
+    console.warn('Supabase error:', e.message);
+  }
+}
+
+async function saveVoortgang(unit_id, phase_id) {
+  if (!supa || !window._supaLeerlingId) return;
+  var result = await supa.from('voortgang').insert({
+    leerling_id: window._supaLeerlingId,
+    unit_id: unit_id,
+    phase_id: phase_id,
+    score: 1,
+    datum: new Date().toISOString()
+  });
+  if (result.error) console.error('voortgang error:', result.error.message);
+  else console.log('voortgang saved:', unit_id, phase_id);
+}
+
+async function loadVoortgang(supaId) {
+  if (!supa) return;
+  var result = await supa.from('voortgang').select('*').eq('leerling_id', supaId);
+  if (result.error) { console.error('load error:', result.error.message); return; }
+  result.data.forEach(function(row) {
+    if (!DB.voortgang[currentUser.id]) DB.voortgang[currentUser.id] = {};
+    if (!DB.voortgang[currentUser.id][row.unit_id]) DB.voortgang[currentUser.id][row.unit_id] = {};
+    DB.voortgang[currentUser.id][row.unit_id][row.phase_id] = true;
+  });
+  console.log('voortgang loaded:', result.data.length, 'items');
+}
+
+async function supaLogin(naam, code) {
+  if (!supa) return null;
+  var check = await supa.from('gebruikers').select('*').eq('naam', naam).eq('rol', 'leerling').limit(1);
+  if (check.data && check.data.length > 0) {
+    console.log('Existing student:', naam);
+    return check.data[0];
+  }
+  var ins = await supa.from('gebruikers').insert({
+    naam: naam, rol: 'leerling', code: code, actief: true, stars: 0
+  }).select('*');
+  if (ins.error) { console.error('insert error:', ins.error.message); return null; }
+  console.log('New student created:', naam);
+  return ins.data && ins.data[0] ? ins.data[0] : null;
+}
+
+
 
 
 
@@ -2056,10 +2059,111 @@ function renderTeacher(){
   }
 }
 
+
+function checkDeepLink(){
+  var params = new URLSearchParams(window.location.search);
+  var unit = params.get('unit');
+  var phase = params.get('phase');
+  if(unit && phase){
+    window._deepLinkUnit = unit;
+    window._deepLinkPhase = phase;
+  }
+}
+
+function handleDeepLinkAfterLogin(){
+  if(!window._deepLinkUnit || !window._deepLinkPhase) return;
+  var uid = window._deepLinkUnit;
+  var phid = window._deepLinkPhase;
+  window._deepLinkUnit = null;
+  window._deepLinkPhase = null;
+  var level = CONTENT.levels[0];
+  var unit = level ? level.units.find(function(u){return u.id===uid;}) : null;
+  var phase = unit ? unit.phases.find(function(p){return p.id===phid;}) : null;
+  if(unit && phase){
+    currentLevel = level; currentUnit = unit;
+    setTimeout(function(){openPhase(phase, unit);}, 500);
+  }
+}
+
+function saveVideoLink(btn){
+  var uid = btn.dataset.uid;
+  var inp = g('vid-'+uid);
+  if(!inp) return;
+  var url = inp.value.trim();
+  if(!CONTENT.videos) CONTENT.videos = {};
+  if(!CONTENT.videos[uid]) CONTENT.videos[uid]={title:'Video',duration:'2 min',url:'',goals:[]};
+  CONTENT.videos[uid].url = url;
+  if(supa){
+    var schoolId = currentUser&&currentUser.school_id ? currentUser.school_id : 's1';
+    supa.from('video_links').delete().eq('unit_id', uid).eq('school_id', schoolId).then(function(){
+      supa.from('video_links').insert({school_id:schoolId, unit_id:uid, url:url, updated_at:new Date().toISOString()}).then(function(r){
+        if(r.error) console.error('video save error:', r.error.message);
+        else console.log('Video saved:', uid, url);
+      });
+    });
+  }
+  showToast(url ? '&#10003; Video saved!' : '&#10003; Removed');
+  btn.style.background='#00C853';
+  setTimeout(function(){btn.style.background='#FF6B2B';},1500);
+}
+
+function loadVideoLinks(){
+  if(!supa) return;
+  supa.from('video_links').select('*').then(function(r){
+    if(r.error){console.error('video load:', r.error.message);return;}
+    if(!CONTENT.videos) CONTENT.videos={};
+    (r.data||[]).forEach(function(row){
+      if(!CONTENT.videos[row.unit_id]) CONTENT.videos[row.unit_id]={title:'Video',duration:'2 min',url:'',goals:[]};
+      CONTENT.videos[row.unit_id].url = row.url;
+    });
+    console.log('Video links loaded:', (r.data||[]).length);
+  });
+}
+
+function viewAsStudent(naam){
+  var st=DB.leerlingen.find(function(l){return l.naam===naam;});
+  if(!st) return;
+  var prevUser=currentUser;
+  currentUser=st;
+  g('st-name').textContent=naam.split(' ')[0];
+  g('st-welcome').textContent='Hello, '+naam.split(' ')[0]+'! &#128075;';
+  g('st-stars').textContent='&#11088; '+(st.stars||0)+' stars';
+  g('st-badges').textContent='&#127885; '+(st.badges?st.badges.length:0)+' badges';
+  var banner=document.createElement('div');
+  banner.id='teacher-banner';
+  banner.style.cssText='background:#FFD600;color:#1A1A2E;padding:10px 20px;text-align:center;font-weight:800;font-size:14px;cursor:pointer;position:sticky;top:0;z-index:999;';
+  banner.innerHTML='&#128065; Viewing as '+naam+' &nbsp;&nbsp;<span style="text-decoration:underline;">&#8592; Back to Dashboard</span>';
+  banner.onclick=function(){
+    currentUser=prevUser;
+    var b=document.getElementById('teacher-banner');
+    if(b) b.remove();
+    showScreen('scr-teacher');
+    renderTeacher();
+  };
+  var existing=document.getElementById('teacher-banner');
+  if(existing) existing.remove();
+  document.body.prepend(banner);
+  showScreen('scr-student');
+  renderLevels();
+}
+
+function tcAddStudent(){
+  var naam=(g('tc-st-name')||{value:''}).value.trim();
+  var code=(g('tc-st-code')||{value:''}).value.trim().toUpperCase();
+  var klas=(g('tc-st-klas')||{value:''}).value.trim();
+  if(!naam||!code){showToast('Fill in name and code!');return;}
+  if(DB.leerlingen.find(function(l){return l.code===code;})){showToast('Code already in use!');return;}
+  DB.leerlingen.push({id:'st'+Date.now(),naam:naam,code:code,school_id:currentUser.school_id,klas:klas||currentUser.klas,actief:true,stars:0,badges:[]});
+  showToast('&#10003; '+naam+' added!');
+  renderTeacher();
+}
+
+
 selRole('student');
 initSupabase();
 checkDeepLink();
 loadVideoLinks();
+
 </script>
 </body>
 </html>
