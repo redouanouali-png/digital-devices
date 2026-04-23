@@ -1884,7 +1884,7 @@ function renderAdminUI(){
   if(!myStudents.length) sh+='<p style="color:#999;font-size:13px;padding:8px 0;">No students yet. Add below or import CSV.</p>';
   myStudents.slice(0,20).forEach(function(s){
     sh+='<div class="school-row"><div><div class="school-name">'+s.naam+'</div>'+
-      '<div class="school-plan">Code: '+s.code+' &nbsp;&#183;&nbsp; Class: '+s.klas+'</div></div>'+
+      '<div class="school-plan">Code: '+s.code+' &nbsp;&#183;&nbsp; Class: '+(s.klas||'-')+(s.email?' &nbsp;&#183;&nbsp; '+s.email:'')+'</div></div>'+
       '<span style="font-size:13px;color:#888;">&#11088; '+(s.stars||0)+'</span></div>';
   });
   if(myStudents.length>20) sh+='<div style="font-size:12px;color:#888;padding:8px 0;">...and '+(myStudents.length-20)+' more</div>';
@@ -1896,6 +1896,7 @@ function renderAdminUI(){
   sh+='<div style="margin-top:16px;border-top:1px solid #F0EDE8;padding-top:16px;">'+
     '<div style="font-weight:800;font-size:14px;margin-bottom:10px;">&#43; Add Student</div>'+
     '<input class="inp" id="new-st-name" placeholder="Full name" style="margin-bottom:8px;width:100%;"/>'+
+    '<input class="inp" id="new-st-email" placeholder="Email (optional)" style="margin-bottom:8px;width:100%;"/>'+
     '<div style="display:flex;gap:8px;margin-bottom:8px;">'+
       '<input class="inp" id="new-st-code" placeholder="Code e.g. AM001" style="flex:1;"/>'+
       '<select class="inp" id="new-st-klas" style="flex:1;">'+klasOptions+'</select>'+
@@ -1999,17 +2000,17 @@ function deleteKlas(kid){
 
 function addStudent(){
   var naam=(g('new-st-name')||{value:''}).value.trim();
+  var email=(g('new-st-email')||{value:''}).value.trim().toLowerCase();
   var code=(g('new-st-code')||{value:''}).value.trim().toUpperCase();
   var klas=(g('new-st-klas')||{value:''}).value.trim();
-  // Sanitize
   naam = naam.replace(/</g,'').replace(/>/g,'').slice(0,50);
   code = code.replace(/[^A-Z0-9]/g,'').slice(0,10);
   if(!naam){showToast('Please fill in a name!');return;}
   if(!code){showToast('Please fill in a code!');return;}
   if(DB.leerlingen.find(function(l){return l.code===code;})){showToast('Code already in use!');return;}
-  DB.leerlingen.push({id:'st'+Date.now(),naam:naam,code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0,badges:[]});
+  DB.leerlingen.push({id:'st'+Date.now(),naam:naam,code:code,email:email,school_id:currentSchool.id,klas:klas,actief:true,stars:0,badges:[]});
   if(supa){
-    supa.from('students').insert({naam:naam,code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0}).then(function(r){
+    supa.from('students').insert({naam:naam,code:code,email:email||null,school_id:currentSchool.id,klas:klas,actief:true,stars:0}).then(function(r){
       if(r.error){
         console.error('student error:', r.error.message);
         showToast('Error: '+r.error.message);
@@ -2025,7 +2026,7 @@ function addStudent(){
 }
 
 function downloadTemplate(){
-  var csv='naam,code,klas\nAmina Karimi,AM001,1A\nYoussef Benali,YB002,1A\nFatima Hassan,FH003,1B';
+  var csv='naam,code,klas,email\nAmina Karimi,AM001,1A,amina@school.ma\nYoussef Benali,YB002,1A,youssef@school.ma\nFatima Hassan,FH003,1B,fatima@school.ma';
   var blob=new Blob([csv],{type:'text/csv'});
   var a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
@@ -2048,11 +2049,11 @@ function uploadCSV(input){
     lines.forEach(function(line){
       var parts=line.split(',').map(function(p){return p.trim().replace(/"/g,'').replace(/</g,'').replace(/>/g,'');});
       if(parts.length<2) return;
-      var naam=parts[0].slice(0,50), code=parts[1].toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,10), klas=parts[2]||'';
+      var naam=parts[0].slice(0,50), code=parts[1].toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,10), klas=parts[2]||'', email=parts[3]||'';
       if(!naam||!code){skipped++;return;}
       if(DB.leerlingen.find(function(l){return l.code===code;})){skipped++;return;}
       DB.leerlingen.push({id:'st'+Date.now()+added,naam:naam,code:code,klas:klas,school_id:currentSchool.id,actief:true,stars:0,badges:[]});
-      toInsert.push({naam:naam,code:code,klas:klas,school_id:currentSchool.id,actief:true,stars:0});
+      toInsert.push({naam:naam,code:code,klas:klas,email:email||null,school_id:currentSchool.id,actief:true,stars:0});
       added++;
     });
     if(supa&&toInsert.length>0){
@@ -2338,6 +2339,7 @@ function viewAsStudent(naam){
 
 function tcAddStudent(){
   var naam=(g('tc-st-name')||{value:''}).value.trim();
+  var email=(g('tc-st-email')||{value:''}).value.trim().toLowerCase();
   var code=(g('tc-st-code')||{value:''}).value.trim().toUpperCase();
   var klas=(g('tc-st-klas')||{value:''}).value.trim()||currentUser.klas||'';
   if(!naam||!code){showToast('Fill in name and code!');return;}
@@ -2347,7 +2349,7 @@ function tcAddStudent(){
   // Save to Supabase
   if(supa){
     supa.from('students').insert({
-      naam:naam, code:code,
+      naam:naam, code:code, email:email||null,
       school_id:currentUser.school_id||null,
       klas:klas, actief:true, stars:0
     }).then(function(r){
