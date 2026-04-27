@@ -1397,12 +1397,14 @@ function openActivate(unit){
   chatHistory=[];
   chatMessages=[];
   meriemQIdx=0;
+  currentUnit = unit;
   var box=g('chat-box'); box.innerHTML='';
-  var unitIdx=currentLevel?currentLevel.units.indexOf(unit):0;
-  activateIdx=unitIdx;
-  var prompt=CONTENT.activate_prompts[activateIdx]||CONTENT.activate_prompts[0];
-  addMsg('meriem', prompt);
-  chatMessages.push({role:'assistant', content:prompt});
+  // Use MERIEM_QA first question for this unit
+  var uid = unit ? unit.id : 'u1';
+  var qaList = MERIEM_QA[uid] || MERIEM_QA.u1;
+  var firstQ = qaList && qaList[0] ? qaList[0].q : (CONTENT.activate_prompts[0]||'Hi! What do you know about digital devices?');
+  addMsg('meriem', firstQ);
+  chatMessages.push({role:'assistant', content:firstQ});
   showScreen('scr-activate');
 }
 
