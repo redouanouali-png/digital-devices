@@ -2222,7 +2222,7 @@ function renderTeacherUI(){
   if(hasRight('addStudent')){
     var ac=document.createElement('div'); ac.className='dash-card';
     ac.innerHTML='<h3>&#43; Add Student</h3>'+
-      '<input class="inp" id="tc-st-name" placeholder="Student name" style="margin-bottom:8px;width:100%;"/>'+
+      '<input class="inp" id="tc-st-name" placeholder="Student name" style="margin-bottom:8px;width:100%;"/>'+'<input class="inp" id="tc-st-email" placeholder="Email (optional)" style="margin-bottom:8px;width:100%;"/>'+
       '<div style="display:flex;gap:8px;margin-bottom:8px;">'+
         '<input class="inp" id="tc-st-code" placeholder="Code (e.g. AM001)" style="flex:1;"/>'+
         '<input class="inp" id="tc-st-klas" placeholder="Class" style="max-width:80px;"/>'+
@@ -2299,15 +2299,19 @@ function saveVideoLink(btn){
 
 function loadVideoLinks(){
   if(!supa) return;
-  supa.from('video_links').select('*').then(function(r){
-    if(r.error){console.error('video load:', r.error.message);return;}
-    if(!CONTENT.videos) CONTENT.videos={};
-    (r.data||[]).forEach(function(row){
-      if(!CONTENT.videos[row.unit_id]) CONTENT.videos[row.unit_id]={title:'Video',duration:'2 min',url:'',goals:[]};
-      CONTENT.videos[row.unit_id].url = row.url;
-    });
-    console.log('Video links loaded:', (r.data||[]).length);
-  });
+  try {
+    supa.from('video_links').select('*').then(function(r){
+      try {
+        if(r.error){return;}
+        if(!CONTENT.videos) CONTENT.videos={};
+        (r.data||[]).forEach(function(row){
+          if(!CONTENT.videos[row.unit_id]) CONTENT.videos[row.unit_id]={title:'Video',duration:'2 min',url:'',goals:[]};
+          CONTENT.videos[row.unit_id].url = row.url;
+        });
+        console.log('Video links loaded:', (r.data||[]).length);
+      } catch(e){}
+    }).catch(function(){});
+  } catch(e){}
 }
 
 function viewAsStudent(naam){
@@ -2377,5 +2381,21 @@ checkDeepLink();
 loadVideoLinks();
 
 </script>
+
+<div class="screen" id="scr-create">
+  <div class="topbar">
+    <div class="brand">&#127881; Digital <span>Devices</span></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
+  </div>
+  <div style="flex:1;padding:20px;max-width:700px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:14px;">
+    <div>
+      <div style="font-family:'Fredoka One';font-size:24px;color:white;" id="create-title">&#127912; I Create</div>
+      <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px;" id="create-sub">Be creative!</div>
+    </div>
+    <div id="create-area" style="display:flex;flex-direction:column;gap:14px;"></div>
+    <button onclick="markDone('create');showToast('&#11088; Great work! Saved!');goBack();" style="padding:16px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#10003; Done! Save my work!</button>
+  </div>
+</div>
+
 </body>
 </html>
