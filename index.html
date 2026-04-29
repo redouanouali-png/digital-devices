@@ -1843,9 +1843,12 @@ function renderAdmin(){
     ]).then(function(results){
       var studentsRes = results[0];
       var klassRes = results[1];
+      console.log('School ID:', currentSchool.id);
+      console.log('Students from Supabase:', studentsRes.error ? studentsRes.error.message : (studentsRes.data||[]).length);
+      console.log('Klassen from Supabase:', klassRes.error ? klassRes.error.message : (klassRes.data||[]).length);
       if(!studentsRes.error && studentsRes.data){
         DB.leerlingen = studentsRes.data.map(function(s){
-          return {id:s.id, naam:s.naam, code:s.code||'', klas:s.klas||'', school_id:s.school_id, actief:s.actief, stars:s.stars||0, badges:[]};
+          return {id:s.id, naam:s.naam, code:s.code||'', klas:s.klas||'', school_id:s.school_id, email:s.email||'', actief:s.actief, stars:s.stars||0, badges:[]};
         });
       }
       if(!klassRes.error && klassRes.data){
@@ -1854,7 +1857,7 @@ function renderAdmin(){
         });
       }
       renderAdminUI();
-    }).catch(function(){renderAdminUI();});
+    }).catch(function(e){console.error('Load error:',e); renderAdminUI();});
   } else {
     renderAdminUI();
   }
@@ -1942,15 +1945,17 @@ function renderAdminUI(){
       '</div>'+
     '</div>';
   });
+  var tcKlasOptions='<option value="">All classes</option>'+
+    myKlassen.map(function(k){return '<option value="'+k.naam+'">'+k.naam+'</option>';}).join('');
   th+='<div style="margin-top:12px;border-top:1px solid #F0EDE8;padding-top:12px;">'+
     '<div style="font-weight:800;font-size:14px;margin-bottom:8px;">&#43; Add Teacher</div>'+
     '<input class="inp" id="new-tc-name" placeholder="Name" style="margin-bottom:8px;width:100%;"/>'+
     '<input class="inp" id="new-tc-email" placeholder="Email" style="margin-bottom:8px;width:100%;"/>'+
-    '<div style="display:flex;gap:8px;">'+
-      '<input class="inp" id="new-tc-pin" placeholder="PIN (4 digits)"/>'+
-      '<input class="inp" id="new-tc-klas" placeholder="Class"/>'+
+    '<div style="display:flex;gap:8px;margin-bottom:8px;">'+
+      '<input class="inp" id="new-tc-pin" placeholder="PIN (4 digits)" style="flex:1;"/>'+
+      '<select class="inp" id="new-tc-klas" style="flex:1;">'+tcKlasOptions+'</select>'+
     '</div>'+
-    '<button onclick="addTeacher()" style="width:100%;margin-top:8px;padding:12px;background:#00C853;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">&#43; Add Teacher</button>'+
+    '<button onclick="addTeacher()" style="width:100%;margin-top:4px;padding:12px;background:#00C853;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">&#43; Add Teacher</button>'+
   '</div>';
   tc.innerHTML=th; grid.appendChild(tc);
 }
