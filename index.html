@@ -450,6 +450,10 @@ function initSupabase() {
   try {
     supa = window.supabase.createClient(SUPA_URL, SUPA_KEY);
     console.log('Supabase connected!');
+    // Load schools from Supabase
+    loadScholen(function(){
+      console.log('Schools ready:', DB.scholen.length);
+    });
   } catch(e) {
     console.warn('Supabase error:', e.message);
   }
@@ -1748,6 +1752,14 @@ function retryTest(){_testScore={correct:0,answered:0,total:0};openTest(currentU
 // OWNER DASHBOARD
 // ══════════════════════════════════════════════════════
 function renderOwner(){
+  var grid=g('owner-grid'); grid.innerHTML='<div style="padding:20px;text-align:center;color:#888;">Loading...</div>';
+  loadScholen(function(){
+    grid.innerHTML='';
+    renderOwnerUI();
+  });
+}
+
+function renderOwnerUI(){
   var grid=g('owner-grid'); grid.innerHTML='';
 
   // Schools list
@@ -1817,16 +1829,42 @@ function toggleTaal(sid,key,btn){
 }
 
 function addSchool(){
-  var naam=g('new-school-name').value.trim();
-  var stad=g('new-school-city').value.trim();
-  var pin=g('new-school-pin').value.trim();
+  var naam=(g('new-school-name')||{value:''}).value.trim();
+  var stad=(g('new-school-city')||{value:''}).value.trim();
+  var pin=(g('new-school-pin')||{value:''}).value.trim();
   if(!naam||!pin){showToast('Fill in name and PIN!');return;}
+  if(pin.length < 4){showToast('PIN must be at least 4 digits!');return;}
   if(DB.scholen.find(function(s){return s.pin===pin;})){showToast('PIN already in use!');return;}
-  DB.scholen.push({id:'s'+Date.now(),naam:naam,stad:stad,pin:pin,actief:true,
-    modules:{setActive:true,meriem:false,beebot:false,scratch:false,certificate:true},
-    talen:{en:true,ar:false,fr:false}});
-  showToast('✅ School added: '+naam);
-  renderOwner();
+  var newSchool = {
+    naam:naam, stad:stad, pin:pin, actief:true,
+    modules:{setActive:true,meriem:true,beebot:false,certificate:true},
+    talen:{en:true,ar:false,fr:false}
+  };
+  if(supa){
+    supa.from('scholen').insert({
+      naam:naam, stad:stad, pin:pin, actief:true,
+      modules:{setActive:true,meriem:true,beebot:false,certificate:true},
+      talen:{en:true,ar:false,fr:false}
+    }).select().then(function(r){
+      if(r.error){
+        console.error('Add school error:',r.error.message);
+        showToast('Error: '+r.error.message);
+      } else {
+        var saved = r.data && r.data[0] ? r.data[0] : newSchool;
+        DB.scholen.push(saved);
+        if(g('new-school-name')) g('new-school-name').value='';
+        if(g('new-school-city')) g('new-school-city').value='';
+        if(g('new-school-pin')) g('new-school-pin').value='';
+        showToast('&#10003; School '+naam+' added!');
+        renderOwner();
+      }
+    });
+  } else {
+    newSchool.id = 's'+Date.now();
+    DB.scholen.push(newSchool);
+    showToast('&#10003; '+naam+' added!');
+    renderOwner();
+  }
 }
 
 // ══════════════════════════════════════════════════════
@@ -2450,6 +2488,54 @@ function tcAddStudent(){
   }
   if(g('tc-st-name')) g('tc-st-name').value='';
   if(g('tc-st-code')) g('tc-st-code').value='';
+}
+
+
+
+function loadScholen(callback){
+  if(!supa){if(callback)callback();return;}
+  supa.from('scholen').select('*').eq('actief',true).then(function(r){
+    if(!r.error && r.data && r.data.length > 0){
+      DB.scholen = r.data.map(function(s){
+        return {
+          id: s.id,
+          naam: s.naam,
+          stad: s.stad||'',
+          pin: s.pin,
+          actief: s.actief,
+          modules: s.modules||{setActive:true,meriem:true,beebot:false,certificate:true},
+          talen: s.talen||{en:true,ar:false,fr:false}
+        };
+      });
+      console.log('Schools loaded from Supabase:', DB.scholen.length);
+    } else {
+      console.log('Using default schools (Supabase empty or error)');
+    }
+    if(callback) callback();
+  }).catch(function(){if(callback)callback();});
+}
+
+function addSchool(naam, stad, pin, modules, talen){
+  if(!naam||!pin){showToast('Fill in name and PIN!');return;}
+  if(DB.scholen.find(function(s){return s.pin===pin;})){showToast('PIN already in use!');return;}
+  var newSchool = {
+    naam:naam, stad:stad||'', pin:pin, actief:true,
+    modules:modules||{setActive:true,meriem:true,beebot:false,certificate:true},
+    talen:talen||{en:true,ar:false,fr:false}
+  };
+  if(supa){
+    supa.from('scholen').insert(newSchool).then(function(r){
+      if(r.error){
+        console.error('Add school error:',r.error.message);
+        showToast('Error: '+r.error.message);
+      } else {
+        var saved = r.data && r.data[0] ? r.data[0] : newSchool;
+        DB.scholen.push(saved);
+        showToast('&#10003; School '+naam+' added!');
+        renderOwner();
+      }
+    });
+  }
 }
 
 
