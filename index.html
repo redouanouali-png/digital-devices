@@ -931,7 +931,7 @@ function doLogin(){
     }
     // Not in memory - check Supabase
     if(supa){
-      supa.from('gebruikers').select('*').eq('email',email).eq('pin',pin).eq('rol','docent').then(function(r){
+      supa.from('gebruikers').select('*').eq('email',email).eq('pin',pin).then(function(r){
         if(r.error||!r.data||!r.data[0]){showToast('Wrong email or PIN!');return;}
         var d=r.data[0];
         var teacher={id:d.id,naam:d.naam,email:d.email,pin:d.pin,school_id:d.school_id,klas:d.klas||'',actief:d.actief,rechten:{leerlingen:true,voortgang:true,viewStudent:true,addStudent:true}};
@@ -1962,7 +1962,7 @@ function renderAdmin(){
   // Load from Supabase first, then render
   if(supa){
     Promise.all([
-      supa.from('students').select('*').eq('school_id', currentSchool.id),
+      supa.from('students').select('*'),
       supa.from('klassen').select('*').eq('school_id', currentSchool.id),
       supa.from('gebruikers').select('*').eq('school_id', currentSchool.id).eq('rol','docent')
     ]).then(function(results){
@@ -1999,8 +1999,13 @@ function renderAdmin(){
 
 function renderAdminUI(){
   var grid=g('admin-grid'); grid.innerHTML='';
-  var myStudents=DB.leerlingen.filter(function(l){return l.school_id===currentSchool.id;});
-  var myKlassen=DB.klassen.filter(function(k){return k.school_id===currentSchool.id;});
+  var sid = currentSchool ? currentSchool.id : '';
+  var myStudents=DB.leerlingen.filter(function(l){
+    return !l.school_id || l.school_id===sid || String(l.school_id)===String(sid);
+  });
+  var myKlassen=DB.klassen.filter(function(k){
+    return !k.school_id || k.school_id===sid || String(k.school_id)===String(sid);
+  });
 
   // ── CLASSES CARD ──
   var kc=document.createElement('div'); kc.className='dash-card';
@@ -2147,13 +2152,15 @@ function addKlas(){
 
 function deleteKlas(kid){
   DB.klassen=DB.klassen.filter(function(k){return k.id!==kid;});
-  if(supa){
+  if(supa && kid && kid.length > 20){
+    // Only delete from Supabase if it looks like a UUID
     supa.from('klassen').delete().eq('id', kid).then(function(r){
       if(r.error) console.error('delete klas error:', r.error.message);
+      else console.log('Klas deleted from Supabase');
     });
   }
   showToast('Class removed');
-  renderAdmin();
+  renderAdminUI();
 }
 
 function addStudent(){
