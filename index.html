@@ -1772,14 +1772,50 @@ function renderOwnerUI(){
   schoolCard.innerHTML=schoolHtml;
   grid.appendChild(schoolCard);
 
-  // Add school form as separate card
+  // Add school form as separate card with direct DOM references
   var addCard=document.createElement('div'); addCard.className='dash-card';
-  addCard.innerHTML=
-    '<h3>&#43; Add New School</h3>'+
-    '<input class="inp" id="new-school-name" placeholder="School name" style="margin-bottom:8px;width:100%;"/>'+
-    '<input class="inp" id="new-school-city" placeholder="City" style="margin-bottom:8px;width:100%;"/>'+
-    '<input class="inp" id="new-school-pin" placeholder="PIN (4 digits)" style="margin-bottom:8px;width:100%;"/>'+
-    '<button onclick="addSchool()" style="width:100%;padding:12px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">&#43; Add School</button>';
+  var addTitle=document.createElement('h3'); addTitle.textContent='+ Add New School';
+  var inpNaam=document.createElement('input'); inpNaam.className='inp'; inpNaam.placeholder='School name'; inpNaam.style.cssText='margin-bottom:8px;width:100%;';
+  var inpStad=document.createElement('input'); inpStad.className='inp'; inpStad.placeholder='City'; inpStad.style.cssText='margin-bottom:8px;width:100%;';
+  var inpPin=document.createElement('input'); inpPin.className='inp'; inpPin.placeholder='PIN (4 digits)'; inpPin.style.cssText='margin-bottom:8px;width:100%;';
+  var addBtn=document.createElement('button');
+  addBtn.style.cssText='width:100%;padding:12px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;';
+  addBtn.textContent='+ Add School';
+  addBtn.onclick=function(){
+    var naam=inpNaam.value.trim();
+    var stad=inpStad.value.trim();
+    var pin=inpPin.value.trim();
+    console.log('addSchool:', naam, pin);
+    if(!naam||!pin){showToast('Fill in name and PIN!');return;}
+    if(pin.length<4){showToast('PIN must be at least 4 digits!');return;}
+    if(DB.scholen.find(function(s){return s.pin===pin;})){showToast('PIN already in use!');return;}
+    if(supa){
+      supa.from('scholen').insert({
+        naam:naam,stad:stad,pin:pin,actief:true,
+        modules:{setActive:true,meriem:true,beebot:false,certificate:true},
+        talen:{en:true,ar:false,fr:false}
+      }).select().then(function(r){
+        if(r.error){showToast('Error: '+r.error.message);}
+        else{
+          var saved=r.data&&r.data[0]?r.data[0]:{naam:naam,stad:stad,pin:pin,actief:true,id:'s'+Date.now(),modules:{setActive:true,meriem:true,beebot:false,certificate:true},talen:{en:true,ar:false,fr:false}};
+          DB.scholen.push(saved);
+          inpNaam.value=''; inpStad.value=''; inpPin.value='';
+          showToast('✓ School '+naam+' added!');
+          renderOwner();
+        }
+      });
+    } else {
+      DB.scholen.push({id:'s'+Date.now(),naam:naam,stad:stad,pin:pin,actief:true,modules:{setActive:true,meriem:true,beebot:false,certificate:true},talen:{en:true,ar:false,fr:false}});
+      inpNaam.value=''; inpStad.value=''; inpPin.value='';
+      showToast('✓ '+naam+' added!');
+      renderOwner();
+    }
+  };
+  addCard.appendChild(addTitle);
+  addCard.appendChild(inpNaam);
+  addCard.appendChild(inpStad);
+  addCard.appendChild(inpPin);
+  addCard.appendChild(addBtn);
   grid.appendChild(addCard);
 
   // Selected school modules
