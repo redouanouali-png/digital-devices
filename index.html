@@ -912,12 +912,9 @@ function doLogin(){
   }
   if(role==='admin'){
     var pin=g('inp-pin').value.trim();
-    var school=DB.scholen.find(function(s){return s.pin===pin;});
-    if(!school){showToast('Wrong PIN!');return;}
-    if(!school.actief){showToast('This school is inactive.');return;}
-    currentSchool=school; currentUser={naam:school.naam,rol:'admin'};
-    g('admin-school').textContent=school.naam;
-    showScreen('scr-admin'); renderAdmin(); return;
+    if(!pin){showToast('Fill in PIN!');return;}
+    loginDirector(pin);
+    return;
   }
   if(role==='teacher'){
     var email=g('inp-name').value.trim(), pin=g('inp-pin').value.trim();
@@ -1956,52 +1953,41 @@ function addSchool(){
 // ══════════════════════════════════════════════════════
 // ADMIN (DIRECTOR) DASHBOARD
 // ══════════════════════════════════════════════════════
-function renderAdmin(){
-  var grid=g('admin-grid'); grid.innerHTML='';
-  
-  // Load from Supabase first, then render
-  if(supa){
-    console.log('Loading with school_id:', currentSchool.id);
-    Promise.all([
-      supa.from('students').select('*').eq('school_id', currentSchool.id||'424900b9-4f69-4edb-9fee-180622989d19'),
-      supa.from('klassen').select('*').eq('school_id', currentSchool.id||'424900b9-4f69-4edb-9fee-180622989d19'),
-      supa.from('gebruikers').select('*').eq('school_id', currentSchool.id).eq('rol','docent')
-    ]).then(function(results){
-      var studentsRes = results[0];
-      var klassRes = results[1];
-      var teachersRes = results[2];
-      if(!teachersRes.error && teachersRes.data){
-        var existing = DB.docenten.map(function(d){return d.email;});
-        teachersRes.data.forEach(function(d){
-          if(!existing.includes(d.email)){
-            DB.docenten.push({id:d.id,naam:d.naam,email:d.email,pin:d.pin,school_id:d.school_id,klas:d.klas||'',actief:d.actief,rechten:{leerlingen:true,voortgang:true,viewStudent:true,addStudent:true}});
-          }
-        });
-      }
-      console.log('School ID:', currentSchool.id);
-      console.log('Students from Supabase:', studentsRes.error ? studentsRes.error.message : (studentsRes.data||[]).length);
-      console.log('Klassen from Supabase:', klassRes.error ? klassRes.error.message : (klassRes.data||[]).length);
-      if(!studentsRes.error && studentsRes.data){
-        DB.leerlingen = studentsRes.data.map(function(s){
-          return {id:s.id, naam:s.naam, code:s.code||'', klas:s.klas||'', school_id:s.school_id, email:s.email||'', actief:s.actief, stars:s.stars||0, badges:[]};
-        });
-      }
-      if(!klassRes.error && klassRes.data){
-        DB.klassen = klassRes.data.map(function(k){
-          return {id:k.id, naam:k.naam, school_id:k.school_id};
-        });
-      }
-      renderAdminUI();
-    }).catch(function(e){console.error('Load error:',e); renderAdminUI();});
-  } else {
-    renderAdminUI();
+async function renderAdmin(){
+  if(!currentSchool){return;}
+  var grid=g('admin-grid');
+  if(grid) grid.innerHTML='<div style="padding:20px;text-align:center;color:#888;">Loading...</div>';
+
+  var stuRes = await supa.from('students').select('*').eq('school_id', currentSchool.id);
+  if(!stuRes.error && stuRes.data){
+    DB.leerlingen = stuRes.data.map(function(s){
+      return {id:s.id,naam:s.naam,code:s.code||'',klas:s.klas||'',school_id:s.school_id,email:s.email||'',actief:s.actief,stars:s.stars||0,badges:[]};
+    });
   }
+
+  var klasRes = await supa.from('klassen').select('*').eq('school_id', currentSchool.id);
+  if(!klasRes.error && klasRes.data){
+    DB.klassen = klasRes.data.map(function(k){return {id:k.id,naam:k.naam,school_id:k.school_id};});
+  }
+
+  var tcRes = await supa.from('gebruikers').select('*').eq('school_id', currentSchool.id).eq('rol','docent');
+  if(!tcRes.error && tcRes.data){
+    DB.docenten = DB.docenten.filter(function(d){return d.school_id!==currentSchool.id;});
+    tcRes.data.forEach(function(d){
+      DB.docenten.push({id:d.id,naam:d.naam,email:d.email,pin:d.pin,school_id:d.school_id,klas:d.klas||'',actief:d.actief,rechten:{leerlingen:true,voortgang:true,viewStudent:true,addStudent:true}});
+    });
+  }
+
+  renderAdminUI();
 }
 
+
 function renderAdminUI(){
-  var grid=g('admin-grid'); grid.innerHTML='';
-  var myStudents = DB.leerlingen;
-  var myKlassen = DB.klassen;
+  var grid=g('admin-grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  var myStudents = DB.leerlingen.slice();
+  var myKlassen = DB.klassen.slice();
 
   // ── CLASSES CARD ──
   var kc=document.createElement('div'); kc.className='dash-card';
@@ -2635,6 +2621,60 @@ function addSchool(naam, stad, pin, modules, talen){
   }
 }
 
+
+
+async function loginDirector(pin){
+  try {
+    // Step 1: load school
+    var schoolRes = await supa.from('scholen').select('*').eq('pin', pin);
+    if(schoolRes.error || !schoolRes.data || !schoolRes.data[0]){
+      var local = DB.scholen.find(function(s){return s.pin===pin;});
+      if(!local){showToast('Wrong PIN!');return;}
+      currentSchool = local;
+    } else {
+      currentSchool = schoolRes.data[0];
+    }
+    if(!currentSchool.actief){showToast('This school is inactive.');return;}
+    console.log('school_id:', currentSchool.id);
+
+    // Step 2: load students
+    var stuRes = await supa.from('students').select('*').eq('school_id', currentSchool.id);
+    if(!stuRes.error && stuRes.data){
+      DB.leerlingen = stuRes.data.map(function(s){
+        return {id:s.id,naam:s.naam,code:s.code||'',klas:s.klas||'',school_id:s.school_id,email:s.email||'',actief:s.actief,stars:s.stars||0,badges:[]};
+      });
+      console.log('Students loaded:', DB.leerlingen.length);
+    }
+
+    // Step 3: load klassen
+    var klasRes = await supa.from('klassen').select('*').eq('school_id', currentSchool.id);
+    if(!klasRes.error && klasRes.data){
+      DB.klassen = klasRes.data.map(function(k){
+        return {id:k.id,naam:k.naam,school_id:k.school_id};
+      });
+    }
+
+    // Step 4: load teachers
+    var tcRes = await supa.from('gebruikers').select('*').eq('school_id', currentSchool.id).eq('rol','docent');
+    if(!tcRes.error && tcRes.data){
+      tcRes.data.forEach(function(d){
+        if(!DB.docenten.find(function(x){return x.email===d.email;})){
+          DB.docenten.push({id:d.id,naam:d.naam,email:d.email,pin:d.pin,school_id:d.school_id,klas:d.klas||'',actief:d.actief,rechten:{leerlingen:true,voortgang:true,viewStudent:true,addStudent:true}});
+        }
+      });
+    }
+
+    // Step 5: render UI
+    currentUser = {naam:currentSchool.naam, rol:'admin'};
+    g('admin-school').textContent = currentSchool.naam;
+    showScreen('scr-admin');
+    renderAdminUI();
+
+  } catch(e){
+    console.error('Director login error:', e);
+    showToast('Login error — try again');
+  }
+}
 
 selRole('student');
 initSupabase();
