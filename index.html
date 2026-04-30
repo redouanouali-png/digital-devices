@@ -526,7 +526,7 @@ function loadVoortgang(supaId) {
 var DB = {
   owner: {pin:'7017'},
   scholen: [
-    {id:'s1', naam:'Green Valley Primary', stad:'Casablanca', pin:'1111', actief:true,
+    {id:'424900b9-4f69-4edb-9fee-180622989d19', naam:'Green Valley Primary', stad:'Casablanca', pin:'1111', actief:true,
      modules:{setActive:true,meriem:true,beebot:false,scratch:false,certificate:true},
      talen:{en:true,ar:false,fr:false}},
     {id:'s2', naam:'Al-Nour Academy', stad:'Rabat', pin:'2222', actief:true,
@@ -1961,9 +1961,10 @@ function renderAdmin(){
   
   // Load from Supabase first, then render
   if(supa){
+    console.log('Loading with school_id:', currentSchool.id);
     Promise.all([
-      supa.from('students').select('*'),
-      supa.from('klassen').select('*').eq('school_id', currentSchool.id),
+      supa.from('students').select('*').eq('school_id', currentSchool.id||'424900b9-4f69-4edb-9fee-180622989d19'),
+      supa.from('klassen').select('*').eq('school_id', currentSchool.id||'424900b9-4f69-4edb-9fee-180622989d19'),
       supa.from('gebruikers').select('*').eq('school_id', currentSchool.id).eq('rol','docent')
     ]).then(function(results){
       var studentsRes = results[0];
@@ -1999,13 +2000,8 @@ function renderAdmin(){
 
 function renderAdminUI(){
   var grid=g('admin-grid'); grid.innerHTML='';
-  var sid = currentSchool ? currentSchool.id : '';
-  var myStudents=DB.leerlingen.filter(function(l){
-    return !l.school_id || l.school_id===sid || String(l.school_id)===String(sid);
-  });
-  var myKlassen=DB.klassen.filter(function(k){
-    return !k.school_id || k.school_id===sid || String(k.school_id)===String(sid);
-  });
+  var myStudents = DB.leerlingen;
+  var myKlassen = DB.klassen;
 
   // ── CLASSES CARD ──
   var kc=document.createElement('div'); kc.className='dash-card';
@@ -2309,8 +2305,9 @@ function hasRight(right){
 function renderTeacher(){
   var grid=g('teacher-grid'); grid.innerHTML='<div style="padding:20px;text-align:center;color:rgba(255,255,255,0.7);">Loading...</div>';
   if(supa && currentUser && currentUser.school_id){
+    console.log('Loading with school_id:', currentSchool.id);
     Promise.all([
-      supa.from('students').select('*').eq('school_id', currentUser.school_id),
+      supa.from('students').select('*').eq('school_id', currentUser.school_id||'424900b9-4f69-4edb-9fee-180622989d19'),
       supa.from('klassen').select('*').eq('school_id', currentUser.school_id)
     ]).then(function(results){
       if(!results[0].error && results[0].data){
@@ -2332,10 +2329,7 @@ function renderTeacher(){
 
 function renderTeacherUI(){
   var grid=g('teacher-grid'); grid.innerHTML='';
-  var myStudents=DB.leerlingen.filter(function(l){
-    return l.school_id===currentUser.school_id;
-  });
-  // Also include students added by teacher (tcAddStudent)
+  var myStudents = DB.leerlingen;
 
   // ── CLASS OVERVIEW ──
   var ov=document.createElement('div'); ov.className='dash-card';
