@@ -1769,9 +1769,18 @@ function renderOwnerUI(){
   DB.scholen.forEach(function(s){
     schoolHtml+='<div class="school-row"><div><div class="school-name">'+s.naam+'</div><div class="school-plan">'+s.stad+' · PIN: '+s.pin+'</div></div><button class="btn-sm btn-add" onclick="manageSchool(\''+s.id+'\')">Manage</button></div>';
   });
-  schoolHtml+='<div style="margin-top:14px;"><div style="font-weight:800;font-size:14px;color:var(--dark);margin-bottom:8px;">Add new school</div><input class="inp" id="new-school-name" placeholder="School name"/><div class="form-row"><input class="inp" id="new-school-city" placeholder="City"/><input class="inp" id="new-school-pin" placeholder="PIN" style="max-width:100px;"/></div><button class="btn-sm btn-add" style="margin-top:8px;width:100%;padding:10px;" onclick="addSchool()">+ Add School</button></div>';
   schoolCard.innerHTML=schoolHtml;
   grid.appendChild(schoolCard);
+
+  // Add school form as separate card
+  var addCard=document.createElement('div'); addCard.className='dash-card';
+  addCard.innerHTML=
+    '<h3>&#43; Add New School</h3>'+
+    '<input class="inp" id="new-school-name" placeholder="School name" style="margin-bottom:8px;width:100%;"/>'+
+    '<input class="inp" id="new-school-city" placeholder="City" style="margin-bottom:8px;width:100%;"/>'+
+    '<input class="inp" id="new-school-pin" placeholder="PIN (4 digits)" style="margin-bottom:8px;width:100%;"/>'+
+    '<button onclick="addSchool()" style="width:100%;padding:12px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">&#43; Add School</button>';
+  grid.appendChild(addCard);
 
   // Selected school modules
   if(DB.scholen.length>0){
