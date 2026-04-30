@@ -1767,7 +1767,14 @@ function renderOwnerUI(){
   schoolCard.className='dash-card';
   var schoolHtml='<h3>🏫 Schools ('+DB.scholen.length+')</h3>';
   DB.scholen.forEach(function(s){
-    schoolHtml+='<div class="school-row"><div><div class="school-name">'+s.naam+'</div><div class="school-plan">'+s.stad+' · PIN: '+s.pin+'</div></div><button class="btn-sm btn-add" onclick="manageSchool(\''+s.id+'\')">Manage</button></div>';
+    schoolHtml+=
+      '<div class="school-row">'+
+        '<div><div class="school-name">'+s.naam+'</div><div class="school-plan">'+s.stad+' &middot; PIN: '+s.pin+'</div></div>'+
+        '<div style="display:flex;gap:6px;">'+
+          '<button class="btn-sm btn-add" data-sid="'+s.id+'" onclick="manageSchool(this.dataset.sid)">Manage</button>'+
+          '<button data-sid="'+s.id+'" data-naam="'+s.naam+'" onclick="deleteSchool(this.dataset.sid,this.dataset.naam)" style="padding:6px 10px;background:#FFEBEE;color:#F03030;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito;">&#10005;</button>'+
+        '</div>'+
+      '</div>';
   });
   schoolCard.innerHTML=schoolHtml;
   grid.appendChild(schoolCard);
@@ -1871,6 +1878,20 @@ function toggleTaal(sid,key,btn){
   school.talen[key]=!school.talen[key];
   btn.classList.toggle('on');
   showToast('Language updated!');
+}
+
+
+function deleteSchool(sid, naam){
+  if(!confirm('Remove school: '+naam+'? This cannot be undone.')) return;
+  DB.scholen = DB.scholen.filter(function(s){return s.id!==sid;});
+  if(supa){
+    supa.from('scholen').delete().eq('id', sid).then(function(r){
+      if(r.error) console.error('delete school:', r.error.message);
+      else console.log('School deleted:', naam);
+    });
+  }
+  showToast('School '+naam+' removed');
+  renderOwner();
 }
 
 function addSchool(){
