@@ -1841,6 +1841,7 @@ function addSchool(){
   var naam=(g('new-school-name')||{value:''}).value.trim();
   var stad=(g('new-school-city')||{value:''}).value.trim();
   var pin=(g('new-school-pin')||{value:''}).value.trim();
+  console.log('addSchool called:', naam, pin, 'elements:', !!g('new-school-name'), !!g('new-school-pin'));
   if(!naam||!pin){showToast('Fill in name and PIN!');return;}
   if(pin.length < 4){showToast('PIN must be at least 4 digits!');return;}
   if(DB.scholen.find(function(s){return s.pin===pin;})){showToast('PIN already in use!');return;}
