@@ -921,11 +921,30 @@ function doLogin(){
   }
   if(role==='teacher'){
     var email=g('inp-name').value.trim(), pin=g('inp-pin').value.trim();
+    // Check in memory first
     var doc=DB.docenten.find(function(d){return d.email===email&&d.pin===pin;});
-    if(!doc){showToast('Wrong email or PIN!');return;}
-    currentUser=doc; currentSchool=DB.scholen.find(function(s){return s.id===doc.school_id;});
-    g('tc-name').textContent=doc.naam;
-    showScreen('scr-teacher'); renderTeacher(); return;
+    if(doc){
+      currentUser=doc;
+      currentSchool=DB.scholen.find(function(s){return s.id===doc.school_id;});
+      g('tc-name').textContent=doc.naam;
+      showScreen('scr-teacher'); renderTeacher(); return;
+    }
+    // Not in memory - check Supabase
+    if(supa){
+      supa.from('gebruikers').select('*').eq('email',email).eq('pin',pin).eq('rol','docent').then(function(r){
+        if(r.error||!r.data||!r.data[0]){showToast('Wrong email or PIN!');return;}
+        var d=r.data[0];
+        var teacher={id:d.id,naam:d.naam,email:d.email,pin:d.pin,school_id:d.school_id,klas:d.klas||'',actief:d.actief,rechten:{leerlingen:true,voortgang:true,viewStudent:true,addStudent:true}};
+        DB.docenten.push(teacher);
+        currentUser=teacher;
+        currentSchool=DB.scholen.find(function(s){return s.id===teacher.school_id;});
+        g('tc-name').textContent=teacher.naam;
+        showScreen('scr-teacher'); renderTeacher();
+      });
+    } else {
+      showToast('Wrong email or PIN!');
+    }
+    return;
   }
   if(role==='student'){
     var naam=g('inp-name').value.trim(), code=g('inp-code').value.trim().toUpperCase();
@@ -1944,10 +1963,20 @@ function renderAdmin(){
   if(supa){
     Promise.all([
       supa.from('students').select('*').eq('school_id', currentSchool.id),
-      supa.from('klassen').select('*').eq('school_id', currentSchool.id)
+      supa.from('klassen').select('*').eq('school_id', currentSchool.id),
+      supa.from('gebruikers').select('*').eq('school_id', currentSchool.id).eq('rol','docent')
     ]).then(function(results){
       var studentsRes = results[0];
       var klassRes = results[1];
+      var teachersRes = results[2];
+      if(!teachersRes.error && teachersRes.data){
+        var existing = DB.docenten.map(function(d){return d.email;});
+        teachersRes.data.forEach(function(d){
+          if(!existing.includes(d.email)){
+            DB.docenten.push({id:d.id,naam:d.naam,email:d.email,pin:d.pin,school_id:d.school_id,klas:d.klas||'',actief:d.actief,rechten:{leerlingen:true,voortgang:true,viewStudent:true,addStudent:true}});
+          }
+        });
+      }
       console.log('School ID:', currentSchool.id);
       console.log('Students from Supabase:', studentsRes.error ? studentsRes.error.message : (studentsRes.data||[]).length);
       console.log('Klassen from Supabase:', klassRes.error ? klassRes.error.message : (klassRes.data||[]).length);
