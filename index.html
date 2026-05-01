@@ -946,41 +946,22 @@ function doLogin(){
   if(role==='student'){
     var naam=g('inp-name').value.trim(), code=g('inp-code').value.trim().toUpperCase();
     if(!naam||!code){showToast('Please fill in your name and code!');return;}
-    var st=DB.leerlingen.find(function(l){return l.naam.toLowerCase()===naam.toLowerCase();});
-    if(!st){showToast('Name not found. Ask your teacher!');return;}
-    if(st.code.toUpperCase()!==code){showToast('Wrong code. Try again!');return;}
-    if(!st.actief){showToast('Your account is inactive.');return;}
-    currentUser=st;
-    // Load fresh school data from Supabase to get current modules/talen
-    if(supa && st.school_id){
-      supa.from('scholen').select('*').eq('id',st.school_id).then(function(r){
-        if(!r.error && r.data && r.data[0]) currentSchool=r.data[0];
-        else currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
-      }).catch(function(){
-        currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
+    // Check local DB first
+    var st=DB.leerlingen.find(function(l){return l.naam.toLowerCase()===naam.toLowerCase()&&l.code.toUpperCase()===code;});
+    if(st){doStudentLogin(st);return;}
+    // Check Supabase
+    if(supa){
+      supa.from('students').select('*').ilike('naam',naam).then(function(r){
+        if(r.error||!r.data||!r.data.length){showToast('Name not found. Ask your teacher!');return;}
+        var found=r.data.find(function(s){return s.code&&s.code.toUpperCase()===code;});
+        if(!found){showToast('Wrong code. Try again!');return;}
+        if(!found.actief){showToast('Your account is inactive.');return;}
+        var student={id:found.id,naam:found.naam,code:found.code,klas:found.klas||'',school_id:found.school_id,email:found.email||'',actief:found.actief,stars:found.stars||0,badges:[]};
+        DB.leerlingen.push(student);
+        doStudentLogin(student);
       });
     } else {
-      currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
-    }
-    g('st-name').textContent=naam.split(' ')[0];
-    g('st-welcome').textContent='Hello, '+naam.split(' ')[0]+'! 👋';
-    g('st-stars').textContent='⭐ '+(st.stars||0)+' stars';
-    g('st-badges').textContent='🏅 '+(st.badges?st.badges.length:0)+' badges';
-    // Connect to Supabase
-    if (supa) {
-      supaLogin(naam, code).then(function(supaUser) {
-        if (supaUser && supaUser.id) {
-          currentUser.supaId = supaUser.id;
-          console.log('supaId set:', supaUser.id);
-          loadVoortgang(supaUser.id).then(function() {
-            showScreen('scr-student'); renderLevels();
-          });
-        } else {
-          showScreen('scr-student'); renderLevels();
-        }
-      });
-    } else {
-      showScreen('scr-student'); renderLevels();
+      showToast('Name not found. Ask your teacher!');
     }
     return;
   }
@@ -2836,6 +2817,52 @@ function openKahoot(){
 function openScratch(){
   showToast('Opening Scratch Jr! 💻');
   window.open('https://www.scratchjr.org', '_blank');
+}
+
+
+function doStudentLogin(st){
+  currentUser = st;
+  // Load fresh school from Supabase
+  function continueLogin(){
+    g('st-name').textContent = st.naam.split(' ')[0];
+    g('st-welcome').textContent = 'Hello, '+st.naam.split(' ')[0]+'! 👋';
+    g('st-stars').textContent = '⭐ '+(st.stars||0)+' stars';
+    g('st-badges').textContent = '🏅 '+(st.badges?st.badges.length:0)+' badges';
+    if(supa){
+      supaLogin(st.naam, st.code).then(function(supaUser){
+        if(supaUser&&supaUser.id){
+          currentUser.supaId=supaUser.id;
+          loadVoortgang(supaUser.id).then(function(){
+            loadVideoLinks();
+            showScreen('scr-student');
+            renderLevels();
+            handleDeepLinkAfterLogin();
+          });
+        } else {
+          loadVideoLinks();
+          showScreen('scr-student');
+          renderLevels();
+          handleDeepLinkAfterLogin();
+        }
+      });
+    } else {
+      showScreen('scr-student');
+      renderLevels();
+      handleDeepLinkAfterLogin();
+    }
+  }
+  if(supa && st.school_id){
+    supa.from('scholen').select('*').eq('id',st.school_id).then(function(r){
+      currentSchool=(!r.error&&r.data&&r.data[0])?r.data[0]:DB.scholen.find(function(s){return s.id===st.school_id;});
+      continueLogin();
+    }).catch(function(){
+      currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
+      continueLogin();
+    });
+  } else {
+    currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
+    continueLogin();
+  }
 }
 
 selRole('student');
