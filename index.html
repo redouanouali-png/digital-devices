@@ -2237,12 +2237,12 @@ function uploadCSV(input){
         } else {
           if(statusEl) statusEl.innerHTML='<span style="color:#00C853;">&#10003; '+added+' students imported!</span>';
           showToast('&#10003; '+added+' students imported!');
-          renderAdmin();
+          renderAdminUI();
         }
       });
     } else {
       if(statusEl) statusEl.innerHTML='<span style="color:#00C853;">&#10003; '+added+' added (no Supabase)</span>';
-      renderAdmin();
+      renderAdminUI();
     }
   };
   reader.readAsText(file);
@@ -2262,12 +2262,24 @@ function toggleRecht(btn){
 
 
 function addTeacher(){
-  var naam=g('new-tc-name').value.trim(), email=g('new-tc-email').value.trim();
-  var pin=g('new-tc-pin').value.trim(), klas=g('new-tc-klas').value.trim();
-  if(!naam||!email||!pin){showToast('Fill in all fields!');return;}
-  DB.docenten.push({id:'t'+Date.now(),naam:naam,email:email,pin:pin,school_id:currentSchool.id,klas:klas,actief:true});
-  showToast('✅ Teacher added: '+naam);
-  renderAdmin();
+  var naam=(g('new-tc-name')||{value:''}).value.trim();
+  var email=(g('new-tc-email')||{value:''}).value.trim();
+  var pin=(g('new-tc-pin')||{value:''}).value.trim();
+  var klas=(g('new-tc-klas')||{value:''}).value.trim();
+  if(!naam||!email||!pin){showToast('Fill in name, email and PIN!');return;}
+  if(DB.docenten.find(function(d){return d.email===email;})){showToast('Email already in use!');return;}
+  var newT={id:'t'+Date.now(),naam:naam,email:email,pin:pin,school_id:currentSchool.id,klas:klas,actief:true,rechten:{leerlingen:true,voortgang:true,viewStudent:true,addStudent:true}};
+  DB.docenten.push(newT);
+  if(supa){
+    supa.from('gebruikers').insert({naam:naam,rol:'docent',email:email,pin:pin,school_id:currentSchool.id,klas:klas,actief:true}).then(function(r){
+      if(r.error) showToast('Error: '+r.error.message);
+      else showToast('&#10003; '+naam+' added!');
+    });
+  }
+  if(g('new-tc-name')) g('new-tc-name').value='';
+  if(g('new-tc-email')) g('new-tc-email').value='';
+  if(g('new-tc-pin')) g('new-tc-pin').value='';
+  renderAdminUI();
 }
 
 function addStudent(){
