@@ -1885,7 +1885,14 @@ function toggleMod(sid,key,btn){
   if(!school) return;
   school.modules[key]=!school.modules[key];
   btn.classList.toggle('on');
-  showToast((school.modules[key]?'✅ ':'❌ ')+key+' '+(school.modules[key]?'enabled':'disabled'));
+  if(supa){
+    supa.from('scholen').update({modules:school.modules}).eq('id',sid).then(function(r){
+      if(r.error) showToast('Error saving: '+r.error.message);
+      else showToast((school.modules[key]?'✅ ':'❌ ')+key+' '+(school.modules[key]?'enabled':'disabled'));
+    });
+  } else {
+    showToast((school.modules[key]?'✅ ':'❌ ')+key+' '+(school.modules[key]?'enabled':'disabled'));
+  }
 }
 
 function toggleTaal(sid,key,btn){
