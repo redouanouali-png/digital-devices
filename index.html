@@ -527,7 +527,7 @@ var DB = {
   owner: {pin:'7017'},
   scholen: [
     {id:'424900b9-4f69-4edb-9fee-180622989d19', naam:'Green Valley Primary', stad:'Casablanca', pin:'1111', actief:true,
-     modules:{setActive:true,meriem:true,beebot:false,scratch:false,certificate:true},
+     modules:{setActive:true,meriem:true,beebot:false,scratch:false,kahoot:false,leaderboard:true,certificate:true},
      talen:{en:true,ar:false,fr:false}},
     {id:'s2', naam:'Al-Nour Academy', stad:'Rabat', pin:'2222', actief:true,
      modules:{setActive:true,meriem:true,beebot:true,scratch:false,certificate:true},
@@ -2826,6 +2826,17 @@ function bbMove(dir){
 function bbReset(){ startBBLevel(); }
 function nextBBLevel(){ BB.level++; startBBLevel(); }
 
+
+
+function openKahoot(){
+  showToast('Opening Kahoot! 🎉');
+  window.open('https://kahoot.it', '_blank');
+}
+
+function openScratch(){
+  showToast('Opening Scratch Jr! 💻');
+  window.open('https://www.scratchjr.org', '_blank');
+}
 
 selRole('student');
 initSupabase();
