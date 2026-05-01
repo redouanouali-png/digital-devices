@@ -950,7 +950,18 @@ function doLogin(){
     if(!st){showToast('Name not found. Ask your teacher!');return;}
     if(st.code.toUpperCase()!==code){showToast('Wrong code. Try again!');return;}
     if(!st.actief){showToast('Your account is inactive.');return;}
-    currentUser=st; currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
+    currentUser=st;
+    // Load fresh school data from Supabase to get current modules/talen
+    if(supa && st.school_id){
+      supa.from('scholen').select('*').eq('id',st.school_id).then(function(r){
+        if(!r.error && r.data && r.data[0]) currentSchool=r.data[0];
+        else currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
+      }).catch(function(){
+        currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
+      });
+    } else {
+      currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
+    }
     g('st-name').textContent=naam.split(' ')[0];
     g('st-welcome').textContent='Hello, '+naam.split(' ')[0]+'! 👋';
     g('st-stars').textContent='⭐ '+(st.stars||0)+' stars';
@@ -1414,6 +1425,14 @@ function markDone(phId){
 // ACTIVATE — MERIEM CHAT
 // ══════════════════════════════════════════════════════
 function openActivate(unit){
+  var mods = currentSchool ? (currentSchool.modules||{}) : {};
+  if(mods.meriem === false){
+    // Meriem disabled - skip to next phase
+    showToast('Meriem AI is not active for your school');
+    markDone('activate');
+    goBack();
+    return;
+  }
   chatHistory=[];
   chatMessages=[];
   meriemQIdx=0;
@@ -2693,6 +2712,23 @@ async function loginDirector(pin){
     console.error('Director login error:', e);
     showToast('Login error — try again');
   }
+}
+
+
+function renderStudentButtons(){
+  var wrap = g('student-extra-btns');
+  if(!wrap) return;
+  var mods = currentSchool ? (currentSchool.modules||{}) : {};
+  var btns = '';
+  // QR always visible
+  btns += '<button onclick="openQR()" style="padding:12px 20px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;margin:4px;">&#128247; QR</button>';
+  // BeeBot - only if enabled
+  if(mods.beebot !== false){
+    btns += '<button onclick="openBeeBot()" style="padding:12px 20px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;margin:4px;">&#128029; BeeBot</button>';
+  }
+  // Leaderboard always visible
+  btns += '<button onclick="openLeaderboard()" style="padding:12px 20px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;margin:4px;">&#127942; Leaderboard</button>';
+  wrap.innerHTML = btns;
 }
 
 selRole('student');
