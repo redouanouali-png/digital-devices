@@ -2720,6 +2720,7 @@ function renderStudentButtons(){
   btns += '<button onclick="openQR()" style="'+btnStyle+'">&#128247; QR</button>';
 
   // BeeBot - only if explicitly true
+  console.log('BeeBot:', mods.beebot, 'school:', currentSchool&&currentSchool.naam);
   if(mods.beebot === true){
     btns += '<button onclick="openBeeBot()" style="'+btnStyle+'">&#128029; BeeBot</button>';
   }
