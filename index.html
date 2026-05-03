@@ -1341,12 +1341,25 @@ function openVideo(unit, nextFn){
   window._videoNext=nextFn;
   // Setup video
   var frame=g('video-frame');
-  if(vid.url){
-    frame.src=vid.url; frame.style.display='block';
-    g('video-placeholder').style.display='none';
+  var placeholder=g('video-placeholder');
+  var url = vid.url || '';
+
+  // Convert YouTube watch URL to embed
+  if(url.includes('youtube.com/watch?v=')){
+    var vid_id = url.split('v=')[1].split('&')[0];
+    url = 'https://www.youtube.com/embed/' + vid_id + '?rel=0';
+  } else if(url.includes('youtu.be/')){
+    var vid_id2 = url.split('youtu.be/')[1].split('?')[0];
+    url = 'https://www.youtube.com/embed/' + vid_id2 + '?rel=0';
+  }
+
+  if(url){
+    frame.src = url;
+    frame.style.cssText = 'display:block;width:100%;height:100%;border:none;';
+    if(placeholder) placeholder.style.display = 'none';
   } else {
-    frame.style.display='none';
-    g('video-placeholder').style.display='block';
+    frame.style.display = 'none';
+    if(placeholder) placeholder.style.display = 'block';
   }
   showScreen('scr-video');
 }
@@ -2700,16 +2713,32 @@ function renderStudentButtons(){
   var wrap = g('student-extra-btns');
   if(!wrap) return;
   var mods = currentSchool ? (currentSchool.modules||{}) : {};
-  console.log('renderStudentButtons - currentSchool:', currentSchool ? currentSchool.naam : 'NULL', 'modules:', JSON.stringify(mods));
   var btns = '';
+  var btnStyle = 'padding:12px 20px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;margin:4px;';
+
   // QR always visible
-  btns += '<button onclick="openQR()" style="padding:12px 20px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;margin:4px;">&#128247; QR</button>';
-  // BeeBot - only if enabled
-  if(mods.beebot === true || mods.beebot === undefined){
-    btns += '<button onclick="openBeeBot()" style="padding:12px 20px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;margin:4px;">&#128029; BeeBot</button>';
+  btns += '<button onclick="openQR()" style="'+btnStyle+'">&#128247; QR</button>';
+
+  // BeeBot - only if explicitly true
+  if(mods.beebot === true){
+    btns += '<button onclick="openBeeBot()" style="'+btnStyle+'">&#128029; BeeBot</button>';
   }
-  // Leaderboard always visible
-  btns += '<button onclick="openLeaderboard()" style="padding:12px 20px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;margin:4px;">&#127942; Leaderboard</button>';
+
+  // Leaderboard - only if not explicitly false
+  if(mods.leaderboard !== false){
+    btns += '<button onclick="openLeaderboard()" style="'+btnStyle+'">&#127942; Leaderboard</button>';
+  }
+
+  // Scratch Jr - only if explicitly true
+  if(mods.scratch === true){
+    btns += '<button onclick="openScratch()" style="'+btnStyle.replace('rgba(255,255,255,0.15)','rgba(255,165,0,0.3)').replace('rgba(255,255,255,0.3)','rgba(255,165,0,0.5)')+'">&#128187; Scratch Jr</button>';
+  }
+
+  // Kahoot - only if explicitly true
+  if(mods.kahoot === true){
+    btns += '<button onclick="openKahoot()" style="'+btnStyle.replace('rgba(255,255,255,0.15)','rgba(255,0,100,0.3)').replace('rgba(255,255,255,0.3)','rgba(255,0,100,0.5)')+'">&#127918; Kahoot</button>';
+  }
+
   wrap.innerHTML = btns;
 }
 
@@ -2825,9 +2854,11 @@ function doStudentLogin(st){
   // Load fresh school from Supabase
   function continueLogin(){
     g('st-name').textContent = st.naam.split(' ')[0];
-    g('st-welcome').textContent = 'Hello, '+st.naam.split(' ')[0]+'! 👋';
+    g('st-welcome').textContent = 'Hello, '+st.naam.split(' ')[0]+'!';
     g('st-stars').textContent = '⭐ '+(st.stars||0)+' stars';
     g('st-badges').textContent = '🏅 '+(st.badges?st.badges.length:0)+' badges';
+    // Render buttons NOW - school is already loaded at this point
+    renderStudentButtons();
     if(supa){
       supaLogin(st.naam, st.code).then(function(supaUser){
         if(supaUser&&supaUser.id){
