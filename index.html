@@ -1393,11 +1393,12 @@ function finishVideo(){
 }
 
 function markDone(phId){
+  if(!currentUser) return;
+  if(!currentUnit) { showToast('⭐ Great job! +1 star!'); return; }
   if(!DB.voortgang[currentUser.id]) DB.voortgang[currentUser.id]={};
   if(!DB.voortgang[currentUser.id][currentUnit.id]) DB.voortgang[currentUser.id][currentUnit.id]={};
   DB.voortgang[currentUser.id][currentUnit.id][phId]=true;
-  // Save to Supabase
-  if (currentUser && currentUser.supaId) { window._supaLeerlingId = currentUser.supaId; saveVoortgang(currentUnit.id, phId); }
+  if(currentUser && currentUser.supaId) { window._supaLeerlingId = currentUser.supaId; saveVoortgang(currentUnit.id, phId); }
   currentUser.stars=(currentUser.stars||0)+1;
   g('st-stars').textContent='⭐ '+currentUser.stars+' stars';
   showToast('⭐ Great job! +1 star!');
@@ -2720,7 +2721,6 @@ function renderStudentButtons(){
   btns += '<button onclick="openQR()" style="'+btnStyle+'">&#128247; QR</button>';
 
   // BeeBot - only if explicitly true
-  console.log('BeeBot:', mods.beebot, 'school:', currentSchool&&currentSchool.naam);
   if(mods.beebot === true){
     btns += '<button onclick="openBeeBot()" style="'+btnStyle+'">&#128029; BeeBot</button>';
   }
