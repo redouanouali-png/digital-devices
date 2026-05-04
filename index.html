@@ -2035,6 +2035,53 @@ function manageSchool(sid){
   });
   box.appendChild(talSec);
 
+  // ── Video Links section ──
+  var vidSec=document.createElement('div');
+  vidSec.style.cssText='margin-bottom:16px;padding:14px;background:#FFF8F0;border-radius:12px;';
+  var vidTitle=document.createElement('div');
+  vidTitle.style.cssText='font-size:14px;font-weight:800;margin-bottom:10px;';
+  vidTitle.textContent='🎬 Video Links per Unit';
+  vidSec.appendChild(vidTitle);
+  if(CONTENT.levels[0]){
+    CONTENT.levels[0].units.forEach(function(u){
+      var vid=CONTENT.videos&&CONTENT.videos[u.id]?CONTENT.videos[u.id]:{url:''};
+      var hasUrl=!!(vid.url&&vid.url.trim());
+      var row=document.createElement('div');
+      row.style.cssText='margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #F0EDE8;';
+      var lbl=document.createElement('div');
+      lbl.style.cssText='font-size:13px;font-weight:800;color:#1A1A2E;margin-bottom:6px;';
+      lbl.textContent=u.title+' — '+u.topic;
+      row.appendChild(lbl);
+      if(hasUrl){
+        var existing=document.createElement('div');
+        existing.style.cssText='background:#E8F5E9;border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:6px;margin-bottom:6px;';
+        var urlSpan=document.createElement('span');
+        urlSpan.style.cssText='font-size:11px;color:#00C853;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
+        urlSpan.textContent='✓ '+vid.url;
+        var delBtn=document.createElement('button');
+        delBtn.dataset.uid=u.id;
+        delBtn.style.cssText='padding:3px 8px;background:#FFEBEE;color:#F03030;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:Nunito;flex-shrink:0;';
+        delBtn.textContent='✕ Remove';
+        delBtn.onclick=function(){deleteVideoLink(delBtn);};
+        existing.appendChild(urlSpan); existing.appendChild(delBtn);
+        row.appendChild(existing);
+      }
+      var ta=document.createElement('textarea');
+      ta.id='vid-'+u.id;
+      ta.placeholder='Paste video link here...';
+      ta.rows=2;
+      ta.style.cssText='width:100%;padding:8px 10px;border:2px solid #E0E0E0;border-radius:8px;font-size:12px;font-family:Nunito;outline:none;resize:none;box-sizing:border-box;';
+      var saveBtn=document.createElement('button');
+      saveBtn.dataset.uid=u.id;
+      saveBtn.style.cssText='margin-top:6px;width:100%;padding:8px;background:#FF6B2B;color:white;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito;';
+      saveBtn.textContent='💾 Save Link';
+      saveBtn.onclick=function(){saveVideoLink(saveBtn);};
+      row.appendChild(ta); row.appendChild(saveBtn);
+      vidSec.appendChild(row);
+    });
+  }
+  box.appendChild(vidSec);
+
   // ── Close button ──
   var closeBtn=document.createElement('button');
   closeBtn.style.cssText='width:100%;padding:10px;background:#F0F0F0;color:#1A1A2E;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;';
@@ -2593,28 +2640,27 @@ function renderTeacherUI(){
   sc.innerHTML=h;
   grid.appendChild(sc);
 
-  // ── VIDEO LINKS ──
-  var vcCard=document.createElement('div'); vcCard.className='dash-card';
-  var vcHtml='<h3>&#127916; Video Links per Unit</h3><div style="font-size:13px;color:#888;margin-bottom:12px;">Paste a video link for each unit</div>';
-  if(CONTENT.levels[0]){
-    CONTENT.levels[0].units.forEach(function(u){
-      var vid=CONTENT.videos&&CONTENT.videos[u.id]?CONTENT.videos[u.id]:{url:''};
-      var hasUrl = !!(vid.url && vid.url.trim());
-      vcHtml+=
-        '<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #F0EDE8;">'+
-          '<div style="font-size:13px;font-weight:800;color:#1A1A2E;margin-bottom:6px;">'+u.title+' — '+u.topic+'</div>'+
-          (hasUrl ?
-            '<div style="background:#E8F5E9;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:6px;">'+
-              '<span style="font-size:12px;color:#00C853;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">&#10003; '+vid.url+'</span>'+
-              '<button data-uid="'+u.id+'" onclick="deleteVideoLink(this)" style="padding:4px 10px;background:#FFEBEE;color:#F03030;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:Nunito;flex-shrink:0;">&#10005; Remove</button>'+
-            '</div>' : '')+
-          '<textarea id="vid-'+u.id+'" placeholder="Paste video link here..." rows="2" style="width:100%;padding:10px 12px;border:2px solid #E0E0E0;border-radius:8px;font-size:13px;font-family:Nunito;outline:none;resize:none;box-sizing:border-box;"></textarea>'+
-          '<button data-uid="'+u.id+'" onclick="saveVideoLink(this)" style="margin-top:6px;width:100%;padding:10px;background:#FF6B2B;color:white;border:none;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:Nunito;">&#128190; Save Link</button>'+
-        '</div>';
-    });
+  // ── KAHOOT ──
+  var mods = currentSchool ? (currentSchool.modules||{}) : {};
+  if(mods.kahoot === true){
+    var khCard=document.createElement('div'); khCard.className='dash-card';
+    khCard.innerHTML=
+      '<h3>&#127918; Kahoot</h3>'+
+      '<div style="font-size:13px;color:#888;margin-bottom:16px;">Start your Kahoot quiz, share the PIN with your students, and they join via the Kahoot button on their screen.</div>'+
+      '<div style="background:#F0F7FF;border-radius:12px;padding:14px;margin-bottom:14px;">'+
+        '<div style="font-size:13px;font-weight:800;color:#1A1A2E;margin-bottom:6px;">&#128161; How it works</div>'+
+        '<div style="font-size:12px;color:#555;line-height:1.7;">'+
+          '1. Click <b>Start Kahoot</b> below — your quiz opens<br>'+
+          '2. A PIN appears on your screen<br>'+
+          '3. Students click the Kahoot button and enter the PIN<br>'+
+          '4. Play together as a class!'+
+        '</div>'+
+      '</div>'+
+      '<button onclick="window.open(\'https://kahoot.com/host\',\'_blank\')" style="width:100%;padding:14px;background:#46178F;color:white;border:none;border-radius:10px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;display:flex;align-items:center;justify-content:center;gap:8px;">'+
+        '&#127918; Start Kahoot as Host'+
+      '</button>';
+    grid.appendChild(khCard);
   }
-  vcCard.innerHTML=vcHtml;
-  grid.appendChild(vcCard);
 
   // ── ADD STUDENT ──
   if(hasRight('addStudent')){
@@ -2661,15 +2707,17 @@ function deleteVideoLink(btn){
   var uid = btn.dataset.uid;
   if(!CONTENT.videos || !CONTENT.videos[uid]) return;
   CONTENT.videos[uid].url = '';
+  var schoolId = (currentSchool&&currentSchool.id) || (currentUser&&currentUser.school_id) || 's1';
   if(supa){
-    var schoolId = currentUser&&currentUser.school_id ? currentUser.school_id : 's1';
     supa.from('video_links').delete().eq('unit_id', uid).eq('school_id', schoolId).then(function(r){
       if(r.error) console.error('delete error:', r.error.message);
       else console.log('Video link deleted:', uid);
     });
   }
   showToast('&#10003; Video removed');
-  renderTeacher();
+  // Re-open manage panel for the school
+  var panel=document.getElementById('manage-panel');
+  if(panel) manageSchool(schoolId);
 }
 
 function saveVideoLink(btn){
@@ -2681,18 +2729,19 @@ function saveVideoLink(btn){
   if(!CONTENT.videos) CONTENT.videos = {};
   if(!CONTENT.videos[uid]) CONTENT.videos[uid]={title:'Video',duration:'2 min',url:'',goals:[]};
   CONTENT.videos[uid].url = url;
+  var schoolId = (currentSchool&&currentSchool.id) || (currentUser&&currentUser.school_id) || 's1';
   if(supa){
-    var schoolId = currentUser&&currentUser.school_id ? currentUser.school_id : 's1';
     supa.from('video_links').delete().eq('unit_id', uid).eq('school_id', schoolId).then(function(){
       supa.from('video_links').insert({school_id:schoolId, unit_id:uid, url:url, updated_at:new Date().toISOString()}).then(function(r){
         if(r.error) console.error('video save error:', r.error.message);
-        else console.log('Video saved:', uid, url);
+        else{ console.log('Video saved:', uid, url); showToast('✓ Video saved!'); btn.style.background='#00C853'; setTimeout(function(){btn.style.background='#FF6B2B';},1500); }
       });
     });
+  } else {
+    showToast('✓ Video saved!');
+    btn.style.background='#00C853';
+    setTimeout(function(){btn.style.background='#FF6B2B';},1500);
   }
-  showToast(url ? '&#10003; Video saved!' : '&#10003; Removed');
-  btn.style.background='#00C853';
-  setTimeout(function(){btn.style.background='#FF6B2B';},1500);
 }
 
 function loadVideoLinks(){
@@ -2806,6 +2855,7 @@ function loadScholen(callback){
           pin: s.pin,
           actief: s.actief,
           vervaldatum: s.vervaldatum||null,
+          kahoot_link: s.kahoot_link||'',
           modules: s.modules||{setActive:true,meriem:true,beebot:false,certificate:true},
           talen: s.talen||{en:true,ar:false,fr:false}
         };
@@ -2963,7 +3013,7 @@ function renderStudentButtons(){
     btns += '<button onclick="openScratch()" style="'+btnStyle.replace('rgba(255,255,255,0.15)','rgba(255,165,0,0.3)').replace('rgba(255,255,255,0.3)','rgba(255,165,0,0.5)')+'">&#128187; Scratch Jr</button>';
   }
 
-  // Kahoot - only if explicitly true
+  // Kahoot - only if module on
   if(mods.kahoot === true){
     btns += '<button onclick="openKahoot()" style="'+btnStyle.replace('rgba(255,255,255,0.15)','rgba(255,0,100,0.3)').replace('rgba(255,255,255,0.3)','rgba(255,0,100,0.5)')+'">&#127918; Kahoot</button>';
   }
@@ -3067,14 +3117,47 @@ function nextBBLevel(){ BB.level++; startBBLevel(); }
 
 
 
+function saveKahootLink(){
+  var inp = g('kahoot-link-inp');
+  if(!inp) return;
+  var url = inp.value.trim();
+  if(!url){showToast('Please paste a Kahoot link!');return;}
+  if(!url.startsWith('http')){showToast('Link must start with http...');return;}
+  if(currentSchool) currentSchool.kahoot_link = url;
+  var sid = currentSchool ? currentSchool.id : null;
+  if(supa && sid){
+    supa.from('scholen').update({kahoot_link:url}).eq('id',sid).then(function(r){
+      if(r.error) showToast('Error: '+r.error.message);
+      else{ showToast('✓ Kahoot link saved!'); renderTeacher(); }
+    });
+  } else {
+    showToast('✓ Kahoot link saved!');
+    renderTeacher();
+  }
+}
+
+function deleteKahootLink(){
+  if(currentSchool) currentSchool.kahoot_link = '';
+  var sid = currentSchool ? currentSchool.id : null;
+  if(supa && sid){
+    supa.from('scholen').update({kahoot_link:null}).eq('id',sid).then(function(r){
+      if(r.error) showToast('Error: '+r.error.message);
+      else{ showToast('Kahoot link removed'); renderTeacher(); }
+    });
+  } else {
+    showToast('Kahoot link removed');
+    renderTeacher();
+  }
+}
+
 function openKahoot(){
-  showToast('Opening Kahoot! 🎉');
+  showToast('🎮 Enter the PIN your teacher shows!');
   window.open('https://kahoot.it', '_blank');
 }
 
 function openScratch(){
   showToast('Opening Scratch Jr! 💻');
-  window.open('https://www.scratchjr.org', '_blank');
+  window.open('https://scratch.mit.edu', '_blank');
 }
 
 
