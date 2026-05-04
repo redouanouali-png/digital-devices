@@ -183,11 +183,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <div style="display:flex;justify-content:center;gap:20px;margin-bottom:16px;">
       <div style="text-align:center;">
         <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #1A6EFF;" onerror="this.style.display='none'"/>
-        <div style="font-size:12px;font-weight:800;color:#1A6EFF;margin-top:4px;">Meriem</div>
+        <div style="font-size:12px;font-weight:800;color:#1A6EFF;margin-top:4px;">Noura</div>
       </div>
       <div style="text-align:center;">
         <img src="https://i.imgur.com/SXSxLnn.png" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #FF6B2B;" onerror="this.style.display='none'"/>
-        <div style="font-size:12px;font-weight:800;color:#FF6B2B;margin-top:4px;">Redouan</div>
+        <div style="font-size:12px;font-weight:800;color:#FF6B2B;margin-top:4px;">Anwar</div>
       </div>
     </div>
       <div class="login-title">Welcome!</div>
@@ -222,11 +222,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div style="display:flex;justify-content:center;gap:24px;margin-bottom:8px;">
       <div style="text-align:center;">
         <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #FFD600;" onerror="this.style.display='none'"/>
-        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.8);margin-top:3px;">Meriem</div>
+        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.8);margin-top:3px;">Noura</div>
       </div>
       <div style="text-align:center;">
         <img src="https://i.imgur.com/SXSxLnn.png" style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #FF6B2B;" onerror="this.style.display='none'"/>
-        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.8);margin-top:3px;">Redouan</div>
+        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.8);margin-top:3px;">Anwar</div>
       </div>
     </div>
     <div class="welcome-banner" style="background:linear-gradient(135deg,rgba(26,110,255,0.3),rgba(0,200,83,0.2));border:1px solid rgba(255,255,255,0.15);">
@@ -302,7 +302,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
   <div class="meriem-wrap">
     <div class="meriem-header">
       <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:96px;height:96px;border-radius:50%;object-fit:cover;border:4px solid #FFD600;display:block;margin:0 auto 8px;" onerror="this.outerHTML='<span style=font-size:72px;display:block;text-align:center;>👩🏽</span>'"/>
-      <div class="meriem-name">Meriem</div>
+      <div class="meriem-name">Noura</div>
     </div>
     <div class="chat-box" id="chat-box"></div>
     <div class="chat-input-row">
@@ -654,11 +654,11 @@ var CONTENT = {
   },
   videos: {
     u1: {title:'What is a Digital Device?', duration:'2 min', url:'',
-      goals:['Learn what a digital device is 📱','See 4 big devices: Phone, Tablet, Laptop, Watch','Hear Meriem name each device!']},
+      goals:['Learn what a digital device is 📱','See 4 big devices: Phone, Tablet, Laptop, Watch','Hear Noura name each device!']},
     u2: {title:'Parts of a Device', duration:'2 min', url:'',
       goals:['Learn the parts of a device 🔍','See: screen, camera, speaker, charger','Point to the parts on your own device!']},
     u3: {title:'Tap, Swipe, Type!', duration:'2 min', url:'',
-      goals:['Learn 3 actions: Tap, Swipe, Type ✋','Watch Redouan show each action','Copy the actions on your device!']},
+      goals:['Learn 3 actions: Tap, Swipe, Type ✋','Watch Anwar show each action','Copy the actions on your device!']},
     u4: {title:'Be Safe Online!', duration:'2 min', url:'',
       goals:['Learn 5 safety rules 🛡️','See safe vs not safe examples','Become a Digital Safety Hero!']},
   },
@@ -709,7 +709,7 @@ var CONTENT = {
     {emoji:'🤖', name:'AI Robot',   color:'#E91E7A', desc:'An AI robot is a smart computer. It can talk to you and answer questions!'},
   ],
   activate_prompts: [
-    "Hi! I am Meriem! 🌟 Can you name ONE digital device you know?",
+    "Hi! I am Noura! 🌟 Can you name ONE digital device you know?",
     "What digital devices do you have at home? 🏠",
     "What can you DO with a smartphone? 📱",
     "How is a tablet DIFFERENT from a smartphone? Think about the size! 🤔",
@@ -1422,8 +1422,8 @@ function markDone(phId){
 function openActivate(unit){
   var mods = currentSchool ? (currentSchool.modules||{}) : {};
   if(mods.meriem === false){
-    // Meriem disabled - skip to next phase
-    showToast('Meriem AI is not active for your school');
+    // Noura disabled - skip to next phase
+    showToast('Noura AI is not active for your school');
     markDone('activate');
     goBack();
     return;
@@ -1454,7 +1454,7 @@ function addMsg(who,text){
 
 var MERIEM_QA = {
   u1: [
-    {q:"Hi! I am Meriem! 🌟 Can you name ONE digital device you know?",
+    {q:"Hi! I am Noura! 🌟 Can you name ONE digital device you know?",
      keywords:['smartphone','phone','tablet','laptop','computer','smartwatch','watch','robot','ipad','mobile'],
      correct:"Wow, great answer! 🎉 That is a digital device! Can you name another one?",
      wrong:"Good try! 😊 Think about things that use electricity and a screen — like a phone or tablet!"},
@@ -1875,7 +1875,7 @@ function renderModuleCard(school){
   var card=document.createElement('div');
   card.className='dash-card'; card.id='module-card';
   var mods=school.modules; var talen=school.talen;
-  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Meriem AI',beebot:'🐝 BeeBot',scratch:'💻 Scratch Jr',certificate:'🏅 Certificates'};
+  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',scratch:'💻 Scratch Jr',certificate:'🏅 Certificates'};
   var talenLabels={en:'🇬🇧 English',ar:'🇲🇦 Arabic',fr:'🇫🇷 French'};
   var html='<h3>⚙️ Modules — '+school.naam+'</h3>';
   Object.keys(modLabels).forEach(function(k){
@@ -2897,6 +2897,29 @@ function doStudentLogin(st){
   }
 }
 
+
+var FOOTER_TEXT = {
+  en: 'This platform and all its content, including characters Noura and Anwar, are the intellectual property of Smart Skills Morocco. Unauthorized reproduction or distribution is strictly prohibited.',
+  nl: 'Dit platform en alle inhoud, inclusief de personages Noura en Anwar, zijn intellectueel eigendom van Smart Skills Morocco. Ongeautoriseerd gebruik is verboden.',
+  fr: 'Cette plateforme et tout son contenu, y compris les personnages Noura et Anwar, sont la propriété intellectuelle de Smart Skills Morocco. Toute reproduction non autorisée est strictement interdite.',
+  ar: 'هذه المنصة وجميع محتوياتها، بما في ذلك شخصيتا نورا وأنوار، هي ملكية فكرية لشركة سمارت سكيلز المغرب. يُحظر أي استخدام غير مصرح به.'
+};
+
+var FOOTER_WA = {
+  en: 'https://wa.me/31615569963?text=Thank%20you%20for%20your%20interest%20in%20Smart%20Skills%20Morocco!%20How%20can%20I%20help%20you%3F',
+  nl: 'https://wa.me/31615569963?text=Bedankt%20voor%20uw%20interesse%20in%20Smart%20Skills%20Morocco!%20Wat%20kan%20ik%20voor%20u%20doen%3F',
+  fr: 'https://wa.me/31615569963?text=Merci%20pour%20votre%20int%C3%A9r%C3%AAt%20pour%20Smart%20Skills%20Morocco!%20Comment%20puis-je%20vous%20aider%3F',
+  ar: 'https://wa.me/31615569963?text=%D8%B4%D9%83%D8%B1%D8%A7%20%D9%84%D8%A7%D9%87%D8%AA%D9%85%D8%A1%D9%83%20%D8%A8%D8%B3%D9%85%D8%A7%D8%B1%D8%AA%20%D8%B3%D9%83%D9%8A%D9%84%D8%B2%20%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8!%20%D9%83%D9%8A%D9%81%20%D9%8A%D9%85%D9%83%D9%86%D9%86%D9%8A%20%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%AA%D9%83%3F'
+};
+
+function updateFooter(){
+  var lang = currentLang || 'en';
+  var ft = document.getElementById('footer-text');
+  var fw = document.getElementById('footer-wa');
+  if(ft) ft.textContent = FOOTER_TEXT[lang] || FOOTER_TEXT.en;
+  if(fw) fw.href = FOOTER_WA[lang] || FOOTER_WA.en;
+}
+
 selRole('student');
 initSupabase();
 checkDeepLink();
@@ -2906,7 +2929,10 @@ loadVideoLinks();
 
 <div class="screen" id="scr-create">
   <div class="topbar">
-    <div class="brand">&#127881; Digital <span>Devices</span></div>
+    <div class="brand"><div style="display:inline-flex;align-items:center;gap:8px;">
+  <img src="https://i.imgur.com/hoBlhpn.png" style="height:32px;width:auto;object-fit:contain;" alt="Smart Skills Morocco"/>
+  <span>Digital <span style="color:#FFD600;">Devices</span></span>
+</div></div>
     <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
   </div>
   <div style="flex:1;padding:20px;max-width:700px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:14px;">
@@ -2922,7 +2948,10 @@ loadVideoLinks();
 
 <div class="screen" id="scr-beebot">
   <div class="topbar">
-    <div class="brand">&#127881; Digital <span>Devices</span></div>
+    <div class="brand"><div style="display:inline-flex;align-items:center;gap:8px;">
+  <img src="https://i.imgur.com/hoBlhpn.png" style="height:32px;width:auto;object-fit:contain;" alt="Smart Skills Morocco"/>
+  <span>Digital <span style="color:#FFD600;">Devices</span></span>
+</div></div>
     <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
   </div>
   <div style="flex:1;padding:20px;max-width:800px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px;">
@@ -2961,6 +2990,27 @@ loadVideoLinks();
       </div>
     </div>
     <button onclick="nextBBLevel()" id="bb-next" style="display:none;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#127381; Next Challenge!</button>
+  </div>
+</div>
+
+
+<div id="ssm-footer" style="background:rgba(0,0,0,0.4);padding:16px 20px;text-align:center;border-top:1px solid rgba(255,255,255,0.1);margin-top:auto;">
+  <div style="max-width:700px;margin:0 auto;">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">
+      <img src="https://i.imgur.com/hoBlhpn.png" style="height:36px;width:auto;object-fit:contain;" alt="Smart Skills Morocco"/>
+      <span style="font-family:Fredoka One;font-size:16px;color:white;">Smart Skills Morocco</span>
+    </div>
+    <div id="footer-text" style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:10px;"></div>
+    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+      <a id="footer-wa" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#25D366;color:white;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;font-family:Nunito;">
+        &#128172; WhatsApp
+      </a>
+      <span style="font-size:11px;color:rgba(255,255,255,0.4);align-self:center;">redouanouali@gmail.com</span>
+      <span style="font-size:11px;color:rgba(255,255,255,0.4);align-self:center;">www.smartskillsmorocco.ma</span>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:8px;">
+      &copy; 2025 Smart Skills Morocco &mdash; Noura & Anwar &mdash; All rights reserved
+    </div>
   </div>
 </div>
 
