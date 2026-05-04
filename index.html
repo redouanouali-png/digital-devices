@@ -2920,6 +2920,18 @@ function updateFooter(){
   if(fw) fw.href = FOOTER_WA[lang] || FOOTER_WA.en;
 }
 
+
+function openWhatsApp(){
+  var lang = currentLang || 'en';
+  var urls = {
+    en: 'https://wa.me/31615569963?text=Thank%20you%20for%20your%20interest%20in%20Smart%20Skills%20Morocco!%20How%20can%20I%20help%20you%3F',
+    nl: 'https://wa.me/31615569963?text=Bedankt%20voor%20uw%20interesse%20in%20Smart%20Skills%20Morocco!%20Wat%20kan%20ik%20voor%20u%20doen%3F',
+    fr: 'https://wa.me/31615569963?text=Merci%20pour%20votre%20int%C3%A9r%C3%AAt%20pour%20Smart%20Skills%20Morocco!%20Comment%20puis-je%20vous%20aider%3F',
+    ar: 'https://wa.me/31615569963?text=%D8%B4%D9%83%D8%B1%D8%A7%20%D9%84%D8%A7%D9%87%D8%AA%D9%85%D8%A1%D9%83%20%D8%A8%D8%B3%D9%85%D8%A7%D8%B1%D8%AA%20%D8%B3%D9%83%D9%8A%D9%84%D8%B2%20%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8!'
+  };
+  window.open(urls[lang] || urls.en, '_blank');
+}
+
 selRole('student');
 initSupabase();
 checkDeepLink();
@@ -2996,9 +3008,9 @@ loadVideoLinks();
     </div>
     <div id="footer-text" style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:10px;"></div>
     <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-      <a id="footer-wa" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#25D366;color:white;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;font-family:Nunito;">
+      <button onclick="openWhatsApp()" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#25D366;color:white;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:Nunito;">
         &#128172; WhatsApp
-      </a>
+      </button>
       <span style="font-size:11px;color:rgba(255,255,255,0.4);align-self:center;">redouanouali@gmail.com</span>
       <span style="font-size:11px;color:rgba(255,255,255,0.4);align-self:center;">www.smartskillsmorocco.ma</span>
     </div>
