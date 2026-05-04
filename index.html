@@ -1890,7 +1890,55 @@ function renderModuleCard(school){
 
 function manageSchool(sid){
   var school=DB.scholen.find(function(s){return s.id===sid;});
-  if(school) renderModuleCard(school);
+  if(!school) return;
+  var ex=document.getElementById('manage-panel');
+  if(ex) ex.remove();
+  var panel=document.createElement('div');
+  panel.id='manage-panel';
+  panel.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  var expVal=school.vervaldatum||'';
+  var d=document.createElement('div');
+  d.style.cssText='background:white;border-radius:20px;padding:24px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;';
+  d.innerHTML=
+    '<div style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;margin-bottom:16px;">&#9881; '+school.naam+'</div>'+
+    '<div style="margin-bottom:16px;padding:14px;background:#F0F7FF;border-radius:12px;">'+
+      '<div style="font-size:14px;font-weight:800;margin-bottom:8px;">&#128197; Expiry Date</div>'+
+      '<input type="date" id="mp-expiry" value="'+expVal+'" style="width:100%;padding:10px;border:2px solid #E0E0E0;border-radius:8px;font-size:15px;font-family:Nunito;box-sizing:border-box;"/>'+
+      '<div style="font-size:11px;color:#888;margin-top:4px;">Leave empty = no expiry</div>'+
+      '<button data-sid="'+sid+'" onclick="saveExpiry(this.dataset.sid)" style="width:100%;margin-top:8px;padding:10px;background:#1A6EFF;color:white;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">&#128190; Save</button>'+
+    '</div>'+
+    '<div id="mp-modules-wrap" style="margin-bottom:12px;"></div>'+
+    '<button id="mp-close" style="width:100%;padding:10px;background:#F0F0F0;color:#1A1A2E;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">&#10005; Close</button>';
+  panel.appendChild(d);
+  panel.onclick=function(e){if(e.target===panel)panel.remove();};
+  document.body.appendChild(panel);
+  document.getElementById('mp-close').onclick=function(){panel.remove();};
+  setTimeout(function(){
+    var wrap=document.getElementById('mp-modules-wrap');
+    if(wrap) renderModuleCard(school,wrap);
+  },50);
+}
+
+function saveExpiry(sid){
+  var school=DB.scholen.find(function(s){return s.id===sid;});
+  var inp=document.getElementById('mp-expiry');
+  if(!school||!inp) return;
+  var date=inp.value||null;
+  school.vervaldatum=date;
+  if(supa){
+    supa.from('scholen').update({vervaldatum:date}).eq('id',sid).then(function(r){
+      if(r.error){showToast('Error: '+r.error.message);}
+      else{
+        showToast(date?'&#10003; Expiry: '+date:'&#10003; No expiry set');
+        var p=document.getElementById('manage-panel');
+        if(p) p.remove();
+        renderOwner();
+      }
+    });
+  } else {
+    var p=document.getElementById('manage-panel');
+    if(p) p.remove();
+  }
 }
 
 function toggleMod(sid,key,btn){
