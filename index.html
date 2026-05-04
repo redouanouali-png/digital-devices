@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -1900,7 +1901,7 @@ function renderOwnerUI(){
 
 function renderModuleCard(school, container){
   var mods=school.modules||{}; var talen=school.talen||{en:true};
-  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates'};
+  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',leaderboard:'🏆 Leaderboard',qr:'📱 QR Scanner',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates'};
   var talenLabels={en:'🇬🇧 English',ar:'🇲🇦 Arabic',fr:'🇫🇷 French'};
   var html='<h3>⚙️ Modules — '+school.naam+'</h3>';
   Object.keys(modLabels).forEach(function(k){
@@ -1965,7 +1966,7 @@ function manageSchool(sid){
   box.appendChild(expSec);
 
   // ── Modules section ──
-  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates'};
+  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',leaderboard:'🏆 Leaderboard',qr:'📱 QR Scanner',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates'};
   var modSec=document.createElement('div');
   modSec.style.cssText='margin-bottom:16px;padding:14px;background:#F9F9F9;border-radius:12px;';
   var modTitle=document.createElement('div');
@@ -2873,6 +2874,40 @@ async function loginDirector(pin){
 }
 
 
+function openQR(){
+  var unit = currentUnit;
+  var phase = null;
+  // Build URL with deeplink to current unit if available
+  var base = window.location.href.split('?')[0];
+  var url = base;
+  if(unit){
+    // Find current phase - use 'learn' as default deeplink
+    url = base + '?unit=' + unit.id + '&phase=learn';
+  }
+  showScreen('scr-qr');
+  var canvas = document.getElementById('qr-canvas');
+  var label = document.getElementById('qr-url-label');
+  if(label) label.textContent = url;
+  if(canvas && typeof QRCode !== 'undefined'){
+    // Clear previous
+    canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+    QRCode.toCanvas(canvas, url, {
+      width: 240,
+      margin: 2,
+      color: { dark: '#1A1A2E', light: '#FFFFFF' }
+    }, function(err){
+      if(err) console.error('QR error:', err);
+    });
+  } else if(canvas){
+    // Fallback: show URL as text
+    var ctx = canvas.getContext('2d');
+    canvas.width = 240; canvas.height = 80;
+    ctx.fillStyle = '#1A1A2E';
+    ctx.font = '12px sans-serif';
+    ctx.fillText('QR library loading...', 10, 40);
+  }
+}
+
 function renderLangSelector(){
   var wrap=g('lang-selector');
   if(!wrap) return;
@@ -2908,16 +2943,18 @@ function renderStudentButtons(){
   var btns = '';
   var btnStyle = 'padding:12px 20px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;margin:4px;';
 
-  // QR always visible
-  btns += '<button onclick="openQR()" style="'+btnStyle+'">&#128247; QR</button>';
+  // QR - only if explicitly true
+  if(mods.qr === true){
+    btns += '<button onclick="openQR()" style="'+btnStyle+'">&#128247; QR</button>';
+  }
 
   // BeeBot - only if explicitly true
   if(mods.beebot === true){
     btns += '<button onclick="openBeeBot()" style="'+btnStyle+'">&#128029; BeeBot</button>';
   }
 
-  // Leaderboard - only if not explicitly false
-  if(mods.leaderboard !== false){
+  // Leaderboard - only if explicitly true
+  if(mods.leaderboard === true){
     btns += '<button onclick="openLeaderboard()" style="'+btnStyle+'">&#127942; Leaderboard</button>';
   }
 
@@ -3191,6 +3228,37 @@ loadVideoLinks();
   </div>
 </div>
 
+
+<!-- ══ LEADERBOARD SCREEN ══ -->
+<div class="screen" id="scr-leaderboard">
+  <div class="topbar">
+    <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span style="color:#FFD600;">Devices</span></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
+  </div>
+  <div style="flex:1;padding:20px;max-width:600px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px;">
+    <div style="text-align:center;">
+      <div style="font-family:Fredoka One;font-size:28px;color:white;">&#127942; Leaderboard</div>
+      <div id="lb-class-name" style="font-size:14px;color:rgba(255,255,255,0.6);margin-top:4px;"></div>
+    </div>
+    <div id="lb-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+  </div>
+</div>
+
+<!-- ══ QR SCREEN ══ -->
+<div class="screen" id="scr-qr">
+  <div class="topbar">
+    <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span style="color:#FFD600;">Devices</span></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:20px;">
+    <div style="font-family:Fredoka One;font-size:26px;color:white;text-align:center;">📱 Scan to go to this lesson</div>
+    <div style="background:white;border-radius:20px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+      <canvas id="qr-canvas"></canvas>
+    </div>
+    <div id="qr-url-label" style="font-size:12px;color:rgba(255,255,255,0.5);text-align:center;max-width:320px;word-break:break-all;"></div>
+    <div style="font-size:14px;color:rgba(255,255,255,0.7);text-align:center;">Scan with your phone camera or a QR scanner</div>
+  </div>
+</div>
 
 <div id="ssm-footer" style="background:rgba(0,0,0,0.4);padding:16px 20px;text-align:center;border-top:1px solid rgba(255,255,255,0.1);margin-top:auto;">
   <div style="max-width:700px;margin:0 auto;">
