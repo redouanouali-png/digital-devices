@@ -247,10 +247,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div id="cert-btn-wrap" style="text-align:center;">
       <button onclick="showCertificate(currentLevel)" style="padding:16px 32px;background:#FFD600;color:#1A1A2E;border:none;border-radius:16px;font-size:18px;font-weight:800;cursor:pointer;font-family:'Nunito';box-shadow:0 4px 15px rgba(0,0,0,0.2);">🏆 View my Certificate!</button>
     </div>
-    <div style="text-align:center;">
-      <button onclick="openBeeBot()" style="padding:14px 28px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:16px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';margin-right:8px;">&#128029; BeeBot</button>
-      <button onclick="openLeaderboard()" style="padding:14px 28px;background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.3);border-radius:16px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#127942; Leaderboard</button>
-    </div>
+    <div id="student-extra-btns" style="text-align:center;"></div>
     <div class="badges-section">
       <div class="badges-title">🏅 My Badges</div>
       <div class="badges-row">
@@ -470,18 +467,6 @@ async function saveVoortgang(unit_id, phase_id) {
   });
   if (result.error) console.error('voortgang error:', result.error.message);
   else console.log('voortgang saved:', unit_id, phase_id);
-}
-
-async function loadVoortgang(supaId) {
-  if (!supa) return;
-  var result = await supa.from('voortgang').select('*').eq('leerling_id', supaId);
-  if (result.error) { console.error('load error:', result.error.message); return; }
-  result.data.forEach(function(row) {
-    if (!DB.voortgang[currentUser.id]) DB.voortgang[currentUser.id] = {};
-    if (!DB.voortgang[currentUser.id][row.unit_id]) DB.voortgang[currentUser.id][row.unit_id] = {};
-    DB.voortgang[currentUser.id][row.unit_id][row.phase_id] = true;
-  });
-  console.log('voortgang loaded:', result.data.length, 'items');
 }
 
 async function supaLogin(naam, code) {
@@ -878,6 +863,35 @@ function goBack(){
 function rand(arr){return arr[Math.floor(Math.random()*arr.length)];}
 
 // ══════════════════════════════════════════════════════
+// SCHOOL ACCESS CHECK
+// ══════════════════════════════════════════════════════
+function isSchoolExpired(school){
+  if(!school) return false;
+  if(!school.actief) return true;
+  if(!school.vervaldatum) return false;
+  var expiry = new Date(school.vervaldatum);
+  expiry.setHours(23,59,59,999); // end of day
+  return new Date() > expiry;
+}
+
+function checkSchoolAccess(school){
+  if(!school){
+    showToast('⛔ School not found. Contact Smart Skills Morocco.');
+    return false;
+  }
+  if(!school.actief){
+    showToast('⛔ This school has been disabled. Contact Smart Skills Morocco.');
+    return false;
+  }
+  if(isSchoolExpired(school)){
+    var d = new Date(school.vervaldatum).toLocaleDateString('en-GB');
+    showToast('⛔ Access expired on '+d+'. Contact Smart Skills Morocco.');
+    return false;
+  }
+  return true;
+}
+
+// ══════════════════════════════════════════════════════
 // LOGIN
 // ══════════════════════════════════════════════════════
 function selRole(r){
@@ -922,6 +936,7 @@ function doLogin(){
     if(doc){
       currentUser=doc;
       currentSchool=DB.scholen.find(function(s){return s.id===doc.school_id;});
+      if(!checkSchoolAccess(currentSchool)){return;}
       g('tc-name').textContent=doc.naam;
       showScreen('scr-teacher'); renderTeacher(); return;
     }
@@ -934,6 +949,7 @@ function doLogin(){
         DB.docenten.push(teacher);
         currentUser=teacher;
         currentSchool=DB.scholen.find(function(s){return s.id===teacher.school_id;});
+        if(!checkSchoolAccess(currentSchool)){return;}
         g('tc-name').textContent=teacher.naam;
         showScreen('scr-teacher'); renderTeacher();
       });
@@ -1796,10 +1812,19 @@ function renderOwnerUI(){
   schoolCard.className='dash-card';
   var schoolHtml='<h3>🏫 Schools ('+DB.scholen.length+')</h3>';
   DB.scholen.forEach(function(s){
+    var expired = isSchoolExpired(s);
+    var statusColor = !s.actief ? '#F03030' : expired ? '#FF9800' : '#00C853';
+    var statusLabel = !s.actief ? '⛔ Off' : expired ? '⚠️ Expired' : '✅ Active';
+    var expInfo = s.vervaldatum ? ' · exp: '+new Date(s.vervaldatum).toLocaleDateString('en-GB') : '';
     schoolHtml+=
       '<div class="school-row">'+
-        '<div><div class="school-name">'+s.naam+'</div><div class="school-plan">'+s.stad+' &middot; PIN: '+s.pin+'</div></div>'+
-        '<div style="display:flex;gap:6px;">'+
+        '<div style="flex:1;">'+
+          '<div class="school-name">'+s.naam+'</div>'+
+          '<div class="school-plan">'+s.stad+' · PIN: '+s.pin+expInfo+'</div>'+
+        '</div>'+
+        '<div style="display:flex;gap:6px;align-items:center;">'+
+          '<span style="font-size:11px;font-weight:800;color:'+statusColor+';">'+statusLabel+'</span>'+
+          '<button class="btn-sm" data-sid="'+s.id+'" data-actief="'+(s.actief?'1':'0')+'" onclick="toggleSchoolActief(this.dataset.sid,this)" style="padding:6px 10px;background:'+(s.actief?'#E8F5E9':'#FFEBEE')+';color:'+(s.actief?'#00C853':'#F03030')+';border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito;">'+(s.actief?'🟢 ON':'🔴 OFF')+'</button>'+
           '<button class="btn-sm btn-add" data-sid="'+s.id+'" onclick="manageSchool(this.dataset.sid)">Manage</button>'+
           '<button data-sid="'+s.id+'" data-naam="'+s.naam+'" onclick="deleteSchool(this.dataset.sid,this.dataset.naam)" style="padding:6px 10px;background:#FFEBEE;color:#F03030;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito;">&#10005;</button>'+
         '</div>'+
@@ -1868,24 +1893,28 @@ function renderOwnerUI(){
   grid.appendChild(statsCard);
 }
 
-function renderModuleCard(school){
-  var existing=g('module-card');
-  if(existing) existing.remove();
-  var card=document.createElement('div');
-  card.className='dash-card'; card.id='module-card';
-  var mods=school.modules; var talen=school.talen;
+function renderModuleCard(school, container){
+  var mods=school.modules||{}; var talen=school.talen||{en:true};
   var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',scratch:'💻 Scratch Jr',certificate:'🏅 Certificates'};
   var talenLabels={en:'🇬🇧 English',ar:'🇲🇦 Arabic',fr:'🇫🇷 French'};
   var html='<h3>⚙️ Modules — '+school.naam+'</h3>';
   Object.keys(modLabels).forEach(function(k){
     html+='<div class="toggle-row"><span class="toggle-label">'+modLabels[k]+'</span><button class="toggle'+(mods[k]?' on':'')+'" onclick="toggleMod(\''+school.id+'\',\''+k+'\',this)"></button></div>';
   });
-  html+='<h3 style="margin-top:16px;">🌍 Languages</h3>';
+  html+='<h3 style="margin-top:16px;">🌐 Languages</h3>';
   Object.keys(talenLabels).forEach(function(k){
     html+='<div class="toggle-row"><span class="toggle-label">'+talenLabels[k]+(k==='en'?' (always on)':'')+'</span><button class="toggle'+(talen[k]?' on':'')+'"'+(k==='en'?' disabled style="opacity:0.5"':'')+' onclick="toggleTaal(\''+school.id+'\',\''+k+'\',this)"></button></div>';
   });
-  card.innerHTML=html;
-  g('owner-grid').appendChild(card);
+  if(container){
+    container.innerHTML=html;
+  } else {
+    var existing=g('module-card');
+    if(existing) existing.remove();
+    var card=document.createElement('div');
+    card.className='dash-card'; card.id='module-card';
+    card.innerHTML=html;
+    g('owner-grid').appendChild(card);
+  }
 }
 
 function manageSchool(sid){
@@ -1940,6 +1969,25 @@ function saveExpiry(sid){
     if(p) p.remove();
   }
 }
+
+function toggleSchoolActief(sid, btn){
+  var school=DB.scholen.find(function(s){return s.id===sid;});
+  if(!school) return;
+  school.actief = !school.actief;
+  if(supa){
+    supa.from('scholen').update({actief:school.actief}).eq('id',sid).then(function(r){
+      if(r.error){school.actief=!school.actief; showToast('Error: '+r.error.message);}
+      else{
+        showToast(school.actief ? '✅ '+school.naam+' is now ACTIVE' : '⛔ '+school.naam+' is now DISABLED');
+        renderOwner();
+      }
+    });
+  } else {
+    showToast(school.actief ? '✅ '+school.naam+' active' : '⛔ '+school.naam+' disabled');
+    renderOwner();
+  }
+}
+
 
 function toggleMod(sid,key,btn){
   var school=DB.scholen.find(function(s){return s.id===sid;});
@@ -2351,15 +2399,6 @@ function addTeacher(){
   renderAdminUI();
 }
 
-function addStudent(){
-  var naam=g('new-st-name').value.trim(), code=g('new-st-code').value.trim().toUpperCase();
-  var klas=g('new-st-klas').value.trim();
-  if(!naam||!code){showToast('Fill in name and code!');return;}
-  DB.leerlingen.push({id:'st'+Date.now(),naam:naam,code:code,school_id:currentSchool.id,klas:klas,actief:true,stars:0,badges:[]});
-  showToast('✅ Student added: '+naam);
-  renderAdmin();
-}
-
 // ══════════════════════════════════════════════════════
 // TEACHER DASHBOARD
 // ══════════════════════════════════════════════════════
@@ -2658,7 +2697,8 @@ function tcAddStudent(){
 
 function loadScholen(callback){
   if(!supa){if(callback)callback();return;}
-  supa.from('scholen').select('*').eq('actief',true).then(function(r){
+  // Load ALL schools (active and inactive) so owner can manage disabled schools too
+  supa.from('scholen').select('*').then(function(r){
     if(!r.error && r.data && r.data.length > 0){
       DB.scholen = r.data.map(function(s){
         return {
@@ -2667,6 +2707,7 @@ function loadScholen(callback){
           stad: s.stad||'',
           pin: s.pin,
           actief: s.actief,
+          vervaldatum: s.vervaldatum||null,
           modules: s.modules||{setActive:true,meriem:true,beebot:false,certificate:true},
           talen: s.talen||{en:true,ar:false,fr:false}
         };
@@ -2677,29 +2718,6 @@ function loadScholen(callback){
     }
     if(callback) callback();
   }).catch(function(){if(callback)callback();});
-}
-
-function addSchool(naam, stad, pin, modules, talen){
-  if(!naam||!pin){showToast('Fill in name and PIN!');return;}
-  if(DB.scholen.find(function(s){return s.pin===pin;})){showToast('PIN already in use!');return;}
-  var newSchool = {
-    naam:naam, stad:stad||'', pin:pin, actief:true,
-    modules:modules||{setActive:true,meriem:true,beebot:false,certificate:true},
-    talen:talen||{en:true,ar:false,fr:false}
-  };
-  if(supa){
-    supa.from('scholen').insert(newSchool).then(function(r){
-      if(r.error){
-        console.error('Add school error:',r.error.message);
-        showToast('Error: '+r.error.message);
-      } else {
-        var saved = r.data && r.data[0] ? r.data[0] : newSchool;
-        DB.scholen.push(saved);
-        showToast('&#10003; School '+naam+' added!');
-        renderOwner();
-      }
-    });
-  }
 }
 
 
@@ -2715,7 +2733,7 @@ async function loginDirector(pin){
     } else {
       currentSchool = schoolRes.data[0];
     }
-    if(!currentSchool.actief){showToast('This school is inactive.');return;}
+    if(!checkSchoolAccess(currentSchool)){return;}
     console.log('school_id:', currentSchool.id);
 
     // Step 2: load students
@@ -2934,6 +2952,7 @@ function doStudentLogin(st){
   if(supa && st.school_id){
     supa.from('scholen').select('*').eq('id',st.school_id).then(function(r){
       currentSchool=(!r.error&&r.data&&r.data[0])?r.data[0]:DB.scholen.find(function(s){return s.id===st.school_id;});
+      if(!checkSchoolAccess(currentSchool)){return;}
       continueLogin();
     }).catch(function(){
       currentSchool=DB.scholen.find(function(s){return s.id===st.school_id;});
