@@ -215,6 +215,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
     <div class="tb-r">
       <span id="st-name" style="color:white;font-weight:800;font-size:14px;"></span>
+      <div id="lang-selector" style="display:none;gap:4px;"></div>
       <button class="tb-btn" onclick="logout()">Sign out</button>
     </div>
   </div>
@@ -1101,7 +1102,11 @@ function openPhase(ph,unit){
   else if(ph.id==='learn') openVideo(unit, function(){openLearn(unit);});
   else if(ph.id==='practice') openPractice(unit);
   else if(ph.id==='create') openCreate(unit);
-  else if(ph.id==='beebot') openBeeBot();
+  else if(ph.id==='beebot'){
+    var mods=currentSchool?(currentSchool.modules||{}):{};
+    if(mods.beebot===false){showToast('BeeBot is not active for your school.');return;}
+    openBeeBot();
+  }
   else if(ph.id==='test') openTest(unit);
   else { showToast('Coming soon! 🚀'); }
 }
@@ -1895,7 +1900,7 @@ function renderOwnerUI(){
 
 function renderModuleCard(school, container){
   var mods=school.modules||{}; var talen=school.talen||{en:true};
-  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',scratch:'💻 Scratch Jr',certificate:'🏅 Certificates'};
+  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates'};
   var talenLabels={en:'🇬🇧 English',ar:'🇲🇦 Arabic',fr:'🇫🇷 French'};
   var html='<h3>⚙️ Modules — '+school.naam+'</h3>';
   Object.keys(modLabels).forEach(function(k){
@@ -1922,30 +1927,122 @@ function manageSchool(sid){
   if(!school) return;
   var ex=document.getElementById('manage-panel');
   if(ex) ex.remove();
+
+  // Overlay
   var panel=document.createElement('div');
   panel.id='manage-panel';
-  panel.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
-  var expVal=school.vervaldatum||'';
-  var d=document.createElement('div');
-  d.style.cssText='background:white;border-radius:20px;padding:24px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;';
-  d.innerHTML=
-    '<div style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;margin-bottom:16px;">&#9881; '+school.naam+'</div>'+
-    '<div style="margin-bottom:16px;padding:14px;background:#F0F7FF;border-radius:12px;">'+
-      '<div style="font-size:14px;font-weight:800;margin-bottom:8px;">&#128197; Expiry Date</div>'+
-      '<input type="date" id="mp-expiry" value="'+expVal+'" style="width:100%;padding:10px;border:2px solid #E0E0E0;border-radius:8px;font-size:15px;font-family:Nunito;box-sizing:border-box;"/>'+
-      '<div style="font-size:11px;color:#888;margin-top:4px;">Leave empty = no expiry</div>'+
-      '<button data-sid="'+sid+'" onclick="saveExpiry(this.dataset.sid)" style="width:100%;margin-top:8px;padding:10px;background:#1A6EFF;color:white;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">&#128190; Save</button>'+
-    '</div>'+
-    '<div id="mp-modules-wrap" style="margin-bottom:12px;"></div>'+
-    '<button id="mp-close" style="width:100%;padding:10px;background:#F0F0F0;color:#1A1A2E;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">&#10005; Close</button>';
-  panel.appendChild(d);
+  panel.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;';
   panel.onclick=function(e){if(e.target===panel)panel.remove();};
+
+  // White card
+  var box=document.createElement('div');
+  box.style.cssText='background:white;border-radius:20px;padding:24px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;';
+
+  // Title
+  var title=document.createElement('div');
+  title.style.cssText='font-family:Fredoka One;font-size:22px;color:#1A1A2E;margin-bottom:16px;';
+  title.textContent='⚙️ '+school.naam;
+  box.appendChild(title);
+
+  // ── Expiry section ──
+  var expSec=document.createElement('div');
+  expSec.style.cssText='margin-bottom:16px;padding:14px;background:#F0F7FF;border-radius:12px;';
+  var expLabel=document.createElement('div');
+  expLabel.style.cssText='font-size:14px;font-weight:800;margin-bottom:8px;';
+  expLabel.textContent='📅 Expiry Date';
+  var expInput=document.createElement('input');
+  expInput.type='date'; expInput.id='mp-expiry'; expInput.value=school.vervaldatum||'';
+  expInput.style.cssText='width:100%;padding:10px;border:2px solid #E0E0E0;border-radius:8px;font-size:15px;font-family:Nunito;box-sizing:border-box;';
+  var expHint=document.createElement('div');
+  expHint.style.cssText='font-size:11px;color:#888;margin-top:4px;';
+  expHint.textContent='Leave empty = no expiry';
+  var expBtn=document.createElement('button');
+  expBtn.style.cssText='width:100%;margin-top:8px;padding:10px;background:#1A6EFF;color:white;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;';
+  expBtn.textContent='💾 Save Expiry';
+  expBtn.onclick=function(){saveExpiry(sid);};
+  expSec.appendChild(expLabel); expSec.appendChild(expInput);
+  expSec.appendChild(expHint); expSec.appendChild(expBtn);
+  box.appendChild(expSec);
+
+  // ── Modules section ──
+  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates'};
+  var modSec=document.createElement('div');
+  modSec.style.cssText='margin-bottom:16px;padding:14px;background:#F9F9F9;border-radius:12px;';
+  var modTitle=document.createElement('div');
+  modTitle.style.cssText='font-size:14px;font-weight:800;margin-bottom:10px;';
+  modTitle.textContent='🧩 Modules';
+  modSec.appendChild(modTitle);
+  var mods=school.modules||{};
+  Object.keys(modLabels).forEach(function(key){
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F0EDE8;';
+    var lbl=document.createElement('span');
+    lbl.style.cssText='font-size:14px;font-weight:700;';
+    lbl.textContent=modLabels[key];
+    var btn=document.createElement('button');
+    btn.className='toggle'+(mods[key]?' on':'');
+    btn.onclick=function(){
+      school.modules[key]=!school.modules[key];
+      btn.className='toggle'+(school.modules[key]?' on':'');
+      if(supa){
+        supa.from('scholen').update({modules:school.modules}).eq('id',sid).then(function(r){
+          if(r.error) showToast('Error: '+r.error.message);
+          else showToast((school.modules[key]?'✅ ':'❌ ')+modLabels[key]+' '+(school.modules[key]?'ON':'OFF'));
+        });
+      } else {
+        showToast((school.modules[key]?'✅ ':'❌ ')+modLabels[key]+' '+(school.modules[key]?'ON':'OFF'));
+      }
+    };
+    row.appendChild(lbl); row.appendChild(btn);
+    modSec.appendChild(row);
+  });
+  box.appendChild(modSec);
+
+  // ── Languages section ──
+  var talenLabels={en:'🇬🇧 English',ar:'🇲🇦 Arabic',fr:'🇫🇷 French'};
+  var talSec=document.createElement('div');
+  talSec.style.cssText='margin-bottom:16px;padding:14px;background:#F9F9F9;border-radius:12px;';
+  var talTitle=document.createElement('div');
+  talTitle.style.cssText='font-size:14px;font-weight:800;margin-bottom:10px;';
+  talTitle.textContent='🌍 Languages';
+  talSec.appendChild(talTitle);
+  var talen=school.talen||{en:true};
+  Object.keys(talenLabels).forEach(function(key){
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F0EDE8;';
+    var lbl=document.createElement('span');
+    lbl.style.cssText='font-size:14px;font-weight:700;';
+    lbl.textContent=talenLabels[key]+(key==='en'?' (always on)':'');
+    var btn=document.createElement('button');
+    btn.className='toggle'+(talen[key]?' on':'');
+    if(key==='en'){btn.disabled=true; btn.style.opacity='0.5';}
+    btn.onclick=function(){
+      if(key==='en') return;
+      school.talen[key]=!school.talen[key];
+      btn.className='toggle'+(school.talen[key]?' on':'');
+      if(supa){
+        supa.from('scholen').update({talen:school.talen}).eq('id',sid).then(function(r){
+          if(r.error) showToast('Error: '+r.error.message);
+          else showToast(talenLabels[key]+' '+(school.talen[key]?'ON':'OFF'));
+        });
+      } else {
+        showToast(talenLabels[key]+' '+(school.talen[key]?'ON':'OFF'));
+      }
+    };
+    row.appendChild(lbl); row.appendChild(btn);
+    talSec.appendChild(row);
+  });
+  box.appendChild(talSec);
+
+  // ── Close button ──
+  var closeBtn=document.createElement('button');
+  closeBtn.style.cssText='width:100%;padding:10px;background:#F0F0F0;color:#1A1A2E;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;';
+  closeBtn.textContent='✕ Close';
+  closeBtn.onclick=function(){panel.remove();};
+  box.appendChild(closeBtn);
+
+  panel.appendChild(box);
   document.body.appendChild(panel);
-  document.getElementById('mp-close').onclick=function(){panel.remove();};
-  setTimeout(function(){
-    var wrap=document.getElementById('mp-modules-wrap');
-    if(wrap) renderModuleCard(school,wrap);
-  },50);
 }
 
 function saveExpiry(sid){
@@ -2776,7 +2873,35 @@ async function loginDirector(pin){
 }
 
 
+function renderLangSelector(){
+  var wrap=g('lang-selector');
+  if(!wrap) return;
+  var talen=currentSchool?(currentSchool.talen||{en:true}):{en:true};
+  var active=Object.keys(talen).filter(function(k){return talen[k];});
+  if(active.length<=1){wrap.style.display='none';return;}
+  wrap.style.display='flex';
+  wrap.innerHTML='';
+  var flags={en:'🇬🇧',ar:'🇲🇦',fr:'🇫🇷'};
+  active.forEach(function(k){
+    var btn=document.createElement('button');
+    btn.className='tb-btn'+(currentLang===k?' gold':'');
+    btn.textContent=flags[k]||k.toUpperCase();
+    btn.title=k==='en'?'English':k==='ar'?'Arabic':'French';
+    btn.onclick=function(){setLang(k);};
+    wrap.appendChild(btn);
+  });
+}
+
+var currentLang='en';
+function setLang(lang){
+  currentLang=lang;
+  renderLangSelector();
+  updateFooter();
+  showToast(lang==='en'?'🇬🇧 English':lang==='ar'?'🇲🇦 Arabic':'🇫🇷 French');
+}
+
 function renderStudentButtons(){
+  renderLangSelector();
   var wrap = g('student-extra-btns');
   if(!wrap) return;
   var mods = currentSchool ? (currentSchool.modules||{}) : {};
