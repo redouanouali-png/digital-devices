@@ -59,6 +59,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 
 /* ── STUDENT HOME ── */
 .student-home{flex:1;padding:20px;display:flex;flex-direction:column;gap:16px;max-width:800px;margin:0 auto;width:100%;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.02);}}
 .welcome-banner{background:rgba(255,255,255,0.12);border-radius:20px;padding:20px 24px;display:flex;align-items:center;gap:16px;}
 .welcome-avatar{width:64px;height:64px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;}
 .welcome-text h2{font-family:'Fredoka One';font-size:26px;color:white;}
@@ -217,9 +218,6 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div class="tb-r">
       <span id="st-name" style="color:white;font-weight:800;font-size:14px;"></span>
       <div id="lang-selector" style="display:none;gap:4px;"></div>
-      <button id="asgn-badge" onclick="openStudentAssignments()" style="display:none;position:relative;padding:6px 12px;background:#E53935;color:white;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito;align-items:center;gap:5px;">
-        📋 <span id="asgn-badge-num">0</span>
-      </button>
       <button class="tb-btn" onclick="logout()">Sign out</button>
     </div>
   </div>
@@ -253,6 +251,18 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <button onclick="showCertificate(currentLevel)" style="padding:16px 32px;background:#FFD600;color:#1A1A2E;border:none;border-radius:16px;font-size:18px;font-weight:800;cursor:pointer;font-family:'Nunito';box-shadow:0 4px 15px rgba(0,0,0,0.2);">🏆 View my Certificate!</button>
     </div>
     <div id="student-extra-btns" style="text-align:center;"></div>
+
+    <!-- ASSIGNMENTS BANNER -->
+    <div id="asgn-badge" onclick="openStudentAssignments()" style="display:none;background:linear-gradient(135deg,#E53935,#FF6B2B);border-radius:16px;padding:16px 20px;cursor:pointer;animation:pulse 2s infinite;box-shadow:0 4px 20px rgba(229,57,53,0.5);">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="font-size:36px;">📋</div>
+        <div>
+          <div style="font-family:Fredoka One;font-size:20px;color:white;">New Assignment!</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">You have <strong><span id="asgn-badge-num">0</span> new assignment(s)</strong> from your teacher — tap to open! 👆</div>
+        </div>
+        <div style="margin-left:auto;font-size:24px;color:white;">→</div>
+      </div>
+    </div>
     <div class="badges-section">
       <div class="badges-title">🏅 My Badges</div>
       <div class="badges-row">
