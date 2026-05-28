@@ -3194,12 +3194,14 @@ function doStudentLogin(st){
           currentUser.supaId=supaUser.id;
           loadVoortgang(supaUser.id).then(function(){
             loadVideoLinks();
+            loadAssignments();
             showScreen('scr-student');
             renderLevels();
             handleDeepLinkAfterLogin();
           });
         } else {
           loadVideoLinks();
+          loadAssignments();
           showScreen('scr-student');
           renderLevels();
           handleDeepLinkAfterLogin();
@@ -3705,7 +3707,12 @@ function loadAssignments(){
     if(!r.error&&r.data) DB_ASSIGNMENTS=r.data;
     if(role==='student') renderAssignmentBadge();
   });
-  supa.from('submissions').select('*').eq('school_id',currentSchool.id).then(function(r){
+  // For students: only load their own submissions
+  var subQuery = supa.from('submissions').select('*').eq('school_id',currentSchool.id);
+  if(role==='student'&&currentUser&&currentUser.id){
+    subQuery = supa.from('submissions').select('*').eq('student_id',currentUser.id);
+  }
+  subQuery.then(function(r){
     if(!r.error&&r.data) DB_SUBMISSIONS=r.data;
     if(role==='student') renderAssignmentBadge();
   });
@@ -3714,7 +3721,7 @@ function toggleTeacherAssignments(tid){
   var doc=DB.docenten.find(function(d){return d.id===tid;});
   if(!doc) return;
   doc.assignments_enabled=!doc.assignments_enabled;
-  if(supa) supa.from('docenten').update({assignments_enabled:doc.assignments_enabled}).eq('id',tid);
+  if(supa) supa.from('gebruikers').update({assignments_enabled:doc.assignments_enabled}).eq('id',tid);
   showToast((doc.assignments_enabled?'✅':'❌')+' Assignments '+(doc.assignments_enabled?'enabled':'disabled')+' for '+doc.naam);
   renderTeacher();
 }
