@@ -178,7 +178,10 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 <div class="screen active" id="scr-login">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
-    <div class="tb-r"><span style="font-size:12px;color:rgba(255,255,255,0.6);">Primary School Platform</span></div>
+    <div class="tb-r">
+      <button onclick="setLoginLang('en')" id="login-lang-en" style="padding:4px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);color:white;font-weight:800;font-size:12px;cursor:pointer;">🇬🇧</button>
+      <button onclick="setLoginLang('fr')" id="login-lang-fr" style="padding:4px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.2);background:transparent;color:white;font-weight:800;font-size:12px;cursor:pointer;">🇫🇷</button>
+    </div>
   </div>
   <div class="login-wrap">
     <div class="login-card">
@@ -194,19 +197,19 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     </div>
       <div class="login-title">Welcome!</div>
       <div style="font-size:11px;font-weight:700;color:#1A6EFF;letter-spacing:1px;margin-bottom:4px;">MOROCCO 2030 &#127474;&#127462;</div>
-      <div class="login-sub">Who are you? Tap your role!</div>
+      <div class="login-sub" id="login-sub-text">Who are you? Tap your role!</div>
       <div class="role-grid">
-        <button class="role-btn student sel" onclick="selRole('student')">🎓 Student</button>
-        <button class="role-btn teacher" onclick="selRole('teacher')">👩‍🏫 Teacher</button>
-        <button class="role-btn admin" onclick="selRole('admin')">🔑 Director</button>
-        <button class="role-btn owner" onclick="selRole('owner')">👑 Owner</button>
+        <button class="role-btn student sel" id="role-student" onclick="selRole('student')">🎓 Student</button>
+        <button class="role-btn teacher" id="role-teacher" onclick="selRole('teacher')">👩‍🏫 Teacher</button>
+        <button class="role-btn admin" id="role-director" onclick="selRole('admin')">🔑 Director</button>
+        <button class="role-btn owner" id="role-owner" onclick="selRole('owner')">👑 Owner</button>
       </div>
       <div class="login-fields" id="login-fields">
         <input type="text" id="inp-name" placeholder="Your name..." style="display:none;"/>
         <input type="text" id="inp-code" placeholder="Your code (e.g. AM001)" style="display:none;"/>
         <input type="password" id="inp-pin" placeholder="PIN..." style="display:none;"/>
       </div>
-      <button class="btn-login" onclick="doLogin()">Let's Go! 🚀</button>
+      <button class="btn-login" id="login-btn" onclick="doLogin()">Let's Go! 🚀</button>
     </div>
   </div>
 </div>
@@ -236,7 +239,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.outerHTML='<div class=welcome-avatar>😊</div>'"/>
       <div class="welcome-text">
         <h2 id="st-welcome">Hello!</h2>
-        <p>Choose your level and start learning! 🌟</p>
+        <p id="st-welcome-sub">Choose your level and start learning! 🌟</p>
         <div class="stars-row">
           <span class="star-badge" id="st-stars">⭐ 0 stars</span>
           <span class="star-badge" id="st-badges" style="background:#E91E7A;color:white;">🏅 0 badges</span>
@@ -257,8 +260,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <div style="display:flex;align-items:center;gap:14px;">
         <div style="font-size:36px;">📋</div>
         <div>
-          <div style="font-family:Fredoka One;font-size:20px;color:white;">New Assignment!</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">You have <strong><span id="asgn-badge-num">0</span> new assignment(s)</strong> from your teacher — tap to open! 👆</div>
+          <div style="font-family:Fredoka One;font-size:20px;color:white;" id="asgn-badge-title">New Assignment!</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.85);margin-top:2px;">You have <strong><span id="asgn-badge-num">0</span> <span id="asgn-badge-text">new assignment(s) from your teacher — tap to open! 👆</span></strong></div>
         </div>
         <div style="margin-left:auto;font-size:24px;color:white;">→</div>
       </div>
@@ -319,9 +322,9 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div class="chat-box" id="chat-box"></div>
     <div class="chat-input-row">
       <input type="text" class="chat-input" id="chat-inp" placeholder="Type your answer..." onkeypress="if(event.key==='Enter')sendChat()"/>
-      <button class="chat-send" onclick="sendChat()">Send ➤</button>
+      <button class="chat-send" id="chat-send-btn" onclick="sendChat()">Send ➤</button>
     </div>
-    <button class="btn-big" onclick="goBack()" style="background:var(--yellow);color:var(--dark);margin-top:10px;width:100%;">⭐ Done! Next activity → →</button>
+    <button class="btn-big" id="chat-done-btn" onclick="goBack()" style="background:var(--yellow);color:var(--dark);margin-top:10px;width:100%;">⭐ Done! Next activity → →</button>
   </div>
 </div>
 
@@ -418,12 +421,12 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <iframe id="video-frame" style="display:none;width:100%;height:100%;border:none;" allowfullscreen></iframe>
     </div>
     <div style="background:rgba(255,255,255,0.1);border-radius:16px;padding:16px 20px;">
-      <div style="font-family:'Fredoka One';font-size:18px;color:white;margin-bottom:10px;">🎯 In this video you will learn:</div>
+      <div style="font-family:'Fredoka One';font-size:18px;color:white;margin-bottom:10px;" id="video-learn-label">🎯 In this video you will learn:</div>
       <div id="video-goals" style="display:flex;flex-direction:column;gap:8px;"></div>
     </div>
     <div style="display:flex;gap:10px;">
-      <button onclick="replayVideo()" style="flex:1;padding:14px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">🔄 Replay</button>
-      <button onclick="finishVideo()" style="flex:2;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">✅ Done! Next activity → →</button>
+      <button onclick="replayVideo()" id="video-replay-btn" style="flex:1;padding:14px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">🔄 Replay</button>
+      <button onclick="finishVideo()" id="video-next-btn" style="flex:2;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">✅ Done! Next activity → →</button>
     </div>
   </div>
 </div>
@@ -873,7 +876,7 @@ function logout(){currentUser=null;currentSchool=null;role='student';showScreen(
 function goBack(){
   if(currentUnit) renderUnit(currentUnit);
   else if(currentLevel) renderLevel(currentLevel);
-  else { showScreen('scr-student'); renderLevels(); }
+  else { showScreen('scr-student'); renderLevels(); applyLangToUI(); }
   loadAssignments();
 }
 function rand(arr){return arr[Math.floor(Math.random()*arr.length)];}
@@ -910,8 +913,22 @@ function checkSchoolAccess(school){
 // ══════════════════════════════════════════════════════
 // LOGIN
 // ══════════════════════════════════════════════════════
+function setLoginLang(lang){
+  currentLang=lang;
+  var en=g('login-lang-en'), fr=g('login-lang-fr');
+  if(en){en.style.background=lang==='en'?'rgba(255,255,255,0.3)':'transparent';en.style.borderColor=lang==='en'?'rgba(255,255,255,0.8)':'rgba(255,255,255,0.2)';}
+  if(fr){fr.style.background=lang==='fr'?'rgba(255,255,255,0.3)':'transparent';fr.style.borderColor=lang==='fr'?'rgba(255,255,255,0.8)':'rgba(255,255,255,0.2)';}
+  var sub=g('login-sub-text'); if(sub) sub.textContent=lang==='fr'?'Qui es-tu ? Choisis ton rôle !':'Who are you? Tap your role!';
+  var rs=g('role-student'); if(rs) rs.textContent=lang==='fr'?'🎓 Élève':'🎓 Student';
+  var rt=g('role-teacher'); if(rt) rt.textContent=lang==='fr'?'👩‍🏫 Professeur':'👩‍🏫 Teacher';
+  var rd=g('role-director'); if(rd) rd.textContent=lang==='fr'?'🔑 Directeur':'🔑 Director';
+  var lb=g('login-btn'); if(lb) lb.textContent=lang==='fr'?'Allons-y ! 🚀':'Let\'s Go! 🚀';
+  selRole(role);
+}
+
 function selRole(r){
   role=r;
+  var fr=currentLang==='fr';
   document.querySelectorAll('.role-btn').forEach(function(b){b.classList.remove('sel');});
   var selBtn=document.querySelector('.role-btn.'+r);
   if(selBtn) selBtn.classList.add('sel');
@@ -920,13 +937,13 @@ function selRole(r){
   if(c) c.style.display='none';
   if(p) p.style.display='none';
   if(r==='student'){
-    if(n){n.style.display='block';n.placeholder='Your name...';}
-    if(c){c.style.display='block';c.placeholder='Your code (e.g. AM001)';}
+    if(n){n.style.display='block';n.placeholder=fr?'Ton prénom...':'Your name...';}
+    if(c){c.style.display='block';c.placeholder=fr?'Ton code (ex. AM001)':'Your code (e.g. AM001)';}
   } else if(r==='teacher'){
-    if(n){n.style.display='block';n.placeholder='Your email...';}
-    if(p){p.style.display='block';p.placeholder='Your PIN...';}
+    if(n){n.style.display='block';n.placeholder=fr?'Ton e-mail...':'Your email...';}
+    if(p){p.style.display='block';p.placeholder=fr?'Ton code PIN...':'Your PIN...';}
   } else if(r==='admin'){
-    if(p){p.style.display='block';p.placeholder='School PIN...';}
+    if(p){p.style.display='block';p.placeholder=fr?'PIN de l\'école...':'School PIN...';}
   } else if(r==='owner'){
     if(p){p.style.display='block';p.placeholder='Owner PIN...';}
   }
@@ -935,7 +952,7 @@ function selRole(r){
 function doLogin(){
   if(role==='owner'){
     var pin=g('inp-pin').value.trim();
-    if(pin!==DB.owner.pin){showToast('Wrong PIN!');return;}
+    if(pin!==DB.owner.pin){showToast(currentLang==='fr'?'PIN incorrect !':'Wrong PIN!');return;}
     currentUser={naam:'Owner',rol:'owner'};
     showScreen('scr-owner'); renderOwner(); return;
   }
@@ -959,7 +976,7 @@ function doLogin(){
     // Not in memory - check Supabase
     if(supa){
       supa.from('gebruikers').select('*').eq('email',email).eq('pin',pin).then(function(r){
-        if(r.error||!r.data||!r.data[0]){showToast('Wrong email or PIN!');return;}
+        if(r.error||!r.data||!r.data[0]){showToast(currentLang==='fr'?'E-mail ou PIN incorrect !':'Wrong email or PIN!');return;}
         var d=r.data[0];
         var teacher={id:d.id,naam:d.naam,email:d.email,pin:d.pin,school_id:d.school_id,klas:d.klas||'',actief:d.actief,rechten:{leerlingen:true,voortgang:true,viewStudent:true,addStudent:true}};
         DB.docenten.push(teacher);
@@ -971,7 +988,7 @@ function doLogin(){
         loadAssignments();
       });
     } else {
-      showToast('Wrong email or PIN!');
+      showToast(currentLang==='fr'?'E-mail ou PIN incorrect !':'Wrong email or PIN!');
     }
     return;
   }
@@ -984,16 +1001,16 @@ function doLogin(){
     // Check Supabase
     if(supa){
       supa.from('students').select('*').ilike('naam',naam).then(function(r){
-        if(r.error||!r.data||!r.data.length){showToast('Name not found. Ask your teacher!');return;}
+        if(r.error||!r.data||!r.data.length){showToast(currentLang==='fr'?'Nom introuvable. Demande à ton professeur !':'Name not found. Ask your teacher!');return;}
         var found=r.data.find(function(s){return s.code&&s.code.toUpperCase()===code;});
-        if(!found){showToast('Wrong code. Try again!');return;}
+        if(!found){showToast(currentLang==='fr'?'Code incorrect. Réessaie !':'Wrong code. Try again!');return;}
         if(!found.actief){showToast('Your account is inactive.');return;}
         var student={id:found.id,naam:found.naam,code:found.code,klas:found.klas||'',school_id:found.school_id,email:found.email||'',actief:found.actief,stars:found.stars||0,badges:[]};
         DB.leerlingen.push(student);
         doStudentLogin(student);
       });
     } else {
-      showToast('Name not found. Ask your teacher!');
+      showToast(currentLang==='fr'?'Nom introuvable. Demande à ton professeur !':'Name not found. Ask your teacher!');
     }
     return;
   }
@@ -1124,11 +1141,12 @@ function openPhase(ph,unit){
     openBeeBot();
   }
   else if(ph.id==='test') openTest(unit);
-  else { showToast('Coming soon! 🚀'); }
+  else { showToast(t('comingSoon')); }
 }
 
 function openPractice(unit){
-  var data = CONTENT.practice[unit.id] || CONTENT.practice.u1;
+  var frData = getLangPractice(unit.id);
+  var data = frData || CONTENT.practice[unit.id] || CONTENT.practice.u1;
   g('practice-title').textContent = '✏️ I Practice — '+unit.topic;
   g('practice-sub').textContent = data.instruction;
   g('practice-result').style.display='none';
@@ -1185,7 +1203,7 @@ function openPractice(unit){
             if(b.dataset.name===name){b.style.opacity='0.4';b.dataset.matched='1';}
           });
           selected=null; correct++;
-          showToast('Correct! ⭐');
+          showToast(t('correct'));
           if(correct>=total){setTimeout(function(){showPracticeResult(total,total);},500);}
         } else {
           btn.style.background='#FFEBEE';btn.style.borderColor='#F03030';
@@ -1232,10 +1250,10 @@ function tfAnswer(btn,val,correct,idx){
   if(val===correct){
     btn.style.background=val?'#00C853':'#F03030';
     btn.style.color='white';btn.style.opacity='1';
-    showToast('Correct! ⭐');
+    showToast(t('correct'));
   } else {
     btn.style.background='#FFEBEE';btn.style.opacity='1';
-    showToast('Not quite! 😊');
+    showToast(t('notRight'));
   }
 }
 
@@ -1348,22 +1366,24 @@ function initCanvas(){
 }
 function setColor(c){drawColor=c;}
 function clearCanvas(){var c=g('draw-canvas');if(c){c.getContext('2d').clearRect(0,0,c.width,c.height);}}
-function saveCreate(){markDone('create');showToast('Saved! Great work! ⭐');setTimeout(function(){goBack();},1500);}
+function saveCreate(){markDone('create');showToast(t('saved'));setTimeout(function(){goBack();},1500);}
 
 function showPracticeResult(got, total){
   g('practice-area').style.display='none';
   var pct=Math.round(got/total*100);
+  var fr=currentLang==='fr';
   g('pr-emoji').textContent=pct>=80?'🏆':pct>=60?'⭐':'😊';
-  g('pr-title').textContent=pct>=80?'Amazing work!':pct>=60?'Good job!':'Keep practicing!';
-  g('pr-score').textContent=got+' out of '+total+' correct! ('+pct+'%)';
+  g('pr-title').textContent=pct>=80?(fr?'Travail incroyable !':'Amazing work!'):pct>=60?(fr?'Bravo !':'Good job!'):(fr?'Continue à pratiquer !':'Keep practicing!');
+  g('pr-score').textContent=got+(fr?' sur ':' out of ')+total+(fr?' correct ! ('+pct+'%)':' correct! ('+pct+'%)');
   g('practice-result').style.display='block';
   if(pct>=60) markDone('practice');
 }
 
 function openVideo(unit, nextFn){
-  var vid=CONTENT.videos[unit.id]||CONTENT.videos.u1;
+  var frVid = getLangVideo(unit.id);
+  var vid = frVid || CONTENT.videos[unit.id]||CONTENT.videos.u1;
   g('video-title').textContent='🎬 '+unit.title;
-  g('video-sub').textContent=(currentLevel?currentLevel.subtitle:'Level 1')+' · Watch before you start! 👀';
+  g('video-sub').textContent=(currentLevel?currentLevel.subtitle:'Level 1')+(currentLang==='fr'?' · Regarde avant de commencer ! 👀':' · Watch before you start! 👀');
   g('video-unit-title').textContent=vid.title;
   g('video-duration').textContent=vid.duration;
   var goals=g('video-goals'); goals.innerHTML='';
@@ -1458,7 +1478,6 @@ function markDone(phId){
 function openActivate(unit){
   var mods = currentSchool ? (currentSchool.modules||{}) : {};
   if(mods.meriem === false){
-    // Noura disabled - skip to next phase
     showToast('Noura AI is not active for your school');
     markDone('activate');
     goBack();
@@ -1469,10 +1488,11 @@ function openActivate(unit){
   meriemQIdx=0;
   currentUnit = unit;
   var box=g('chat-box'); box.innerHTML='';
-  // Use MERIEM_QA first question for this unit
   var uid = unit ? unit.id : 'u1';
-  var qaList = MERIEM_QA[uid] || MERIEM_QA.u1;
-  var firstQ = qaList && qaList[0] ? qaList[0].q : (CONTENT.activate_prompts[0]||'Hi! What do you know about digital devices?');
+  // Use FR content if active
+  var frQA = getLangNoura(uid);
+  var qaList = frQA || MERIEM_QA[uid] || MERIEM_QA.u1;
+  var firstQ = qaList && qaList[0] ? qaList[0].q : 'Hi!';
   addMsg('meriem', firstQ);
   chatMessages.push({role:'assistant', content:firstQ});
   showScreen('scr-activate');
@@ -1588,7 +1608,8 @@ function sendChat(){
   
   // Smart keyword matching - works without AI
   var uid = currentUnit ? currentUnit.id : 'u1';
-  var qaList = MERIEM_QA[uid] || MERIEM_QA.u1;
+  var frQA = getLangNoura(uid);
+  var qaList = frQA || MERIEM_QA[uid] || MERIEM_QA.u1;
   var qa = qaList[meriemQIdx % qaList.length];
   var valLower = val.toLowerCase();
   var isCorrect = qa && qa.keywords && qa.keywords.some(function(kw){ return valLower.indexOf(kw) > -1; });
@@ -1625,8 +1646,10 @@ function sendChat(){
 // LEARN PAGE
 // ══════════════════════════════════════════════════════
 function openLearn(unit){
-  var items = (CONTENT.learn && CONTENT.learn[unit.id]) || CONTENT.learn.u1;
-  g('learn-title').textContent='📖 I Learn — '+unit.topic;
+  var frItems = getLangLearn(unit.id);
+  var items = frItems || (CONTENT.learn && CONTENT.learn[unit.id]) || CONTENT.learn.u1;
+  var tapLabel = currentLang==='fr' ? 'Appuie pour apprendre ! 👆' : 'Tap to learn! 👆';
+  g('learn-title').textContent=(currentLang==='fr'?'📖 J\'apprends — ':'📖 I Learn — ')+unit.topic;
   g('device-info').style.display='none';
   var grid=g('device-grid'); grid.innerHTML='';
   var seen=0; // counts how many cards tapped
@@ -1639,7 +1662,7 @@ function openLearn(unit){
     card.innerHTML=
       (imgUrl ? '<img src="'+imgUrl+'" style="width:110px;height:110px;object-fit:contain;margin-bottom:8px;">' : '<span class="device-emoji" style="font-size:56px;display:block;margin-bottom:8px;">'+d.emoji+'</span>')+
       '<div class="device-name">'+d.name+'</div>'+
-      '<div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">Tap to learn! &#128070;</div>';
+      '<div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">'+tapLabel+'</div>';
     card.onclick=function(){
       document.querySelectorAll('.device-card').forEach(function(c){
         c.classList.remove('active');
@@ -1689,14 +1712,16 @@ function openLearn(unit){
 // ══════════════════════════════════════════════════════
 function openTest(unit){
   testAnswers={};
-  var qs=(CONTENT.tests[unit.id]||CONTENT.tests.u1).slice(0,10);
+  var frQs = getLangTest(unit.id);
+  var qs=(frQs || CONTENT.tests[unit.id]||CONTENT.tests.u1).slice(0,10);
   _testScore={correct:0,answered:0,total:qs.length};
   var area=g('test-area'); area.innerHTML='';
+  var scoreLabel = currentLang==='fr' ? 'Mon score' : 'Your score';
 
   // Score bar at top
   var scoreBar=document.createElement('div');
   scoreBar.style.cssText='background:white;border-radius:16px;padding:14px;text-align:center;margin-bottom:14px;';
-  scoreBar.innerHTML='<div style="font-size:13px;color:#888;margin-bottom:4px;">Your score</div><div style="font-family:Fredoka One;font-size:32px;color:#0A3FCC;" id="live-score">0 / '+qs.length+'</div>';
+  scoreBar.innerHTML='<div style="font-size:13px;color:#888;margin-bottom:4px;">'+scoreLabel+'</div><div style="font-family:Fredoka One;font-size:32px;color:#0A3FCC;" id="live-score">0 / '+qs.length+'</div>';
   area.appendChild(scoreBar);
 
   qs.forEach(function(q,i){
@@ -1779,9 +1804,9 @@ function answerQTF(btn,qi,oi,correct){
 
 function showFinalScore(){
   var pct=Math.round(_testScore.correct/_testScore.total*100);
+  var fr=currentLang==='fr';
   var emoji=pct>=80?'&#127942;':pct>=60?'&#11088;':'&#128522;';
-  var msg=pct>=70?'Amazing! You earned a badge! &#127885;':'Good effort! Keep practicing! &#128170;';
-  // Replace entire test area with result
+  var msg=pct>=70?(fr?'Incroyable ! Tu as gagné un badge ! &#127885;':'Amazing! You earned a badge! &#127885;'):(fr?'Bon effort ! Continue à pratiquer ! &#128170;':'Good effort! Keep practicing! &#128170;');
   var area=g('test-area');
   area.innerHTML=
     '<div class="score-card" style="margin-top:0;">'+
@@ -1789,8 +1814,8 @@ function showFinalScore(){
       '<div class="score-num">'+_testScore.correct+'/'+_testScore.total+'</div>'+
       '<div class="score-label" style="margin:12px 0 24px;">'+msg+'</div>'+
       '<div style="display:flex;gap:12px;">'+
-        '<button class="btn-big" style="background:#0A3FCC;color:white;flex:1;font-size:16px;" onclick="retryTest()">&#128260; Try Again</button>'+
-        '<button class="btn-big" style="background:#FFD600;color:#1A1A2E;flex:1;font-size:16px;" onclick="goBack()">&#8592; Back</button>'+
+        '<button class="btn-big" style="background:#0A3FCC;color:white;flex:1;font-size:16px;" onclick="retryTest()">&#128260; '+(fr?'Réessayer':'Try Again')+'</button>'+
+        '<button class="btn-big" style="background:#FFD600;color:#1A1A2E;flex:1;font-size:16px;" onclick="goBack()">&#8592; '+(fr?'Retour':'Back')+'</button>'+
       '</div>'+
     '</div>';
   if(pct>=70) markDone('test');
@@ -2893,7 +2918,7 @@ async function loginDirector(pin){
     var schoolRes = await supa.from('scholen').select('*').eq('pin', pin);
     if(schoolRes.error || !schoolRes.data || !schoolRes.data[0]){
       var local = DB.scholen.find(function(s){return s.pin===pin;});
-      if(!local){showToast('Wrong PIN!');return;}
+      if(!local){showToast(currentLang==='fr'?'PIN incorrect !':'Wrong PIN!');return;}
       currentSchool = local;
     } else {
       currentSchool = schoolRes.data[0];
@@ -2999,7 +3024,8 @@ function setLang(lang){
   currentLang=lang;
   renderLangSelector();
   updateFooter();
-  showToast(lang==='en'?'🇬🇧 English':lang==='ar'?'🇲🇦 Arabic':'🇫🇷 French');
+  applyLangToUI();
+  showToast(lang==='en'?'🇬🇧 English':lang==='ar'?'🇲🇦 Arabic':'🇫🇷 Français');
 }
 
 function renderStudentButtons(){
@@ -3263,8 +3289,161 @@ function openWhatsApp(){
   window.open(urls[lang] || urls.en, '_blank');
 }
 
-selRole('student');
-initSupabase();
+// ══════════════════════════════════════════════════════
+// TRANSLATIONS
+// ══════════════════════════════════════════════════════
+var LANG={
+  en:{signOut:'Sign out',chooseLevel:'Choose your level and start learning! ⭐',viewCert:'🏆 View my Certificate!',myBadges:'🏅 My Badges',newAssignment:'New Assignment!',newAssignments:'new assignment(s) from your teacher — tap to open! 👆',myAssignments:'📋 My Assignments',noAssignments:'No assignments yet! 🎉',submitted:'Submitted! Well done 🌟',startAssignment:'✏️ Start Assignment',submitBtn:'📤 Submit!',submitDone:'🎉 Assignment submitted! Well done!',fillAnswer:'Please give an answer first!',deadline:'Deadline',correct:'Correct! ⭐',notRight:'Not quite! Try again 😊',great:'Great!',ok:'OK',needHelp:'Need help',tryAgain:'🔄 Try Again',afterUnit:'After this unit I can...',iCan:'I can! ✓',iWant:'I want to! 🎯',tellNeighbour:'💬 Tell your neighbour',teacherTip:'★ Teacher tip',comingSoon:'Coming soon! 🚀',saved:'Saved! Great work! ⭐',saveWork:'⭐ Save my work!'},
+  fr:{signOut:'Se déconnecter',chooseLevel:'Choisis ton niveau et commence à apprendre ! ⭐',viewCert:'🏆 Voir mon Certificat !',myBadges:'🏅 Mes Badges',newAssignment:'Nouvelle mission !',newAssignments:'nouvelle(s) mission(s) de ton prof — appuie pour ouvrir ! 👆',myAssignments:'📋 Mes Missions',noAssignments:'Pas encore de missions ! 🎉',submitted:'Remis ! Bravo 🌟',startAssignment:'✏️ Commencer la mission',submitBtn:'📤 Envoyer !',submitDone:'🎉 Mission envoyée ! Bravo !',fillAnswer:'Donne une réponse d\'abord !',deadline:'Date limite',correct:'Correct ! ⭐',notRight:'Pas tout à fait ! Réessaie 😊',great:'Super !',ok:'Bien',needHelp:'J\'ai besoin d\'aide',tryAgain:'🔄 Réessayer',afterUnit:'Après cette unité je peux...',iCan:'Je sais ! ✓',iWant:'Je veux apprendre ! 🎯',tellNeighbour:'💬 Dis à ton voisin',teacherTip:'★ Conseil enseignant',comingSoon:'Bientôt disponible ! 🚀',saved:'Sauvegardé ! Bravo ! ⭐',saveWork:'⭐ Sauvegarder mon travail !'},
+};
+function t(k){return(currentLang==='fr'&&LANG.fr[k])?LANG.fr[k]:(LANG.en[k]||k);}
+
+var LANG_CONTENT={fr:{
+  noura:{
+    u1:[
+      {q:"Bonjour ! Je suis Noura ! 🌟 Est-ce que tu as un appareil numérique ? OUI ou NON ?",keywords:['oui','yes','j\'ai','telephone','tablette','ordi'],correct:"Génial ! 🎉 Tu connais déjà les appareils numériques !",wrong:"C'est OK ! 😊 Aujourd'hui on découvre les appareils numériques !"},
+      {q:"Super ! 🎉 Peux-tu nommer UN appareil numérique ?",keywords:['telephone','tablette','ordinateur','montre','robot','drone','smartphone'],correct:"Excellent ! ⭐ C'est bien un appareil numérique !",wrong:"Essaie encore ! 💡 Pense à un téléphone, une tablette ou un ordinateur !"},
+      {q:"Le savais-tu... un smartphone tient dans ta poche ! 📱 As-tu déjà utilisé un smartphone ?",keywords:['oui','yes','utilisé','j\'ai'],correct:"Fantastique ! 🌟 Les smartphones sont partout !",wrong:"Pas de problème ! 😊 Tu vas apprendre à utiliser les appareils numériques !"},
+      {q:"Génial ! 🌈 Si tu pouvais avoir N'IMPORTE QUEL appareil — lequel choisirais-tu ?",keywords:['telephone','tablette','ordinateur','robot','drone','montre'],correct:"Super choix ! 🚀 Cet appareil est vraiment incroyable !",wrong:"N'importe quel choix est super ! Dis-moi quel appareil tu aimerais avoir !"},
+    ],
+    u2:[
+      {q:"Bonjour ! Je suis Noura ! 🌟 Peux-tu voir l'écran sur lequel tu lis ? OUI ou NON ?",keywords:['oui','yes','vois','écran'],correct:"Parfait ! 🎉 L'écran est la partie la plus importante d'un appareil !",wrong:"Regarde devant toi ! 😊 L'écran c'est la surface lumineuse que tu regardes !"},
+      {q:"Incroyable ! 🎉 Ton appareil a-t-il une caméra ? Sais-tu à quoi elle sert ?",keywords:['photo','image','voir','filmer','oui'],correct:"Excellent ! ⭐ La caméra prend des photos et des vidéos !",wrong:"La caméra prend des PHOTOS et des vidéos ! 📸"},
+      {q:"Le savais-tu... les appareils ont des HAUT-PARLEURS 🔊 Peux-tu entendre de la musique sur un appareil ?",keywords:['oui','musique','sons','entendre'],correct:"Super ! 🎵 Les haut-parleurs diffusent la musique et les voix !",wrong:"Écoute de la musique sur un appareil — tu entendras les haut-parleurs ! 🔊"},
+      {q:"Génial ! 🔋 Si la batterie est vide — que se passe-t-il ?",keywords:['éteint','s\'éteint','mort','recharger','charger','vide'],correct:"Exactement ! ⚡ Sans batterie l'appareil s'éteint — il faut le recharger !",wrong:"Sans batterie l'appareil s'ÉTEINT ! ⚡ Il faut toujours le recharger !"},
+    ],
+    u3:[
+      {q:"Bonjour ! Je suis Noura ! 🌟 As-tu déjà appuyé sur l'écran d'une tablette ?",keywords:['oui','yes','appuyé','touché'],correct:"Super ! 🎉 Appuyer s'appelle TAPER — c'est la première action !",wrong:"TAPER c'est appuyer sur l'écran avec le doigt !"},
+      {q:"Incroyable ! 🎉 Peux-tu GLISSER ton doigt sur l'écran ?",keywords:['oui','glisse','défile','page','change'],correct:"Bravo ! ⭐ GLISSER fait défiler les pages !",wrong:"GLISSER c'est déplacer ton doigt sur l'écran — ça fait défiler ! 📖"},
+      {q:"Le savais-tu... tu peux ÉCRIRE sur un appareil avec le clavier ! ⌨️",keywords:['oui','écrit','clavier','message','tapé'],correct:"Fantastique ! ✉️ ÉCRIRE te permet d'envoyer des messages !",wrong:"ÉCRIRE c'est utiliser le clavier pour taper des mots ! ⌨️"},
+      {q:"Génial ! 🌈 Laquelle utilises-tu LE PLUS : TAPER, GLISSER ou ÉCRIRE ?",keywords:['taper','glisser','écrire','toutes','les trois'],correct:"Super choix ! 🚀 Toutes ces actions sont utiles !",wrong:"Dis-moi laquelle tu utilises le plus ! TAPER, GLISSER ou ÉCRIRE ?"},
+    ],
+    u4:[
+      {q:"Bonjour ! Je suis Noura ! 🛡️ As-tu déjà utilisé Internet ?",keywords:['oui','yes','internet','utilisé'],correct:"Super ! 🎉 Internet est formidable mais il faut rester en sécurité !",wrong:"C'est OK ! 😊 Internet c'est un grand réseau — mais il faut être prudent !"},
+      {q:"Important ! 🔒 Est-ce que tu partagerais ton mot de passe avec un ami ?",keywords:['non','jamais','ne pas','pas'],correct:"Exactement ! 🛡️ Ne JAMAIS partager son mot de passe — c'est ton secret !",wrong:"La bonne réponse est NON ! 🔒 Ton mot de passe est une clé secrète !"},
+      {q:"Le savais-tu... avant d'aller sur Internet il faut demander à un adulte ! 🙋",keywords:['maman','papa','mère','père','parent','adulte','prof'],correct:"Parfait ! 🌟 Demande toujours à un adulte avant d'aller sur Internet !",wrong:"Demande toujours à MAMAN, PAPA ou un ADULTE avant d'aller sur Internet ! 🙋"},
+      {q:"Génial ! 😟 Si quelque chose sur Internet te fait peur — que fais-tu ?",keywords:['dire','adult','parent','prof','signaler','fermer','appeler'],correct:"Excellent ! 💬 Dis toujours à un adulte si quelque chose t'inquiète !",wrong:"Dis TOUJOURS à un adulte si quelque chose sur Internet te dérange !"},
+    ],
+  },
+  learn:{
+    u1:[
+      {emoji:'📱',name:'Smartphone',color:'#1A6EFF',fact1:'Un smartphone tient dans ta poche !',fact2:'Tu peux appeler, prendre des photos et jouer ! 🎮'},
+      {emoji:'📟',name:'Tablette',color:'#00C853',fact1:'Une tablette a un GRAND écran !',fact2:'Tu peux lire des livres et dessiner dessus ! ✏️'},
+      {emoji:'💻',name:'Ordinateur portable',color:'#FF6B2B',fact1:'Un ordinateur portable a un clavier !',fact2:'Tu peux écrire et apprendre avec ! 📚'},
+      {emoji:'⌚',name:'Montre connectée',color:'#9B27AF',fact1:'Une montre connectée compte tes pas !',fact2:'Elle indique l\'heure et tes mouvements ! 👣'},
+      {emoji:'🤖',name:'Robot IA',color:'#E91E7A',fact1:'Un robot IA peut parler et aider !',fact2:'Il peut répondre à tes questions ! 💬'},
+      {emoji:'🚁',name:'Drone',color:'#00B8CC',fact1:'Un drone peut voler très haut !',fact2:'Les drones prennent des photos depuis le ciel ! 📸'},
+    ],
+    u2:[
+      {emoji:'🖥️',name:'Écran',color:'#1A6EFF',fact1:'L\'écran est la partie lumineuse !',fact2:'Tu regardes l\'écran pour tout voir ! 👀'},
+      {emoji:'📷',name:'Caméra',color:'#00C853',fact1:'La caméra prend des photos !',fact2:'Souris — la caméra te voit ! 😄'},
+      {emoji:'🔊',name:'Haut-parleur',color:'#FF6B2B',fact1:'Le haut-parleur diffuse les sons !',fact2:'La musique et les voix sortent du haut-parleur ! 🎵'},
+      {emoji:'🔋',name:'Batterie',color:'#9B27AF',fact1:'La batterie donne de l\'énergie à l\'appareil !',fact2:'Quand elle est vide il faut la recharger ! ⚡'},
+    ],
+    u3:[
+      {emoji:'👆',name:'Taper',color:'#1A6EFF',fact1:'Taper c\'est appuyer avec le doigt !',fact2:'Tu tapes pour ouvrir les applications ! 📱'},
+      {emoji:'👋',name:'Glisser',color:'#00C853',fact1:'Glisser c\'est déplacer son doigt !',fact2:'Tu glisses pour défiler et changer de page ! 📖'},
+      {emoji:'⌨️',name:'Écrire',color:'#FF6B2B',fact1:'Écrire c\'est utiliser le clavier !',fact2:'Tu écris pour taper des mots et des messages ! ✉️'},
+    ],
+    u4:[
+      {emoji:'🛡️',name:'Règle 1',color:'#1A6EFF',fact1:'Ne jamais partager ton mot de passe !',fact2:'Ton mot de passe est ton secret ! 🔒'},
+      {emoji:'🙋',name:'Règle 2',color:'#00C853',fact1:'Toujours demander à maman ou papa !',fact2:'Avant d\'aller en ligne demande à un adulte ! 👨‍👩‍👧'},
+      {emoji:'🚫',name:'Règle 3',color:'#FF6B2B',fact1:'Ne jamais parler aux inconnus en ligne !',fact2:'Ne parle qu\'aux personnes que tu connais ! 👥'},
+      {emoji:'😟',name:'Règle 4',color:'#9B27AF',fact1:'Dis à un adulte si quelque chose te dérange !',fact2:'Tu n\'as jamais de problèmes pour le dire ! 💬'},
+      {emoji:'⏰',name:'Règle 5',color:'#E91E7A',fact1:'Fais des pauses sur les écrans !',fact2:'Va aussi jouer dehors ! 🌳'},
+    ],
+  },
+  practice:{
+    u1:{type:'match',instruction:'Associe l\'appareil à son nom !',pairs:[{emoji:'📱',name:'Smartphone',img:'https://i.imgur.com/hXGJrMs.png'},{emoji:'📟',name:'Tablette',img:'https://i.imgur.com/p1WiBs5.png'},{emoji:'💻',name:'Ordinateur portable',img:'https://i.imgur.com/eLWtSjo.png'},{emoji:'⌚',name:'Montre connectée',img:'https://i.imgur.com/aVVcKc3.png'},{emoji:'🤖',name:'Robot IA',img:'https://i.imgur.com/Gw5bsjy.png'},{emoji:'🚁',name:'Drone',img:'https://i.imgur.com/lXILDN8.png'}]},
+    u2:{type:'match',instruction:'Associe la partie à ce qu\'elle fait !',pairs:[{emoji:'🖥️',name:'Écran'},{emoji:'📷',name:'Caméra'},{emoji:'🔊',name:'Haut-parleur'},{emoji:'🔋',name:'Batterie'}]},
+    u3:{type:'match',instruction:'Associe l\'action à ce qu\'elle fait !',pairs:[{emoji:'👆',name:'Taper'},{emoji:'👋',name:'Glisser'},{emoji:'⌨️',name:'Écrire'}]},
+    u4:{type:'truefalse',instruction:'Sûr ou PAS sûr ?',questions:[{text:'Partager ton mot de passe avec un ami',answer:false},{text:'Demander à maman ou papa avant d\'aller en ligne',answer:true},{text:'Parler à des inconnus en ligne',answer:false},{text:'Dire à un adulte si quelque chose te dérange',answer:true},{text:'Partager ton adresse à la maison en ligne',answer:false}]},
+  },
+  tests:{
+    u1:[
+      {q:'Un smartphone peut tenir dans ta poche.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Une tablette a un GRAND écran.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Un ordinateur portable a un clavier.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Un drone peut voler dans les airs.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Quel appareil tient dans ta poche ?',type:'tf',opts:['Smartphone 📱','Télévision 📺'],correct:0},
+      {q:'Quel appareil peut voler ?',type:'tf',opts:['Drone 🚁','Tablette 📟'],correct:0},
+      {q:'Une montre connectée peut compter tes pas.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Un robot IA peut répondre à tes questions.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Une tablette a un PETIT écran.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:1},
+      {q:'Les appareils numériques peuvent nous aider à apprendre.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+    ],
+    u2:[
+      {q:'L\'écran est la partie lumineuse d\'un appareil.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'La caméra prend des photos.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Le haut-parleur te permet d\'entendre la musique.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'La batterie donne de l\'énergie à l\'appareil.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Quelle partie prend des photos ?',type:'tf',opts:['Caméra 📷','Haut-parleur 🔊'],correct:0},
+      {q:'Que se passe-t-il quand la batterie est vide ?',type:'tf',opts:['L\'appareil s\'éteint ⚡','L\'appareil continue'],correct:0},
+      {q:'L\'écran d\'une tablette est tactile.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Un appareil peut avoir plusieurs haut-parleurs.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'La caméra fait de la musique.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:1},
+      {q:'Il faut recharger la batterie quand elle est vide.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+    ],
+    u3:[
+      {q:'TAPER c\'est appuyer sur l\'écran avec le doigt.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'GLISSER fait défiler les pages.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'ÉCRIRE utilise le clavier.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'On peut seulement TAPER sur un écran tactile.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:1},
+      {q:'Quelle action ouvre une application ?',type:'tf',opts:['TAPER 👆','GLISSER 👋'],correct:0},
+      {q:'Quelle action fait défiler les pages ?',type:'tf',opts:['GLISSER 👋','ÉCRIRE ⌨️'],correct:0},
+      {q:'On peut envoyer des messages en ÉCRIVANT.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'GLISSER c\'est appuyer rapidement sur l\'écran.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:1},
+      {q:'Un clavier sert à ÉCRIRE.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'On utilise les doigts sur un écran tactile.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+    ],
+    u4:[
+      {q:'Il ne faut JAMAIS partager ton mot de passe.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Tu peux parler à tous les inconnus en ligne.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:1},
+      {q:'Demande à un adulte avant d\'aller sur Internet.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Si quelque chose te dérange en ligne — dis-le à un adulte.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Ton mot de passe est comme une clé secrète.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Tu peux partager ton adresse en ligne.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:1},
+      {q:'Il faut faire des pauses sur les écrans.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Quel adulte demandes-tu avant d\'aller sur Internet ?',type:'tf',opts:['Maman ou papa 👨‍👩‍👧','Un inconnu 🚫'],correct:0},
+      {q:'Internet peut être dangereux si on n\'est pas prudent.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+      {q:'Tu n\'as jamais de problèmes pour dire à un adulte si quelque chose te dérange.',type:'tf',opts:['VRAI ✅','FAUX ❌'],correct:0},
+    ],
+  },
+  videos:{
+    u1:{title:'Qu\'est-ce qu\'un appareil numérique ?',goals:['Apprendre ce qu\'est un appareil numérique 📱','Voir 4 grands appareils : Téléphone, Tablette, Ordinateur, Montre','Entendre Noura nommer chaque appareil !']},
+    u2:{title:'Les parties d\'un appareil',goals:['Apprendre les parties d\'un appareil 🔍','Voir : écran, caméra, haut-parleur, chargeur','Montrer les parties sur ton propre appareil !']},
+    u3:{title:'Taper, Glisser, Écrire !',goals:['Apprendre 3 actions : Taper, Glisser, Écrire ✋','Regarder Anwar montrer chaque action','Essayer toi-même sur l\'écran !']},
+    u4:{title:'Rester en sécurité en ligne !',goals:['Apprendre 5 règles de sécurité 🛡️','Voir des exemples sûrs et non sûrs','Devenir un Héros de la Sécurité Numérique !']},
+  },
+}};
+
+function t(k){return(currentLang==='fr'&&LANG.fr[k])?LANG.fr[k]:(LANG.en[k]||k);}
+function getLangLearn(uid){return(currentLang==='fr'&&LANG_CONTENT.fr.learn[uid])?LANG_CONTENT.fr.learn[uid]:null;}
+function getLangNoura(uid){return(currentLang==='fr'&&LANG_CONTENT.fr.noura[uid])?LANG_CONTENT.fr.noura[uid]:null;}
+function getLangPractice(uid){return(currentLang==='fr'&&LANG_CONTENT.fr.practice[uid])?LANG_CONTENT.fr.practice[uid]:null;}
+function getLangTest(uid){return(currentLang==='fr'&&LANG_CONTENT.fr.tests[uid])?LANG_CONTENT.fr.tests[uid]:null;}
+function getLangVideo(uid){return(currentLang==='fr'&&LANG_CONTENT.fr.videos[uid])?LANG_CONTENT.fr.videos[uid]:null;}
+
+function applyLangToUI(){
+  var fr = currentLang==='fr';
+  // Student home
+  var sub=g('st-welcome-sub'); if(sub) sub.textContent=t('chooseLevel');
+  var cb=g('cert-btn'); if(cb) cb.textContent=t('viewCert');
+  var mb=g('my-badges-title'); if(mb) mb.textContent=t('myBadges');
+  // Assignment banner
+  var at=g('asgn-badge-title'); if(at) at.textContent=t('newAssignment');
+  var abtext=g('asgn-badge-text'); if(abtext){var n=g('asgn-badge-num');abtext.textContent=(n?n.textContent:'')+' '+t('newAssignments');}
+  // Chat / activate
+  var ci=g('chat-inp'); if(ci) ci.placeholder=fr?'Écris ta réponse...':'Type your answer...';
+  var csb=g('chat-send-btn'); if(csb) csb.textContent=fr?'Envoyer ➤':'Send ➤';
+  var cdb=g('chat-done-btn'); if(cdb) cdb.textContent=fr?'⭐ Terminé ! Activité suivante →':'⭐ Done! Next activity →';
+  // Video screen
+  var vll=g('video-learn-label'); if(vll) vll.textContent=fr?'🎯 Dans cette vidéo tu vas apprendre :':'🎯 In this video you will learn:';
+  var vrb=g('video-replay-btn'); if(vrb) vrb.textContent=fr?'🔄 Rejouer':'🔄 Replay';
+  var vnb=g('video-next-btn'); if(vnb) vnb.textContent=fr?'✅ Terminé ! Activité suivante →':'✅ Done! Next activity →';
+}
+
+
 checkDeepLink();
 loadVideoLinks();
 
@@ -3589,25 +3768,25 @@ function openStudentAssignments(){
   panel.id='student-asgn-panel';
   var html='<div style="background:white;border-radius:20px;padding:24px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;">'+
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">'+
-      '<div style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;">📋 My Assignments</div>'+
+      '<div style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;">'+t('myAssignments')+'</div>'+
       '<button onclick="g(\'student-asgn-panel\').remove()" style="background:#F0EDE8;border:none;border-radius:10px;padding:8px 14px;font-size:18px;cursor:pointer;">✕</button>'+
     '</div>';
   if(!all.length){
-    html+='<div style="color:#999;text-align:center;padding:24px;font-size:15px;">No assignments yet! 🎉</div>';
+    html+='<div style="color:#999;text-align:center;padding:24px;font-size:15px;">'+t('noAssignments')+'</div>';
   } else {
     all.forEach(function(a){
       var sub=DB_SUBMISSIONS.find(function(s){return s.assignment_id===a.id&&s.student_id===(currentUser?currentUser.id:'');});
-      var dl=a.deadline?'<div style="font-size:12px;color:#FF6B2B;font-weight:700;margin-top:2px;">⏰ Deadline: '+a.deadline+'</div>':'';
+      var dl=a.deadline?'<div style="font-size:12px;color:#FF6B2B;font-weight:700;margin-top:2px;">⏰ '+t('deadline')+': '+a.deadline+'</div>':'';
       if(sub){
         html+='<div style="padding:14px;background:#E8F5E9;border-radius:14px;margin-bottom:10px;border-left:4px solid #00C853;">'+
           '<div style="font-size:15px;font-weight:800;color:#1A1A2E;">✅ '+a.title+'</div>'+
-          '<div style="font-size:12px;color:#00C853;font-weight:700;margin-top:2px;">Submitted! Well done 🌟</div>'+dl+'</div>';
+          '<div style="font-size:12px;color:#00C853;font-weight:700;margin-top:2px;">'+t('submitted')+'</div>'+dl+'</div>';
       } else {
         html+='<div style="padding:14px;background:#F8F7F4;border-radius:14px;margin-bottom:10px;border-left:4px solid #1A6EFF;">'+
           '<div style="font-size:15px;font-weight:800;color:#1A1A2E;">'+a.title+'</div>'+
           '<div style="font-size:13px;color:#555;margin:6px 0;">'+a.instruction+'</div>'+dl+
-          (a.file_name?'<div style="margin:8px 0;"><a href="'+(a.file_data||'#')+'" download="'+a.file_name+'" style="font-size:13px;color:#1A6EFF;font-weight:700;text-decoration:none;">📎 Download: '+a.file_name+'</a></div>':'')+
-          '<button onclick="openDoAssignment(\''+a.id+'\')" style="margin-top:8px;padding:10px 20px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">✏️ Start Assignment</button>'+
+          (a.file_name?'<div style="margin:8px 0;"><a href="'+(a.file_data||'#')+'" download="'+a.file_name+'" style="font-size:13px;color:#1A6EFF;font-weight:700;text-decoration:none;">📎 '+t('download')+': '+a.file_name+'</a></div>':'')+
+          '<button onclick="openDoAssignment(\''+a.id+'\')" style="margin-top:8px;padding:10px 20px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">'+t('startAssignment')+'</button>'+
         '</div>';
       }
     });
@@ -3646,7 +3825,7 @@ function openDoAssignment(aid){
     (a.file_name?'<div style="margin-bottom:12px;"><a href="'+(a.file_data||'#')+'" download="'+a.file_name+'" style="font-size:14px;color:#1A6EFF;font-weight:700;text-decoration:none;">📎 Download: '+a.file_name+'</a></div>':'')+
     inputHtml+
     '<div style="display:flex;gap:10px;margin-top:16px;">'+
-      '<button onclick="submitAssignment(\''+a.id+'\')" style="flex:1;padding:12px;background:#00C853;color:white;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">📤 Submit!</button>'+
+      '<button onclick="submitAssignment(\''+a.id+'\')" style="flex:1;padding:12px;background:#00C853;color:white;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">'+t('submitBtn')+'</button>'+
       '<button onclick="g(\'do-asgn-panel\').remove()" style="padding:12px 18px;background:#F0EDE8;color:#1A1A2E;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">✕</button>'+
     '</div></div>';
   document.body.appendChild(panel);
@@ -3685,7 +3864,7 @@ function submitAssignment(aid){
   var answer='';
   if(a.type==='draw'){var c=g('do-draw-canvas');answer=c?c.toDataURL('image/png'):'';}
   else {answer=answerEl?(answerEl.value||''):''; }
-  if(!answer.trim()&&a.type!=='draw'){showToast('Please give an answer first!');return;}
+  if(!answer.trim()&&a.type!=='draw'){showToast(t('fillAnswer'));return;}
   var sub={id:'s'+Date.now(),assignment_id:aid,
     student_id:currentUser?currentUser.id:'',student_name:currentUser?currentUser.naam:'Student',
     school_id:currentSchool?currentSchool.id:'',type:a.type,answer:answer,
@@ -3697,7 +3876,7 @@ function submitAssignment(aid){
     .then(function(r){if(r.error) console.error(r.error.message);});
   var p=g('do-asgn-panel'); if(p) p.remove();
   var p2=g('student-asgn-panel'); if(p2) p2.remove();
-  showToast('🎉 Assignment submitted! Well done!');
+  showToast(t('submitDone'));
   renderAssignmentBadge();
 }
 
