@@ -55,7 +55,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 .login-fields input:focus{border-color:var(--u1);}
 .btn-login{width:100%;padding:16px;background:var(--navy);color:white;border:none;border-radius:14px;font-size:18px;font-weight:800;cursor:pointer;font-family:'Nunito';transition:all 0.2s;}
 .btn-login:hover{background:var(--u1);transform:translateY(-1px);}
-.noura-welcome{font-size:40px;margin-bottom:12px;}
+.meriem-welcome{font-size:40px;margin-bottom:12px;}
 
 /* ── STUDENT HOME ── */
 .student-home{flex:1;padding:20px;display:flex;flex-direction:column;gap:16px;max-width:800px;margin:0 auto;width:100%;}
@@ -104,16 +104,16 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 .phase-desc{font-size:13px;opacity:0.8;margin-top:2px;}
 .phase-stars{font-size:20px;}
 
-/* ── ACTIVATE PAGE (NOURA CHAT) ── */
-.noura-wrap{flex:1;display:flex;flex-direction:column;padding:20px;max-width:700px;margin:0 auto;width:100%;}
-.noura-header{text-align:center;margin-bottom:20px;}
-.noura-avatar{font-size:72px;display:block;margin-bottom:8px;}
-.noura-name{font-family:'Fredoka One';font-size:28px;color:white;}
+/* ── ACTIVATE PAGE (MERIEM CHAT) ── */
+.meriem-wrap{flex:1;display:flex;flex-direction:column;padding:20px;max-width:700px;margin:0 auto;width:100%;}
+.meriem-header{text-align:center;margin-bottom:20px;}
+.meriem-avatar{font-size:72px;display:block;margin-bottom:8px;}
+.meriem-name{font-family:'Fredoka One';font-size:28px;color:white;}
 .chat-box{flex:1;background:white;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px;min-height:300px;margin-bottom:16px;}
 .msg{max-width:85%;padding:14px 18px;border-radius:18px;font-size:16px;font-weight:700;line-height:1.5;}
-.msg.noura{background:var(--u1l);color:var(--dark);align-self:flex-start;border-bottom-left-radius:4px;}
+.msg.meriem{background:var(--u1l);color:var(--dark);align-self:flex-start;border-bottom-left-radius:4px;}
 .msg.child{background:var(--u2);color:white;align-self:flex-end;border-bottom-right-radius:4px;}
-.msg.noura .emoji{font-size:20px;}
+.msg.meriem .emoji{font-size:20px;}
 .chat-input-row{display:flex;gap:10px;}
 .chat-input{flex:1;padding:14px 18px;border:3px solid var(--u1);border-radius:14px;font-size:16px;font-family:'Nunito';font-weight:700;outline:none;}
 .chat-send{padding:14px 20px;background:var(--u1);color:white;border:none;border-radius:14px;font-size:18px;cursor:pointer;font-family:'Nunito';font-weight:800;}
@@ -217,6 +217,9 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div class="tb-r">
       <span id="st-name" style="color:white;font-weight:800;font-size:14px;"></span>
       <div id="lang-selector" style="display:none;gap:4px;"></div>
+      <button id="asgn-badge" onclick="openStudentAssignments()" style="display:none;position:relative;padding:6px 12px;background:#E53935;color:white;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito;align-items:center;gap:5px;">
+        📋 <span id="asgn-badge-num">0</span>
+      </button>
       <button class="tb-btn" onclick="logout()">Sign out</button>
     </div>
   </div>
@@ -292,16 +295,16 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
   </div>
 </div>
 
-<!-- ══ ACTIVATE (NOURA CHAT) ══ -->
+<!-- ══ ACTIVATE (MERIEM CHAT) ══ -->
 <div class="screen" id="scr-activate">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
     <div class="tb-r"><button class="tb-btn" onclick="goBack()">← Back</button></div>
   </div>
-  <div class="noura-wrap">
-    <div class="noura-header">
+  <div class="meriem-wrap">
+    <div class="meriem-header">
       <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:96px;height:96px;border-radius:50%;object-fit:cover;border:4px solid #FFD600;display:block;margin:0 auto 8px;" onerror="this.outerHTML='<span style=font-size:72px;display:block;text-align:center;>👩🏽</span>'"/>
-      <div class="noura-name">Noura</div>
+      <div class="meriem-name">Noura</div>
     </div>
     <div class="chat-box" id="chat-box"></div>
     <div class="chat-input-row">
@@ -514,10 +517,10 @@ var DB = {
   owner: {pin:'7017'},
   scholen: [
     {id:'424900b9-4f69-4edb-9fee-180622989d19', naam:'Green Valley Primary', stad:'Casablanca', pin:'1111', actief:true,
-     modules:{setActive:true,noura:true,beebot:false,scratch:false,kahoot:false,leaderboard:true,certificate:true},
+     modules:{setActive:true,meriem:true,beebot:false,scratch:false,kahoot:false,leaderboard:true,certificate:true},
      talen:{en:true,ar:false,fr:false}},
     {id:'s2', naam:'Al-Nour Academy', stad:'Rabat', pin:'2222', actief:true,
-     modules:{setActive:true,noura:true,beebot:true,scratch:false,certificate:true},
+     modules:{setActive:true,meriem:true,beebot:true,scratch:false,certificate:true},
      talen:{en:true,ar:true,fr:false}},
   ],
   docenten: [
@@ -573,39 +576,6 @@ var CONTENT = {
         {text:'Sharing your home address online', answer:false},
       ]
     },
-    // ── LEVEL 2 PRACTICE DATA ──
-    l2u1: {
-      type: 'match',
-      instruction: 'Match the art tool to what it does! 🎨',
-      pairs: [
-        {emoji:'🎨', name:'Draw',    desc:'Make lines and shapes on screen'},
-        {emoji:'📸', name:'Photo',   desc:'Take a picture with the camera'},
-        {emoji:'🌈', name:'Colours', desc:'Pick red, blue, green and more!'},
-        {emoji:'✂️', name:'Edit',   desc:'Change and fix your picture'},
-      ]
-    },
-    l2u2: {
-      type: 'truefalse',
-      instruction: 'True or False about digital stories? 📖',
-      questions: [
-        {text:'You can tell a story with photos on a device', answer:true},
-        {text:'A digital story only has words — no pictures', answer:false},
-        {text:'A video is a type of digital story', answer:true},
-        {text:'Every story has a Beginning, Middle and End', answer:true},
-        {text:'"Once upon a time..." is the BEGINNING', answer:true},
-      ]
-    },
-    l2u4: {
-      type: 'truefalse',
-      instruction: 'Smart choice or NOT smart? Tap the right answer! 🤖',
-      questions: [
-        {text:'Ask Digi for help — then check the answer yourself', answer:true},
-        {text:'Believe EVERYTHING an AI says — always', answer:false},
-        {text:'Tell an adult if AI says something strange', answer:true},
-        {text:'Use AI to HELP your thinking — not to do everything', answer:true},
-        {text:'A pencil is an example of AI', answer:false},
-      ]
-    },
   },
   learn: {
     u1: [
@@ -623,7 +593,7 @@ var CONTENT = {
        fact2:'It tells the time and counts your steps! 👣'},
       {emoji:'🤖', name:'AI Robot', color:'#E91E7A', img:'https://i.imgur.com/Gw5bsjy.png',
        fact1:'An AI robot is a smart computer!',
-       fact2:'It can talk and answer questions! 💬'},
+       fact2:'It can talk and answer questions! 💬'},,
       {emoji:'🚁', name:'Drone', color:'#00B8CC', img:'https://i.imgur.com/lXILDN8.png',
        fact1:'A drone is a flying device controlled by a remote!',
        fact2:'Drones can take amazing photos from the sky! 📸'}
@@ -670,63 +640,6 @@ var CONTENT = {
        fact1:'Take breaks from screens!',
        fact2:'Go outside and play too! 🌳'},
     ],
-    // ── LEVEL 2 LEARN DATA ──
-    l2u1:[
-      {emoji:'🎨', name:'DRAW', color:'#1A6EFF',
-       fact1:'Use your finger or a stylus to draw!',
-       fact2:'You can make lines, shapes and pictures on a screen! ✏️'},
-      {emoji:'📸', name:'PHOTO', color:'#E91E7A',
-       fact1:'Take a picture of ANYTHING with your camera!',
-       fact2:'Use the camera button on your device — click! 📷'},
-      {emoji:'🌈', name:'COLOURS', color:'#00C853',
-       fact1:'Choose from thousands of colours!',
-       fact2:'Pick red, blue, green — make your art bright! 🎨'},
-      {emoji:'✂️', name:'EDIT', color:'#FF6B2B',
-       fact1:'Change and improve your art with EDIT!',
-       fact2:'Fix mistakes — no problem! You can always try again! ✅'},
-    ],
-    l2u2:[
-      {emoji:'🌅', name:'Beginning', color:'#1A6EFF',
-       fact1:'Every story starts with a BEGINNING!',
-       fact2:'Introduce WHO is in your story and WHERE they are! 🌅'},
-      {emoji:'☀️', name:'Middle', color:'#FF6B2B',
-       fact1:'The MIDDLE is the exciting part!',
-       fact2:'What happens? Something surprising or fun! ☀️'},
-      {emoji:'🌙', name:'End', color:'#9B27AF',
-       fact1:'Every story needs an ENDING!',
-       fact2:'How does it finish? Happy ever after! 🌙'},
-      {emoji:'📸', name:'Photos + Words', color:'#00C853',
-       fact1:'Combine a PHOTO and WORDS to make a digital story!',
-       fact2:'Photos + Words = Your Digital Story! 📖'},
-    ],
-    l2u3:[
-      {emoji:'📋', name:'Algorithm', color:'#FF6B2B',
-       fact1:'An ALGORITHM is a list of steps in the RIGHT order!',
-       fact2:'1. Wake up ☀️  2. Brush teeth 🪥  3. Eat breakfast 🍞  4. Go to school 🎒'},
-      {emoji:'🔁', name:'Pattern', color:'#1A6EFF',
-       fact1:'A PATTERN is something that REPEATS again and again!',
-       fact2:'🔴🔵🔴🔵... what comes next? 🔴! You solved the pattern! 🎉'},
-      {emoji:'🤖', name:'Robot Steps', color:'#9B27AF',
-       fact1:'Robots ONLY do what you tell them — step by step!',
-       fact2:'Clear instructions = happy robot! Digi needs YOUR help! 🤖'},
-      {emoji:'🧠', name:'Think Like a Computer', color:'#00C853',
-       fact1:'Computers follow steps — just like a recipe!',
-       fact2:'One step at a time = no mistakes! That is computational thinking! 💡'},
-    ],
-    l2u4:[
-      {emoji:'🤖', name:'AI = Artificial Intelligence', color:'#9B27AF',
-       fact1:'AI stands for Artificial Intelligence!',
-       fact2:'Computers that can THINK and LEARN — just like Digi the robot! 🧠'},
-      {emoji:'👂', name:'AI Listens', color:'#1A6EFF',
-       fact1:'AI can LISTEN to your voice!',
-       fact2:'Siri, Alexa and Google Assistant all listen — and answer! 🗣️'},
-      {emoji:'👁️', name:'AI Sees', color:'#00C853',
-       fact1:'AI can SEE and recognise faces!',
-       fact2:'Face unlock on your phone — that is AI seeing you! 📸'},
-      {emoji:'💬', name:'AI Speaks', color:'#FF6B2B',
-       fact1:'AI can SPEAK and answer your questions!',
-       fact2:'Ask a question — AI finds the answer for you! 🌍'},
-    ],
   },
   videos: {
     u1: {title:'What is a Digital Device?', duration:'2 min', url:'',
@@ -737,14 +650,6 @@ var CONTENT = {
       goals:['Learn 3 actions: Tap, Swipe, Type ✋','Watch Anwar show each action','Copy the actions on your device!']},
     u4: {title:'Be Safe Online!', duration:'2 min', url:'',
       goals:['Learn 5 safety rules 🛡️','See safe vs not safe examples','Become a Digital Safety Hero!']},
-    l2u1: {title:'Noura & Anwar Become Digital Artists!', duration:'2 min', url:'',
-      goals:['Learn 4 digital art tools 🎨','See Draw, Photo, Colours and Edit in action','Start creating your own digital artwork!']},
-    l2u2: {title:'Noura & Anwar Make a Digital Story!', duration:'2 min', url:'',
-      goals:['Learn what a digital story is 📖','Discover Beginning, Middle and End','Combine photos and words into a story!']},
-    l2u3: {title:'Digi the Robot Needs Your Help!', duration:'2 min', url:'',
-      goals:['Learn what an algorithm is 🤖','See steps and patterns in real life','Think like a computer — one step at a time!']},
-    l2u4: {title:'Digi Explains Artificial Intelligence!', duration:'2 min', url:'',
-      goals:['Learn what AI means 🧠','See AI around you every day','Make smart and safe choices with AI!']},
   },
   levels: [
     {id:'l1', title:'Discover', emoji:'📘', topic:'What are digital devices?', color:'#1A6EFF', months:'Sep–Nov', subtitle:'Book 1',
@@ -782,41 +687,7 @@ var CONTENT = {
           {id:'test',     label:'⭐ I Test',   desc:'Test yourself!',     color:'#E91E7A', textColor:'white'},
         ]},
      ]},
-    {id:'l2', title:'Explore', emoji:'📗', topic:'How do we use devices?', color:'#00C853', months:'Feb–Jun', subtitle:'Book 2',
-     units:[
-       {id:'l2u1', title:'Digital Artist', topic:'Draw, Photo, Colours & Edit 🎨', color:'#1A6EFF',
-        phases:[
-          {id:'activate', label:'💡 Activate',   desc:'What can I create?',         color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',    desc:'4 digital art tools',         color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice', desc:'Match art tools & True/False',color:'#00C853', textColor:'white'},
-          {id:'l2-draw',  label:'🎨 I Create',   desc:'My Digital Masterpiece!',     color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',     desc:'Unit 1 — Test yourself!',     color:'#E91E7A', textColor:'white'},
-        ]},
-       {id:'l2u2', title:'Digital Storyteller', topic:'Beginning, Middle & End 📖', color:'#00C853',
-        phases:[
-          {id:'activate',  label:'💡 Activate',   desc:'My story ideas!',              color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',     label:'📖 I Learn',    desc:'Parts of a digital story',     color:'#00C853', textColor:'white'},
-          {id:'l2-story',  label:'✏️ I Practice', desc:'Build-a-Story ordering game',  color:'#9B27AF', textColor:'white'},
-          {id:'l2-book',   label:'🎨 I Create',   desc:'My Digital Book Page!',        color:'#FF6B2B', textColor:'white'},
-          {id:'test',      label:'⭐ I Test',     desc:'Unit 2 — Test yourself!',      color:'#E91E7A', textColor:'white'},
-        ]},
-       {id:'l2u3', title:'Games & Logic', topic:'Steps, Patterns & Algorithms 🎮', color:'#FF6B2B',
-        phases:[
-          {id:'activate',  label:'💡 Activate',   desc:'Pattern finder challenge!',    color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',     label:'📖 I Learn',    desc:'Algorithms & patterns',        color:'#FF6B2B', textColor:'white'},
-          {id:'l2-pattern',label:'✏️ I Practice', desc:'Complete the pattern!',        color:'#00B8CC', textColor:'white'},
-          {id:'l2-maze',   label:'🤖 Digi Maze',  desc:'Guide Digi through the maze!', color:'#9B27AF', textColor:'white'},
-          {id:'test',      label:'⭐ I Test',     desc:'Unit 3 — Test yourself!',      color:'#E91E7A', textColor:'white'},
-        ]},
-       {id:'l2u4', title:'My Digital Future', topic:'AI, Robots & Smart Choices 🚀', color:'#9B27AF',
-        phases:[
-          {id:'activate',  label:'💡 Activate',   desc:'Future tech explore!',         color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',     label:'📖 I Learn',    desc:'What is AI?',                  color:'#9B27AF', textColor:'white'},
-          {id:'l2-aisort', label:'✏️ I Practice', desc:'AI or Not AI? Smart choices!', color:'#1A6EFF', textColor:'white'},
-          {id:'create',    label:'🚀 I Create',   desc:'My Future Device!',            color:'#FF6B2B', textColor:'white'},
-          {id:'test',      label:'⭐ I Test',     desc:'Unit 4 — Test yourself!',      color:'#E91E7A', textColor:'white'},
-        ]},
-     ]},
+    {id:'l2', title:'Explore', emoji:'📗', topic:'How do we use devices?', color:'#00C853', months:'Dec–Feb', subtitle:'Book 2', units:[]},
     {id:'l3', title:'Create', emoji:'📕', topic:'Make, code & collaborate', color:'#FF6B2B', months:'Mar–Jun', subtitle:'Book 3', units:[]},
   ],
   devices: [
@@ -838,8 +709,8 @@ var CONTENT = {
     "Is sharing your password with a friend safe or not safe? 🛡️",
     "Quiz time! Name 2 digital devices, tell me what you TAP to do, and name 1 safety rule! 🏆",
   ],
-  noura_celebrates: ['Amazing! 🌟','Wow, great answer! 🎉','You are so smart! ⭐','Fantastic! 🚀','Super! 🏆','Brilliant! 💡','Yes! That is right! ✅'],
-  noura_encourage: ['Good try! 😊 Try again!','Almost there! 🌟 You can do it!','Nice thinking! 💭 Keep going!'],
+  meriem_celebrates: ['Amazing! 🌟','Wow, great answer! 🎉','You are so smart! ⭐','Fantastic! 🚀','Super! 🏆','Brilliant! 💡','Yes! That is right! ✅'],
+  meriem_encourage: ['Good try! 😊 Try again!','Almost there! 🌟 You can do it!','Nice thinking! 💭 Keep going!'],
   tests: {
     u1: [
       {q:'Which one is a digital device?', type:'img',
@@ -897,57 +768,7 @@ var CONTENT = {
       {q:'TRUE or FALSE: Take breaks from screens.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
       {q:'Who do you tell if something online scares you?', type:'tf', opts:['A grown-up ✅','Nobody'], correct:0},
     ],
-    // ── LEVEL 2 TESTS ──
-    l2u1:[
-      {q:'You can draw on a tablet with your finger.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'A device screen has thousands of colours.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'EDIT means you can fix your artwork.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'You need paper to make digital art.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
-      {q:'What tool TAKES a picture?', type:'tf', opts:['DRAW 🎨','PHOTO 📸'], correct:1},
-      {q:'What does COLOURS do?', type:'tf', opts:['Fix art ✂️','Pick colours 🌈'], correct:1},
-      {q:'A smartphone can take photos.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'DRAW makes lines and shapes on screen.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'You can only use black on a device screen.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
-      {q:'Digital art is made on a screen — not paper.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-    ],
-    l2u2:[
-      {q:'A digital story can have photos AND words.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'A story has 4 parts: Start, Build, Finish, End.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
-      {q:'You can take a photo and add it to a story.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'The MIDDLE is where the exciting part happens.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'Which comes FIRST in a story?', type:'tf', opts:['End 🌙','Beginning 🌅'], correct:1},
-      {q:'Photo + Words = ?', type:'tf', opts:['A digital story 📖','A game 🎮'], correct:0},
-      {q:'"Once upon a time..." is the BEGINNING of a story.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'A digital story must be very long.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
-      {q:'"They lived happily ever after" is the END.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'You can share your digital story with your class.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-    ],
-    l2u3:[
-      {q:'An algorithm is a list of steps in the right order.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'A robot can guess what to do without instructions.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
-      {q:'A pattern is something that repeats again and again.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'The order of steps does NOT matter.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
-      {q:'🔴🔵🔴🔵🔴 → What comes next?', type:'tf', opts:['🔵 Blue','🟡 Yellow'], correct:0},
-      {q:'Computers follow instructions just like recipes.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'What is step 1 to turn on a tablet?', type:'tf', opts:['Open an app','Check the battery 🔋'], correct:1},
-      {q:'Digi the robot is an AI that follows instructions.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'1️⃣2️⃣3️⃣1️⃣2️⃣ → What comes next?', type:'tf', opts:['3️⃣ Three','4️⃣ Four'], correct:0},
-      {q:'You can teach a robot by writing clear steps.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-    ],
-    l2u4:[
-      {q:'AI stands for Artificial Intelligence.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'You should always believe everything an AI says.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
-      {q:'Siri and Alexa are examples of AI assistants.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'AI can listen, see AND speak.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'What IS AI?', type:'tf', opts:['A computer that thinks 🧠','A paper book 📚'], correct:0},
-      {q:'A pencil is an example of AI.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:1},
-      {q:'If AI says something strange — tell an adult.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'Face unlock uses AI to recognise your face.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'Use AI to HELP you think — not to think FOR you.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-      {q:'Children can invent the digital tools of the future.', type:'tf', opts:['TRUE ✅','FALSE ❌'], correct:0},
-    ],
-  },
-};
+  },};
 
 // ══════════════════════════════════════════════════════
 // STATE
@@ -1043,6 +864,7 @@ function goBack(){
   if(currentUnit) renderUnit(currentUnit);
   else if(currentLevel) renderLevel(currentLevel);
   else { showScreen('scr-student'); renderLevels(); }
+  loadAssignments();
 }
 function rand(arr){return arr[Math.floor(Math.random()*arr.length)];}
 
@@ -1136,6 +958,7 @@ function doLogin(){
         if(!checkSchoolAccess(currentSchool)){return;}
         g('tc-name').textContent=teacher.naam;
         showScreen('scr-teacher'); renderTeacher();
+        loadAssignments();
       });
     } else {
       showToast('Wrong email or PIN!');
@@ -1285,12 +1108,6 @@ function openPhase(ph,unit){
   else if(ph.id==='learn') openVideo(unit, function(){openLearn(unit);});
   else if(ph.id==='practice') openPractice(unit);
   else if(ph.id==='create') openCreate(unit);
-  else if(ph.id==='l2-draw') openL2Draw(unit);
-  else if(ph.id==='l2-story') openL2Story(unit);
-  else if(ph.id==='l2-book') openL2Book(unit);
-  else if(ph.id==='l2-pattern') openL2Pattern(unit);
-  else if(ph.id==='l2-maze') openL2Maze(unit);
-  else if(ph.id==='l2-aisort') openL2AiSort(unit);
   else if(ph.id==='beebot'){
     var mods=currentSchool?(currentSchool.modules||{}):{};
     if(mods.beebot===false){showToast('BeeBot is not active for your school.');return;}
@@ -1415,14 +1232,13 @@ function tfAnswer(btn,val,correct,idx){
 
 function openCreate(unit){
   var uid = unit.id;
-  var titles = {u1:'My Digital Day',u2:'My Favourite Device',u3:'My Story Strip',u4:'My Safety Poster',l2u4:'My Future Device 🚀'};
-  var subs = {u1:'Pick a device and tell us about your digital day!',u2:'Choose your favourite device!',u3:'Tell a story using Tap, Swipe and Type!',u4:'Create your own internet safety poster!',l2u4:'Invent your own future digital device!'};
+  var titles = {u1:'My Digital Day',u2:'My Favourite Device',u3:'My Story Strip',u4:'My Safety Poster'};
+  var subs = {u1:'Pick a device and tell us about your digital day!',u2:'Choose your favourite device!',u3:'Tell a story using Tap, Swipe and Type!',u4:'Create your own internet safety poster!'};
   var prompts = {
     u1:[{l:'In the morning I use...',p:'Write here...'},{l:'At school I use...',p:'Write here...'},{l:'I use it to...',p:'What do you do?'}],
     u2:[{l:'It has a...',p:'Name one part...'},{l:'I use it to...',p:'What do you do?'},{l:'I like it because...',p:'Why?'}],
     u3:[{l:'First I TAP to...',p:'What do you tap?'},{l:'Then I SWIPE to...',p:'What do you swipe?'},{l:'Finally I TYPE to...',p:'What do you type?'}],
-    u4:[{l:'Rule 1:',p:'Write a safety rule...'},{l:'Rule 2:',p:'Another rule...'},{l:'Rule 3:',p:'One more...'},{l:'My message:',p:'What do you want to say?'}],
-    l2u4:[{l:'My invention is called:',p:'Give it a name!'},{l:'It can do:',p:'What does it do?'},{l:'It helps people by:',p:'How does it help?'},{l:'It uses AI: (Yes / No)',p:'Yes 🤖 or No ❌'}],
+    u4:[{l:'Rule 1:',p:'Write a safety rule...'},{l:'Rule 2:',p:'Another rule...'},{l:'Rule 3:',p:'One more...'},{l:'My message:',p:'What do you want to say?'}]
   };
   var ct=g('create-title'); if(ct) ct.textContent='&#127912; I Create — '+(titles[uid]||'My Creation');
   var cs=g('create-sub'); if(cs) cs.textContent=subs[uid]||'Be creative!';
@@ -1523,447 +1339,6 @@ function initCanvas(){
 function setColor(c){drawColor=c;}
 function clearCanvas(){var c=g('draw-canvas');if(c){c.getContext('2d').clearRect(0,0,c.width,c.height);}}
 function saveCreate(){markDone('create');showToast('Saved! Great work! ⭐');setTimeout(function(){goBack();},1500);}
-
-// ══════════════════════════════════════════════════════
-// LEVEL 2 — MINI GAMES
-// ══════════════════════════════════════════════════════
-
-// ── L2U1: DIGITAL DRAWING CANVAS ──
-function openL2Draw(unit){
-  showScreen('scr-l2game');
-  g('l2game-area').innerHTML=
-    '<div style="background:rgba(255,255,255,0.1);border-radius:20px;padding:20px;max-width:700px;margin:0 auto;">'+
-    '<div style="font-family:Fredoka One;font-size:24px;color:white;text-align:center;margin-bottom:6px;">🎨 My Digital Masterpiece!</div>'+
-    '<div style="font-size:14px;color:rgba(255,255,255,0.8);text-align:center;margin-bottom:16px;">Draw with your finger — choose colours and tools!</div>'+
-    // Tool selector
-    '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;" id="l2-tools">'+
-      '<button onclick="l2SetTool(\'draw\')" id="l2t-draw" style="padding:8px 16px;border-radius:10px;background:#1A6EFF;color:white;border:3px solid #FFD600;font-weight:800;font-size:14px;cursor:pointer;font-family:Nunito;">🎨 Draw</button>'+
-      '<button onclick="l2SetTool(\'erase\')" id="l2t-erase" style="padding:8px 16px;border-radius:10px;background:rgba(255,255,255,0.2);color:white;border:3px solid transparent;font-weight:800;font-size:14px;cursor:pointer;font-family:Nunito;">✂️ Edit/Erase</button>'+
-    '</div>'+
-    // Colour palette
-    '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px;" id="l2-colors"></div>'+
-    // Brush size
-    '<div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:12px;">'+
-      '<span style="color:white;font-weight:700;font-size:13px;">Size:</span>'+
-      '<input type="range" min="2" max="24" value="5" id="l2-brush" style="width:120px;" oninput="l2BrushSize=this.value"/>'+
-    '</div>'+
-    // Canvas
-    '<canvas id="l2-canvas" width="660" height="300" style="width:100%;border-radius:14px;cursor:crosshair;touch-action:none;background:white;display:block;"></canvas>'+
-    // Story inputs
-    '<div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">'+
-      '<input type="text" placeholder="My artwork is called..." id="l2art-name" style="padding:12px;border-radius:10px;border:2px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:white;font-size:15px;font-weight:700;font-family:Nunito;outline:none;"/>'+
-      '<div style="display:flex;gap:8px;flex-wrap:wrap;" id="l2-feel-btns">'+
-        '<div style="color:white;font-weight:700;font-size:14px;align-self:center;">I feel about my art:</div>'+
-        '<button onclick="l2SetFeel(this,\'😄 Great!\')" style="font-size:22px;padding:6px 12px;border-radius:10px;background:rgba(255,255,255,0.2);border:2px solid transparent;cursor:pointer;">😄</button>'+
-        '<button onclick="l2SetFeel(this,\'🙂 OK\')" style="font-size:22px;padding:6px 12px;border-radius:10px;background:rgba(255,255,255,0.2);border:2px solid transparent;cursor:pointer;">🙂</button>'+
-        '<button onclick="l2SetFeel(this,\'😕 Need help\')" style="font-size:22px;padding:6px 12px;border-radius:10px;background:rgba(255,255,255,0.2);border:2px solid transparent;cursor:pointer;">😕</button>'+
-      '</div>'+
-    '</div>'+
-    '<button onclick="l2SaveDraw()" style="width:100%;margin-top:14px;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:Nunito;">⭐ Save my Masterpiece!</button>'+
-    '</div>';
-
-  setTimeout(function(){
-    // Colours
-    var cols=['#1A1A2E','#E91E7A','#FF6B2B','#FFD600','#00C853','#1A6EFF','#9B27AF','#00B8CC','white'];
-    var cp=g('l2-colors'); if(!cp) return;
-    cols.forEach(function(c){
-      var b=document.createElement('button');
-      b.style.cssText='width:36px;height:36px;border-radius:50%;background:'+c+';border:3px solid rgba(255,255,255,0.4);cursor:pointer;transition:transform 0.15s;';
-      b.onclick=function(){l2DrawColor=c; document.querySelectorAll('#l2-colors button').forEach(function(x){x.style.transform='scale(1)';x.style.borderColor='rgba(255,255,255,0.4)';}); b.style.transform='scale(1.3)'; b.style.borderColor='#FFD600';};
-      cp.appendChild(b);
-    });
-    l2InitCanvas();
-  },100);
-  currentUnit=unit;
-}
-
-var l2DrawColor='#1A1A2E', l2Tool='draw', l2BrushSize=5, l2Drawing=false, l2LastX=0, l2LastY=0;
-function l2SetTool(t){
-  l2Tool=t;
-  ['draw','erase'].forEach(function(id){
-    var b=g('l2t-'+id);
-    if(b){b.style.borderColor=id===t?'#FFD600':'transparent'; b.style.background=id===t?'#1A6EFF':'rgba(255,255,255,0.2)';}
-  });
-}
-function l2SetFeel(btn,val){
-  document.querySelectorAll('#l2-feel-btns button').forEach(function(b){b.style.borderColor='transparent';});
-  btn.style.borderColor='#FFD600';
-  showToast(val+' ⭐');
-}
-function l2InitCanvas(){
-  var c=g('l2-canvas'); if(!c) return;
-  var ctx=c.getContext('2d'); ctx.lineCap='round';
-  function getPos(e,touch){
-    var r=c.getBoundingClientRect();
-    var src=touch||e;
-    return {x:(src.clientX-r.left)*(c.width/r.width), y:(src.clientY-r.top)*(c.height/r.height)};
-  }
-  function startDraw(x,y){l2Drawing=true; l2LastX=x; l2LastY=y;}
-  function doDraw(x,y){
-    if(!l2Drawing) return;
-    ctx.lineWidth=l2BrushSize||5;
-    if(l2Tool==='erase'){ctx.strokeStyle='white'; ctx.lineWidth=Math.max(l2BrushSize,14);}
-    else {ctx.strokeStyle=l2DrawColor;}
-    ctx.beginPath(); ctx.moveTo(l2LastX,l2LastY); ctx.lineTo(x,y); ctx.stroke();
-    l2LastX=x; l2LastY=y;
-  }
-  c.onmousedown=function(e){var p=getPos(e);startDraw(p.x,p.y);};
-  c.onmousemove=function(e){var p=getPos(e);doDraw(p.x,p.y);};
-  c.onmouseup=function(){l2Drawing=false;};
-  c.ontouchstart=function(e){e.preventDefault();var p=getPos(e,e.touches[0]);startDraw(p.x,p.y);};
-  c.ontouchmove=function(e){e.preventDefault();var p=getPos(e,e.touches[0]);doDraw(p.x,p.y);};
-  c.ontouchend=function(){l2Drawing=false;};
-}
-function l2SaveDraw(){
-  markDone('l2-draw');
-  showToast('🎨 Masterpiece saved! Amazing artist! ⭐');
-  setTimeout(function(){goBack();},1500);
-}
-
-// ── L2U2: STORY BUILDER (ordering game) ──
-function openL2Story(unit){
-  currentUnit=unit;
-  showScreen('scr-l2game');
-  var stories=[
-    {panels:[
-      {order:2, text:'🏃 Leo walked through the jungle and met a small rabbit. 🐰', bg:'#FF6B2B'},
-      {order:1, text:'🌅 In the jungle, there was a lion named Leo who was very lonely. 🌳', bg:'#1A6EFF'},
-      {order:3, text:'🎉 The lion found his friend — they lived happily ever after! 🥳', bg:'#00C853'},
-    ]},
-    {panels:[
-      {order:3, text:'🌙 Finally, the robot danced and everyone celebrated! 🎉', bg:'#9B27AF'},
-      {order:1, text:'🌅 Once upon a time, a little robot woke up and felt lonely. 🤖', bg:'#1A6EFF'},
-      {order:2, text:'☀️ The robot found a friend and they went on a big adventure! 🚀', bg:'#FF6B2B'},
-    ]},
-  ];
-  var story=stories[Math.floor(Math.random()*stories.length)];
-  var shuffled=story.panels.slice().sort(function(){return Math.random()-0.5;});
-  var labels=['🌅 Beginning','☀️ Middle','🌙 End'];
-  var correctOrder=story.panels.slice().sort(function(a,b){return a.order-b.order;});
-
-  g('l2game-area').innerHTML=
-    '<div style="max-width:680px;margin:0 auto;">'+
-    '<div style="font-family:Fredoka One;font-size:24px;color:white;text-align:center;margin-bottom:6px;">📖 Build the Story!</div>'+
-    '<div style="font-size:14px;color:rgba(255,255,255,0.8);text-align:center;margin-bottom:16px;">Put the story panels in the RIGHT order! Tap a panel, then tap where it belongs.</div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:20px;" id="l2story-target">'+
-      labels.map(function(l,i){return '<div style="border:3px dashed rgba(255,255,255,0.4);border-radius:14px;min-height:110px;display:flex;align-items:center;justify-content:center;padding:10px;text-align:center;cursor:pointer;" id="slot-'+i+'" onclick="l2DropStory('+i+')"><div style="color:rgba(255,255,255,0.5);font-size:13px;font-weight:700;">'+l+'</div></div>';}).join('')+
-    '</div>'+
-    '<div style="font-size:14px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:10px;text-align:center;">Choose a panel to move:</div>'+
-    '<div style="display:flex;flex-direction:column;gap:10px;" id="l2story-panels">'+
-      shuffled.map(function(p,i){return '<div class="l2story-panel" id="panel-'+i+'" data-order="'+p.order+'" onclick="l2SelectPanel('+i+')" style="background:'+p.bg+';border-radius:14px;padding:16px;color:white;font-size:15px;font-weight:700;cursor:pointer;border:3px solid transparent;transition:all 0.2s;">'+p.text+'</div>';}).join('')+
-    '</div>'+
-    '<div id="l2story-result" style="display:none;background:#FFD600;border-radius:16px;padding:18px;text-align:center;margin-top:16px;">'+
-      '<div style="font-family:Fredoka One;font-size:24px;color:#1A1A2E;">🏆 Amazing! You built the story!</div>'+
-      '<button onclick="l2StorySave()" style="margin-top:10px;padding:12px 28px;background:#1A6EFF;color:white;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">⭐ Great! Next activity →</button>'+
-    '</div>'+
-    '</div>';
-
-  window._l2storyData={shuffled:shuffled, correctOrder:correctOrder, selected:null, placed:{}};
-}
-function l2SelectPanel(idx){
-  window._l2storyData.selected=idx;
-  document.querySelectorAll('.l2story-panel').forEach(function(p,i){
-    p.style.borderColor=i===idx?'#FFD600':'transparent';
-    p.style.transform=i===idx?'scale(1.02)':'scale(1)';
-  });
-  showToast('Now tap the slot where it belongs! 👆');
-}
-function l2DropStory(slotIdx){
-  var d=window._l2storyData;
-  if(d.selected===null){showToast('First tap a story panel below! 👆');return;}
-  if(d.placed[slotIdx]){showToast('That slot is taken! Choose another! 😊');return;}
-  var panel=d.shuffled[d.selected];
-  var correct=d.correctOrder[slotIdx];
-  var slot=g('slot-'+slotIdx);
-  if(panel.order===correct.order){
-    slot.style.borderColor='#00C853';
-    slot.style.background=panel.bg;
-    slot.innerHTML='<div style="color:white;font-size:14px;font-weight:700;text-align:center;padding:4px;">✅ '+panel.text+'</div>';
-    d.placed[slotIdx]=true;
-    // hide panel
-    var panelEl=g('panel-'+d.selected);
-    if(panelEl) panelEl.style.opacity='0.3';
-    d.selected=null;
-    showToast('Correct! ⭐ Keep going!');
-    if(Object.keys(d.placed).length>=3){
-      setTimeout(function(){g('l2story-result').style.display='block';},400);
-    }
-  } else {
-    slot.style.borderColor='#F03030';
-    setTimeout(function(){slot.style.borderColor='rgba(255,255,255,0.4)';},800);
-    showToast('Not quite! Try a different slot! 😊');
-  }
-}
-function l2StorySave(){
-  markDone('l2-story');
-  showToast('📖 Story built perfectly! ⭐');
-  setTimeout(function(){goBack();},1500);
-}
-
-// ── L2U2: DIGITAL BOOK PAGE (create) ──
-function openL2Book(unit){
-  currentUnit=unit;
-  showScreen('scr-l2game');
-  g('l2game-area').innerHTML=
-    '<div style="max-width:680px;margin:0 auto;">'+
-    '<div style="font-family:Fredoka One;font-size:24px;color:white;text-align:center;margin-bottom:6px;">📖 My Digital Book Page!</div>'+
-    '<div style="font-size:14px;color:rgba(255,255,255,0.8);text-align:center;margin-bottom:16px;">Write one sentence for each part of your story. Then draw each scene!</div>'+
-    ['🌅 Beginning','☀️ Middle','🌙 End'].map(function(label,i){
-      var colors=['#1A6EFF','#FF6B2B','#9B27AF'];
-      return '<div style="background:rgba(255,255,255,0.1);border-radius:16px;padding:16px;margin-bottom:12px;">'+
-        '<div style="font-family:Fredoka One;font-size:18px;color:white;margin-bottom:8px;">'+label+'</div>'+
-        '<input type="text" placeholder="My sentence..." style="width:100%;padding:10px 14px;border-radius:10px;border:2px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:white;font-size:15px;font-weight:700;font-family:Nunito;outline:none;box-sizing:border-box;margin-bottom:8px;" id="l2book-'+i+'"/>'+
-        '<canvas id="l2book-canvas-'+i+'" width="600" height="120" style="width:100%;border-radius:10px;background:white;cursor:crosshair;touch-action:none;border:2px solid '+colors[i]+';display:block;"></canvas>'+
-      '</div>';
-    }).join('')+
-    '<input type="text" placeholder="My story title..." id="l2book-title" style="width:100%;padding:12px 14px;border-radius:10px;border:2px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.15);color:white;font-size:16px;font-weight:800;font-family:Nunito;outline:none;box-sizing:border-box;margin-bottom:12px;"/>'+
-    '<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;" id="l2book-colors"></div>'+
-    '<button onclick="l2SaveBook()" style="width:100%;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:Nunito;">📖 Save my Book Page! ⭐</button>'+
-    '</div>';
-
-  setTimeout(function(){
-    // colour palette for all canvases
-    var cols=['#1A1A2E','#E91E7A','#FF6B2B','#00C853','#1A6EFF','#9B27AF','#FFD600'];
-    var cp=g('l2book-colors'); if(!cp) return;
-    var activeBookColor='#1A1A2E';
-    cols.forEach(function(c){
-      var b=document.createElement('button');
-      b.style.cssText='width:34px;height:34px;border-radius:50%;background:'+c+';border:3px solid rgba(255,255,255,0.4);cursor:pointer;';
-      b.onclick=function(){activeBookColor=c; document.querySelectorAll('#l2book-colors button').forEach(function(x){x.style.borderColor='rgba(255,255,255,0.4)';}); b.style.borderColor='#FFD600';};
-      cp.appendChild(b);
-    });
-    // Init each canvas
-    [0,1,2].forEach(function(i){
-      var c=g('l2book-canvas-'+i); if(!c) return;
-      var ctx=c.getContext('2d'); ctx.lineCap='round';
-      var dr=false, lx=0, ly=0;
-      function pos(e,t){var r=c.getBoundingClientRect();var s=t||e;return {x:(s.clientX-r.left)*(c.width/r.width),y:(s.clientY-r.top)*(c.height/r.height)};}
-      c.onmousedown=function(e){dr=true;var p=pos(e);lx=p.x;ly=p.y;};
-      c.onmousemove=function(e){if(!dr)return;var p=pos(e);ctx.strokeStyle=activeBookColor;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;};
-      c.onmouseup=function(){dr=false;};
-      c.ontouchstart=function(e){e.preventDefault();dr=true;var p=pos(e,e.touches[0]);lx=p.x;ly=p.y;};
-      c.ontouchmove=function(e){e.preventDefault();if(!dr)return;var p=pos(e,e.touches[0]);ctx.strokeStyle=activeBookColor;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;};
-      c.ontouchend=function(){dr=false;};
-    });
-  },100);
-}
-function l2SaveBook(){
-  markDone('l2-book');
-  showToast('📖 Your Digital Book Page is ready! ⭐');
-  setTimeout(function(){goBack();},1500);
-}
-
-// ── L2U3: PATTERN GAME ──
-function openL2Pattern(unit){
-  currentUnit=unit;
-  var patterns=[
-    {seq:['🔴','🔵','🔴','🔵','🔴'], answer:'🔵', wrong:'🟡', hint:'Red, Blue, Red, Blue, Red...'},
-    {seq:['⭐','⭐','❤️','⭐','⭐'], answer:'❤️', wrong:'💎', hint:'Star, Star, Heart...'},
-    {seq:['1','2','3','1','2'], answer:'3', wrong:'4', hint:'1, 2, 3, 1, 2...'},
-    {seq:['🟢','🟡','🟢','🟡','🟢'], answer:'🟡', wrong:'🔴', hint:'Green, Yellow, Green...'},
-    {seq:['🐘','🐘','🐭','🐘','🐘'], answer:'🐭', wrong:'🦁', hint:'Elephant, Elephant, Mouse...'},
-    {seq:['⬆️','➡️','⬇️','⬆️','➡️'], answer:'⬇️', wrong:'⬅️', hint:'Up, Right, Down, Up, Right...'},
-  ];
-  var score=0, idx=0, shuffled=patterns.slice().sort(function(){return Math.random()-0.5;}).slice(0,5);
-
-  function renderPattern(){
-    if(idx>=shuffled.length){
-      g('l2game-area').innerHTML=
-        '<div style="text-align:center;padding:40px;">'+
-        '<div style="font-size:72px;margin-bottom:16px;">🏆</div>'+
-        '<div style="font-family:Fredoka One;font-size:30px;color:white;margin-bottom:8px;">Pattern Master!</div>'+
-        '<div style="font-family:Fredoka One;font-size:22px;color:#FFD600;margin-bottom:20px;">Score: '+score+' / '+shuffled.length+'</div>'+
-        '<button onclick="l2PatternSave()" style="padding:14px 32px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:18px;font-weight:800;cursor:pointer;font-family:Nunito;">⭐ Finish!</button>'+
-        '</div>';
-      return;
-    }
-    var p=shuffled[idx];
-    g('l2game-area').innerHTML=
-      '<div style="max-width:600px;margin:0 auto;text-align:center;">'+
-      '<div style="font-family:Fredoka One;font-size:24px;color:white;margin-bottom:6px;">🔁 Complete the Pattern!</div>'+
-      '<div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:4px;">Hint: '+p.hint+'</div>'+
-      '<div style="font-size:13px;color:#FFD600;font-weight:700;margin-bottom:20px;">Question '+(idx+1)+' of '+shuffled.length+' &nbsp;|&nbsp; ⭐ '+score+' correct</div>'+
-      '<div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:24px;">'+
-        p.seq.map(function(s){return '<div style="width:70px;height:70px;border-radius:16px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:32px;border:3px solid rgba(255,255,255,0.3);">'+s+'</div>';}).join('')+
-        '<div style="font-size:28px;color:rgba(255,255,255,0.6);">→</div>'+
-        '<div style="width:70px;height:70px;border-radius:16px;background:rgba(255,255,255,0.1);border:3px dashed rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;font-size:28px;color:rgba(255,255,255,0.5);">?</div>'+
-      '</div>'+
-      '<div style="display:flex;gap:16px;justify-content:center;">'+
-        '<button onclick="l2PatternAnswer(true)" style="width:100px;height:100px;border-radius:20px;background:#1A6EFF;border:4px solid transparent;font-size:40px;cursor:pointer;transition:all 0.2s;">'+p.answer+'</button>'+
-        '<button onclick="l2PatternAnswer(false)" style="width:100px;height:100px;border-radius:20px;background:#FF6B2B;border:4px solid transparent;font-size:40px;cursor:pointer;transition:all 0.2s;">'+p.wrong+'</button>'+
-      '</div>'+
-      '<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:12px;">Tap the correct answer! ☝️</div>'+
-      '</div>';
-    window._l2pattern={score:score,idx:idx,shuffled:shuffled,renderPattern:renderPattern};
-  }
-
-  window.l2PatternAnswer=function(correct){
-    if(correct){
-      score++; idx++;
-      window._l2pattern.score=score; window._l2pattern.idx=idx;
-      showToast('⭐ Correct! You found the pattern!');
-    } else {
-      idx++;
-      window._l2pattern.idx=idx;
-      showToast('Not quite! 😊 Keep going!');
-    }
-    setTimeout(renderPattern,600);
-  };
-
-  showScreen('scr-l2game');
-  renderPattern();
-}
-function l2PatternSave(){
-  markDone('l2-pattern');
-  showToast('🔁 Pattern genius! ⭐');
-  setTimeout(function(){goBack();},1500);
-}
-
-// ── L2U3: DIGI MAZE ──
-function openL2Maze(unit){
-  currentUnit=unit;
-  showScreen('scr-l2game');
-  var MAZE_SIZE=6;
-  // 0=path, 1=wall, S=start, G=goal
-  var mazes=[
-    {grid:[[0,1,0,0,0,0],[0,1,0,1,1,0],[0,0,0,1,0,0],[1,1,0,0,0,1],[0,0,1,1,0,1],[0,0,0,0,0,0]],start:{r:0,c:0},goal:{r:5,c:5}},
-    {grid:[[0,0,0,1,0,0],[1,1,0,1,0,1],[0,0,0,0,0,1],[0,1,1,1,0,0],[0,1,0,0,0,1],[0,0,0,1,0,0]],start:{r:0,c:0},goal:{r:5,c:2}},
-  ];
-  var maze=mazes[Math.floor(Math.random()*mazes.length)];
-  var pos={r:maze.start.r,c:maze.start.c};
-  var steps=0;
-
-  function renderMaze(){
-    var cellSize=52;
-    var html='<div style="max-width:600px;margin:0 auto;">'+
-      '<div style="font-family:Fredoka One;font-size:22px;color:white;text-align:center;margin-bottom:4px;">🤖 Guide Digi Through the Maze!</div>'+
-      '<div style="font-size:13px;color:rgba(255,255,255,0.7);text-align:center;margin-bottom:12px;">Use the arrow buttons to give Digi step-by-step instructions!</div>'+
-      '<div style="font-size:13px;font-weight:800;color:#FFD600;text-align:center;margin-bottom:10px;">Steps used: '+steps+'</div>'+
-      '<div style="display:inline-grid;grid-template-columns:repeat('+MAZE_SIZE+','+cellSize+'px);gap:3px;background:rgba(0,0,0,0.3);padding:10px;border-radius:14px;margin:0 auto;display:block;text-align:center;width:fit-content;margin:0 auto 16px;">'+
-      maze.grid.map(function(row,r){
-        return row.map(function(cell,c){
-          var isPos=pos.r===r&&pos.c===c;
-          var isGoal=maze.goal.r===r&&maze.goal.c===c;
-          var isStart=maze.start.r===r&&maze.start.c===c;
-          var bg=cell===1?'#1A1A2E':isPos?'#FFD600':isGoal?'#00C853':isStart?'rgba(255,255,255,0.15)':'rgba(255,255,255,0.08)';
-          var content=isPos?'🤖':isGoal?'⭐':(cell===1?'':'');
-          return '<div style="width:'+cellSize+'px;height:'+cellSize+'px;border-radius:8px;background:'+bg+';display:inline-flex;align-items:center;justify-content:center;font-size:24px;">'+content+'</div>';
-        }).join('');
-      }).join('')+
-      '</div>'+
-      '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:220px;margin:0 auto 16px;">'+
-        '<div></div>'+
-        '<button onclick="l2MoveDir(\'up\')" style="padding:14px;border-radius:12px;background:rgba(255,255,255,0.2);border:none;font-size:24px;cursor:pointer;color:white;">⬆️</button>'+
-        '<div></div>'+
-        '<button onclick="l2MoveDir(\'left\')" style="padding:14px;border-radius:12px;background:rgba(255,255,255,0.2);border:none;font-size:24px;cursor:pointer;color:white;">⬅️</button>'+
-        '<div style="width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-size:18px;">🤖</div>'+
-        '<button onclick="l2MoveDir(\'right\')" style="padding:14px;border-radius:12px;background:rgba(255,255,255,0.2);border:none;font-size:24px;cursor:pointer;color:white;">➡️</button>'+
-        '<div></div>'+
-        '<button onclick="l2MoveDir(\'down\')" style="padding:14px;border-radius:12px;background:rgba(255,255,255,0.2);border:none;font-size:24px;cursor:pointer;color:white;">⬇️</button>'+
-        '<div></div>'+
-      '</div>'+
-      '</div>';
-    g('l2game-area').innerHTML=html;
-  }
-
-  window.l2MoveDir=function(dir){
-    var nr=pos.r, nc=pos.c;
-    if(dir==='up') nr--;
-    else if(dir==='down') nr++;
-    else if(dir==='left') nc--;
-    else if(dir==='right') nc++;
-    if(nr<0||nr>=MAZE_SIZE||nc<0||nc>=MAZE_SIZE){showToast('Wall! Digi cannot go there! 🤖');return;}
-    if(maze.grid[nr][nc]===1){showToast('Oops! That is a wall! Try another direction! 😊');return;}
-    pos.r=nr; pos.c=nc; steps++;
-    if(pos.r===maze.goal.r&&pos.c===maze.goal.c){
-      g('l2game-area').innerHTML=
-        '<div style="text-align:center;padding:40px;">'+
-        '<div style="font-size:72px;margin-bottom:12px;">🏆</div>'+
-        '<div style="font-family:Fredoka One;font-size:28px;color:white;margin-bottom:8px;">Digi made it! 🤖⭐</div>'+
-        '<div style="font-size:18px;color:#FFD600;margin-bottom:20px;">You solved it in '+steps+' steps!</div>'+
-        '<button onclick="l2MazeSave()" style="padding:14px 32px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:18px;font-weight:800;cursor:pointer;font-family:Nunito;">⭐ Amazing! Finish!</button>'+
-        '</div>';
-      return;
-    }
-    renderMaze();
-  };
-  renderMaze();
-}
-function l2MazeSave(){
-  markDone('l2-maze');
-  showToast('🤖 Digi is so happy! Great algorithm! ⭐');
-  setTimeout(function(){goBack();},1500);
-}
-
-// ── L2U4: AI SORT GAME ──
-function openL2AiSort(unit){
-  currentUnit=unit;
-  var items=[
-    {name:'Siri', emoji:'🗣️', isAI:true},
-    {name:'Face Unlock', emoji:'📸', isAI:true},
-    {name:'Autocorrect', emoji:'✏️', isAI:true},
-    {name:'Smart TV', emoji:'📺', isAI:true},
-    {name:'A Pencil', emoji:'✏️', isAI:false},
-    {name:'A Book', emoji:'📚', isAI:false},
-    {name:'A Chair', emoji:'🪑', isAI:false},
-    {name:'Google Maps', emoji:'🗺️', isAI:true},
-    {name:'A Window', emoji:'🪟', isAI:false},
-    {name:'Alexa', emoji:'🔊', isAI:true},
-  ];
-  var shuffled=items.slice().sort(function(){return Math.random()-0.5;}).slice(0,6);
-  var score=0, answered=0;
-
-  showScreen('scr-l2game');
-  g('l2game-area').innerHTML=
-    '<div style="max-width:660px;margin:0 auto;">'+
-    '<div style="font-family:Fredoka One;font-size:24px;color:white;text-align:center;margin-bottom:4px;">🤖 AI or Not AI?</div>'+
-    '<div style="font-size:14px;color:rgba(255,255,255,0.8);text-align:center;margin-bottom:16px;">Tap the right basket for each item!</div>'+
-    '<div style="font-size:14px;font-weight:800;color:#FFD600;text-align:center;margin-bottom:14px;" id="l2ai-score">⭐ '+score+' / '+answered+' correct</div>'+
-    '<div style="display:flex;flex-direction:column;gap:12px;" id="l2ai-items">'+
-      shuffled.map(function(item,i){
-        return '<div id="l2ai-item-'+i+'" style="background:rgba(255,255,255,0.12);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">'+
-          '<div style="font-size:36px;">'+item.emoji+'</div>'+
-          '<div style="flex:1;font-size:17px;font-weight:800;color:white;">'+item.name+'</div>'+
-          '<button onclick="l2AiAnswer('+i+',true,'+item.isAI+')" style="padding:8px 14px;border-radius:10px;background:#9B27AF;color:white;border:none;font-weight:800;font-size:13px;cursor:pointer;font-family:Nunito;">🤖 AI</button>'+
-          '<button onclick="l2AiAnswer('+i+',false,'+item.isAI+')" style="padding:8px 14px;border-radius:10px;background:#888;color:white;border:none;font-weight:800;font-size:13px;cursor:pointer;font-family:Nunito;">❌ Not AI</button>'+
-        '</div>';
-      }).join('')+
-    '</div>'+
-    '<div id="l2ai-result" style="display:none;background:#FFD600;border-radius:16px;padding:18px;text-align:center;margin-top:16px;">'+
-      '<div id="l2ai-result-text" style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;"></div>'+
-      '<button onclick="l2AiSortSave()" style="margin-top:10px;padding:12px 28px;background:#9B27AF;color:white;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">⭐ Finish!</button>'+
-    '</div>'+
-    '</div>';
-
-  window._l2aiData={score:0, answered:0, total:shuffled.length};
-  window.l2AiAnswer=function(idx,answer,correct){
-    var row=g('l2ai-item-'+idx); if(!row||row.dataset.done) return;
-    row.dataset.done='1';
-    window._l2aiData.answered++;
-    if(answer===correct){
-      window._l2aiData.score++;
-      row.style.background='rgba(0,200,83,0.3)';
-      row.style.borderLeft='6px solid #00C853';
-      showToast('✅ Correct! '+(correct?'That IS AI! 🤖':'That is NOT AI! 📚'));
-    } else {
-      row.style.background='rgba(240,48,48,0.2)';
-      row.style.borderLeft='6px solid #F03030';
-      showToast('Not quite! 😊 '+(correct?'That IS actually AI! 🤖':'That is NOT AI!'));
-    }
-    row.querySelectorAll('button').forEach(function(b){b.disabled=true;b.style.opacity='0.5';});
-    g('l2ai-score').textContent='⭐ '+window._l2aiData.score+' / '+window._l2aiData.answered+' correct';
-    if(window._l2aiData.answered>=window._l2aiData.total){
-      var pct=Math.round(window._l2aiData.score/window._l2aiData.total*100);
-      g('l2ai-result-text').textContent=(pct>=80?'🏆 AI Expert! ':'⭐ Good work! ')+window._l2aiData.score+' out of '+window._l2aiData.total+' correct!';
-      setTimeout(function(){g('l2ai-result').style.display='block';},400);
-    }
-  };
-}
-function l2AiSortSave(){
-  markDone('l2-aisort');
-  showToast('🤖 AI Expert! Smart choices! ⭐');
-  setTimeout(function(){goBack();},1500);
-}
 
 function showPracticeResult(got, total){
   g('practice-area').style.display='none';
@@ -2068,11 +1443,11 @@ function markDone(phId){
 }
 
 // ══════════════════════════════════════════════════════
-// ACTIVATE — NOURA CHAT
+// ACTIVATE — MERIEM CHAT
 // ══════════════════════════════════════════════════════
 function openActivate(unit){
   var mods = currentSchool ? (currentSchool.modules||{}) : {};
-  if(mods.noura === false){
+  if(mods.meriem === false){
     // Noura disabled - skip to next phase
     showToast('Noura AI is not active for your school');
     markDone('activate');
@@ -2081,14 +1456,14 @@ function openActivate(unit){
   }
   chatHistory=[];
   chatMessages=[];
-  nouraQIdx=0;
+  meriemQIdx=0;
   currentUnit = unit;
   var box=g('chat-box'); box.innerHTML='';
-  // Use NOURA_QA first question for this unit
+  // Use MERIEM_QA first question for this unit
   var uid = unit ? unit.id : 'u1';
-  var qaList = NOURA_QA[uid] || NOURA_QA.u1;
+  var qaList = MERIEM_QA[uid] || MERIEM_QA.u1;
   var firstQ = qaList && qaList[0] ? qaList[0].q : (CONTENT.activate_prompts[0]||'Hi! What do you know about digital devices?');
-  addMsg('noura', firstQ);
+  addMsg('meriem', firstQ);
   chatMessages.push({role:'assistant', content:firstQ});
   showScreen('scr-activate');
 }
@@ -2103,7 +1478,7 @@ function addMsg(who,text){
 }
 
 
-var NOURA_QA = {
+var MERIEM_QA = {
   u1: [
     {q:"Hi! I am Noura! 🌟 Can you name ONE digital device you know?",
      keywords:['smartphone','phone','tablet','laptop','computer','smartwatch','watch','robot','ipad','mobile'],
@@ -2172,83 +1547,10 @@ var NOURA_QA = {
      correct:"Excellent! 🏆 Never reply to strangers online — tell a grown-up straight away!",
      wrong:"Think about safety! 💡 Never talk to strangers online — tell a grown-up immediately!"},
   ],
-  // ── LEVEL 2 NOURA QA ──
-  l2u1: [
-    {q:"Hi! I am Noura! 🌟 Do you like making pictures? Can you name ONE way to make art on a device?",
-     keywords:['draw','finger','stylus','paint','colour','color','touch','screen','photo','camera'],
-     correct:"Amazing! 🎉 Yes! You can draw with your finger on a screen — that is digital art!",
-     wrong:"Good try! 😊 Think about drawing on a tablet with your finger or taking a photo!"},
-    {q:"Did you know a device has thousands of colours? 🌈 If you could pick ANY colour on a screen — what colour?",
-     keywords:['red','blue','green','yellow','purple','pink','orange','black','white','colour','color'],
-     correct:"Beautiful choice! 🎨 On a device you can pick ANY colour you want — millions of them!",
-     wrong:"Think of your favourite colour! 💡 On a screen you can pick red, blue, green — any colour!"},
-    {q:"If you make a mistake in your drawing, what can you do? 🤔",
-     keywords:['edit','fix','undo','delete','erase','change','try again','redo','clear'],
-     correct:"Yes! ⭐ You can EDIT your drawing — fix any mistake, no problem! That is the magic of digital art!",
-     wrong:"Good try! 😊 With digital art you can always EDIT — that means fix or change your picture!"},
-    {q:"Wonderful! 🎨 Today we become DIGITAL ARTISTS! Are you ready to create? Tell me what you want to draw!",
-     keywords:['yes','ready','draw','paint','create','art','picture','animal','house','tree','sea','city'],
-     correct:"AMAZING! 🚀 I love that idea! Let us start creating your digital masterpiece!",
-     wrong:"Just say YES or tell me what you want to draw — any idea is a great idea! 🌟"},
-  ],
-  l2u2: [
-    {q:"Hi! I am Noura! 🌟 Do you like stories? Tell me — what is your favourite kind of story?",
-     keywords:['funny','scary','adventure','animal','magic','princess','robot','superhero','fairy','yes','like'],
-     correct:"Amazing! 🎉 That is a great kind of story! Today we will learn to make our OWN digital story!",
-     wrong:"Think about it! 💡 Do you like funny stories? Scary stories? Adventure stories? Tell me!"},
-    {q:"Have you ever taken a photo to remember something special? 📸 YES or NO?",
-     keywords:['yes','photo','picture','camera','birthday','holiday','family','trip','yes'],
-     correct:"Fantastic! 🌟 Photos help us remember! And photos AND words together make a DIGITAL STORY!",
-     wrong:"Good try! 😊 Think about a birthday photo or holiday picture — have you ever taken one?"},
-    {q:"A great story has 3 parts — can you name them? 🤔 Hint: think about START, MIDDLE and...",
-     keywords:['beginning','middle','end','start','finish','ending'],
-     correct:"YES! 🏆 Beginning, Middle and End — every great story has all three! Well done!",
-     wrong:"Almost! 💡 Every story has a BEGINNING (start), a MIDDLE (exciting part) and an END (finish)!"},
-    {q:"Wonderful! 📖 Today we become DIGITAL STORYTELLERS! What is YOUR story about?",
-     keywords:['robot','animal','dragon','princess','friend','school','cat','dog','lion','adventure','magic'],
-     correct:"I LOVE that story idea! 🚀 Let us write it — you are already a Digital Storyteller!",
-     wrong:"Any idea is great! 🌟 Tell me about a character — maybe an animal or a robot?"},
-  ],
-  l2u3: [
-    {q:"Hi! I am Noura! 🤖 Do you like games and puzzles? YES or NO?",
-     keywords:['yes','love','like','game','puzzle','fun','play'],
-     correct:"Amazing! 🎉 Then you will LOVE today — we think like computers! Step by step!",
-     wrong:"Good try! 😊 Games and puzzles help us think! Today we think like a COMPUTER!"},
-    {q:"Can you think of 3 steps to make tea? ☕ Tell me step 1!",
-     keywords:['water','boil','cup','tea','bag','pour','hot','kettle','heat','fill'],
-     correct:"Great step! ⭐ That is computational thinking — breaking a task into clear steps! Keep going!",
-     wrong:"Think about it! 💡 Step 1 could be: boil the water OR get a cup — what do you do first?"},
-    {q:"Look at this pattern: 🔴🔵🔴🔵🔴 — what comes NEXT? 🔵 or 🟡?",
-     keywords:['blue','🔵','b'],
-     correct:"YES! 🏆 It is BLUE! 🔵 You found the pattern — red, blue, red, blue... brilliant!",
-     wrong:"Look again! 💡 Red, Blue, Red, Blue, Red... the pattern goes RED then BLUE. What comes after Red?"},
-    {q:"Wonderful! Today we think like COMPUTERS! Can you teach Digi ONE step to brush teeth? 🦷",
-     keywords:['toothbrush','toothpaste','mouth','brush','teeth','water','rinse','put','open'],
-     correct:"PERFECT instruction! 🤖 Digi can follow that step — you are a computer programmer!",
-     wrong:"Try again! 😊 Give Digi one clear step — like 'pick up the toothbrush' or 'open toothpaste'!"},
-  ],
-  l2u4: [
-    {q:"Hi! I am Noura! 🚀 Have you ever talked to a smart device — like Siri or Google? YES or NO?",
-     keywords:['yes','siri','google','alexa','ok google','hey siri','phone','smart','assistant'],
-     correct:"Wow! 🎉 Those are AI assistants! AI means Artificial Intelligence — computers that think!",
-     wrong:"Good try! 😊 Siri, Google Assistant and Alexa are examples of AI you can talk to!"},
-    {q:"Have you seen a robot? In real life, on TV or in a game? Tell me! 🤖",
-     keywords:['yes','robot','tv','game','movie','film','youtube','seen','digi','roblox','minecraft'],
-     correct:"Amazing! 🌟 Robots are AI machines — they follow instructions just like Digi!",
-     wrong:"Think about it! 💡 Have you seen a robot in a movie, on YouTube, or in a video game?"},
-    {q:"If you could invent ONE digital device — what would it do? 💡",
-     keywords:['fly','clean','cook','help','robot','talk','smart','fast','game','school','water','farm'],
-     correct:"INCREDIBLE idea! 🚀 That sounds like the future of Morocco! Dream big — inventors start like YOU!",
-     wrong:"Any idea is wonderful! 🌟 Maybe a robot that cleans your room or a device that helps on the farm?"},
-    {q:"Wonderful! 🌟 Today we explore AI and YOUR digital future! Are you ready?",
-     keywords:['yes','ready','excited','let go','sure','ok','yeah'],
-     correct:"LET US GO! 🚀 You are Morocco's digital future — let us explore AI together!",
-     wrong:"Just say YES — we are going to explore something amazing today! 🌟"},
-  ],
 };
 
 var chatMessages = [];
-var nouraQIdx = 0;
+var meriemQIdx = 0;
 
 function sendChat(){
   var inp=g('chat-inp');
@@ -2267,7 +1569,7 @@ function sendChat(){
   
   // Show typing indicator
   var typing=document.createElement('div');
-  typing.className='msg noura';
+  typing.className='msg meriem';
   typing.id='typing-indicator';
   typing.textContent='...';
   typing.style.opacity='0.5';
@@ -2276,19 +1578,19 @@ function sendChat(){
   
   // Smart keyword matching - works without AI
   var uid = currentUnit ? currentUnit.id : 'u1';
-  var qaList = NOURA_QA[uid] || NOURA_QA.u1;
-  var qa = qaList[nouraQIdx % qaList.length];
+  var qaList = MERIEM_QA[uid] || MERIEM_QA.u1;
+  var qa = qaList[meriemQIdx % qaList.length];
   var valLower = val.toLowerCase();
   var isCorrect = qa && qa.keywords && qa.keywords.some(function(kw){ return valLower.indexOf(kw) > -1; });
   var reply = isCorrect ? (qa.correct || 'Amazing! 🌟') : (qa.wrong || 'Good try! 😊 Try again!');
 
   // After correct answer, move to next question
   if(isCorrect) {
-    nouraQIdx++;
-    var nextQA = qaList[nouraQIdx % qaList.length];
-    if(nextQA && nouraQIdx < qaList.length) {
+    meriemQIdx++;
+    var nextQA = qaList[meriemQIdx % qaList.length];
+    if(nextQA && meriemQIdx < qaList.length) {
       setTimeout(function(){
-        addMsg('noura', nextQA.q);
+        addMsg('meriem', nextQA.q);
       }, 1500);
     }
   }
@@ -2298,7 +1600,7 @@ function sendChat(){
     var reply = data.reply;
     var typingEl=g('typing-indicator');
     if(typingEl) typingEl.remove();
-    addMsg('noura', reply);
+    addMsg('meriem', reply);
     chatMessages.push({role:'assistant', content:reply});
     markDone('activate');
   })
@@ -2562,12 +1864,12 @@ function renderOwnerUI(){
     if(supa){
       supa.from('scholen').insert({
         naam:naam,stad:stad,pin:pin,actief:true,
-        modules:{setActive:true,noura:true,beebot:false,certificate:true},
+        modules:{setActive:true,meriem:true,beebot:false,certificate:true,assignments:false},
         talen:{en:true,ar:false,fr:false}
       }).select().then(function(r){
         if(r.error){showToast('Error: '+r.error.message);}
         else{
-          var saved=r.data&&r.data[0]?r.data[0]:{naam:naam,stad:stad,pin:pin,actief:true,id:'s'+Date.now(),modules:{setActive:true,noura:true,beebot:false,certificate:true},talen:{en:true,ar:false,fr:false}};
+          var saved=r.data&&r.data[0]?r.data[0]:{naam:naam,stad:stad,pin:pin,actief:true,id:'s'+Date.now(),modules:{setActive:true,meriem:true,beebot:false,certificate:true,assignments:false},talen:{en:true,ar:false,fr:false}};
           DB.scholen.push(saved);
           inpNaam.value=''; inpStad.value=''; inpPin.value='';
           showToast('✓ School '+naam+' added!');
@@ -2575,7 +1877,7 @@ function renderOwnerUI(){
         }
       });
     } else {
-      DB.scholen.push({id:'s'+Date.now(),naam:naam,stad:stad,pin:pin,actief:true,modules:{setActive:true,noura:true,beebot:false,certificate:true},talen:{en:true,ar:false,fr:false}});
+      DB.scholen.push({id:'s'+Date.now(),naam:naam,stad:stad,pin:pin,actief:true,modules:{setActive:true,meriem:true,beebot:false,certificate:true,assignments:false},talen:{en:true,ar:false,fr:false}});
       inpNaam.value=''; inpStad.value=''; inpPin.value='';
       showToast('✓ '+naam+' added!');
       renderOwner();
@@ -2604,7 +1906,7 @@ function renderOwnerUI(){
 
 function renderModuleCard(school, container){
   var mods=school.modules||{}; var talen=school.talen||{en:true};
-  var modLabels={setActive:'📚 Full Set (all 3 books)',noura:'🤖 Noura AI',beebot:'🐝 BeeBot',leaderboard:'🏆 Leaderboard',qr:'📱 QR Scanner',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates'};
+  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',leaderboard:'🏆 Leaderboard',qr:'📱 QR Scanner',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates',assignments:'📋 Assignments'};
   var talenLabels={en:'🇬🇧 English',ar:'🇲🇦 Arabic',fr:'🇫🇷 French'};
   var html='<h3>⚙️ Modules — '+school.naam+'</h3>';
   Object.keys(modLabels).forEach(function(k){
@@ -2669,7 +1971,7 @@ function manageSchool(sid){
   box.appendChild(expSec);
 
   // ── Modules section ──
-  var modLabels={setActive:'📚 Full Set (all 3 books)',noura:'🤖 Noura AI',beebot:'🐝 BeeBot',leaderboard:'🏆 Leaderboard',qr:'📱 QR Scanner',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates'};
+  var modLabels={setActive:'📚 Full Set (all 3 books)',meriem:'🤖 Noura AI',beebot:'🐝 BeeBot',leaderboard:'🏆 Leaderboard',qr:'📱 QR Scanner',scratch:'💻 Scratch Jr',kahoot:'🎮 Kahoot',certificate:'🏅 Certificates',assignments:'📋 Assignments'};
   var modSec=document.createElement('div');
   modSec.style.cssText='margin-bottom:16px;padding:14px;background:#F9F9F9;border-radius:12px;';
   var modTitle=document.createElement('div');
@@ -2884,13 +2186,13 @@ function addSchool(){
   if(DB.scholen.find(function(s){return s.pin===pin;})){showToast('PIN already in use!');return;}
   var newSchool = {
     naam:naam, stad:stad, pin:pin, actief:true,
-    modules:{setActive:true,noura:true,beebot:false,certificate:true},
+    modules:{setActive:true,meriem:true,beebot:false,certificate:true,assignments:false},
     talen:{en:true,ar:false,fr:false}
   };
   if(supa){
     supa.from('scholen').insert({
       naam:naam, stad:stad, pin:pin, actief:true,
-      modules:{setActive:true,noura:true,beebot:false,certificate:true},
+      modules:{setActive:true,meriem:true,beebot:false,certificate:true,assignments:false},
       talen:{en:true,ar:false,fr:false}
     }).select().then(function(r){
       if(r.error){
@@ -3028,6 +2330,7 @@ function renderAdminUI(){
         makeToggle(t.id,'voortgang','View progress',r.voortgang!==false)+
         makeToggle(t.id,'viewStudent','View as student',r.viewStudent!==false)+
         makeToggle(t.id,'addStudent','Add students',r.addStudent!==false)+
+        (assignmentsActive()?'<div style="grid-column:1/-1;"><button onclick="toggleTeacherAssignments(\''+t.id+'\')" style="width:100%;padding:8px;border-radius:10px;border:2px solid '+(t.assignments_enabled!==false?'#1A6EFF':'#E0E0E0')+';background:'+(t.assignments_enabled!==false?'#E3F2FD':'white')+';font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito;color:#1A1A2E;">'+(t.assignments_enabled!==false?'✅':'❌')+' Assignments</button></div>':'')+
       '</div>'+
     '</div>';
   });
@@ -3303,7 +2606,8 @@ function renderTeacherUI(){
     '</div>';
   grid.appendChild(ov);
 
-  // ── STUDENTS LIST ──
+  // ── ASSIGNMENTS CARD ──
+  renderAssignmentsCard(grid);
   var sc=document.createElement('div'); sc.className='dash-card';
   var h='<h3>&#127891; My Students ('+myStudents.length+')</h3>';
   if(!myStudents.length){
@@ -3559,7 +2863,7 @@ function loadScholen(callback){
           actief: s.actief,
           vervaldatum: s.vervaldatum||null,
           kahoot_link: s.kahoot_link||'',
-          modules: s.modules||{setActive:true,noura:true,beebot:false,certificate:true},
+          modules: s.modules||{setActive:true,meriem:true,beebot:false,certificate:true},
           talen: s.talen||{en:true,ar:false,fr:false}
         };
       });
@@ -3952,6 +3256,459 @@ initSupabase();
 checkDeepLink();
 loadVideoLinks();
 
+// ══════════════════════════════════════════════════════
+// ASSIGNMENTS MODULE
+// ══════════════════════════════════════════════════════
+
+var DB_ASSIGNMENTS = [];
+var DB_SUBMISSIONS = [];
+
+var ASSIGNMENT_TEMPLATES = [
+  {cat:'🎨 Digital Art', title:'Draw Your Favourite Animal', type:'draw',
+   instruction:'Use the drawing tool to draw your favourite animal. Add colours and details!'},
+  {cat:'🎨 Digital Art', title:'Design a Book Cover', type:'draw',
+   instruction:'Design a book cover for a story you love. Include the title and a picture!'},
+  {cat:'🎨 Digital Art', title:'My Digital Self-Portrait', type:'draw',
+   instruction:'Draw a picture of yourself on the screen. What do you look like today?'},
+  {cat:'📖 Storytelling', title:'Write a Mini Story', type:'text',
+   instruction:'Write a short story with a Beginning, Middle and End. Make it exciting!'},
+  {cat:'📖 Storytelling', title:'My Weekend Story', type:'text',
+   instruction:'Tell us what you did last weekend — use at least 3 sentences!'},
+  {cat:'📖 Storytelling', title:'Finish the Story', type:'text',
+   instruction:'Once upon a time there was a robot who got lost in the desert... What happens next? Finish the story!'},
+  {cat:'🎮 Logic & Patterns', title:'Write Robot Instructions', type:'text',
+   instruction:'Write 5 step-by-step instructions to teach a robot how to make a sandwich. Be very clear!'},
+  {cat:'🎮 Logic & Patterns', title:'My Algorithm', type:'text',
+   instruction:'Write a step-by-step algorithm for getting ready for school in the morning. How many steps do you need?'},
+  {cat:'🎮 Logic & Patterns', title:'Pattern Quiz', type:'mc',
+   instruction:'What comes next in this pattern? 🔴🔵🔴🔵🔴 → ?',
+   mc_opts:'🔵 Blue\n🟡 Yellow\n🔴 Red', mc_correct:'A'},
+  {cat:'🚀 Future & AI', title:'My Dream Invention', type:'text',
+   instruction:'Describe an invention you would like to make. What does it do? How does it help people?'},
+  {cat:'🚀 Future & AI', title:'Letter to Digi the Robot', type:'text',
+   instruction:'Write a short letter to Digi the robot. Tell him one thing you learned about AI this week!'},
+  {cat:'🚀 Future & AI', title:'AI or Not AI?', type:'mc',
+   instruction:'Which of these is an example of Artificial Intelligence?',
+   mc_opts:'A pencil ✏️\nSiri on a phone 🗣️\nA paper book 📚', mc_correct:'B'},
+  {cat:'✨ Extra & Homework', title:'My Favourite Device', type:'text',
+   instruction:'What is your favourite digital device? Describe it and explain what you use it for!'},
+  {cat:'✨ Extra & Homework', title:'Digital Safety Rules', type:'text',
+   instruction:'Write 3 important rules for staying safe online. Explain WHY each rule is important.'},
+  {cat:'✨ Extra & Homework', title:'Draw Your Future Job', type:'draw',
+   instruction:'Draw yourself doing your dream job in the future. Will technology help you in your job?'},
+  {cat:'✨ Extra & Homework', title:'Homework: Research a Device', type:'text',
+   instruction:'Find one interesting fact about a digital device (tablet, robot, or smartphone). Write it here and say where you found it.'},
+];
+
+function assignmentsActive(){
+  var mods=currentSchool?(currentSchool.modules||{}):{};
+  return !!mods.assignments;
+}
+function teacherCanUseAssignments(){
+  if(!assignmentsActive()) return false;
+  if(role==='director') return true;
+  var doc=currentUser?DB.docenten.find(function(d){return d.id===currentUser.id;}):null;
+  return doc?(doc.assignments_enabled!==false):false;
+}
+function typeLabel(t){
+  return t==='draw'?'🎨 Draw':t==='mc'?'🔘 Multiple Choice':'📝 Text';
+}
+
+function renderAssignmentsCard(grid){
+  if(!teacherCanUseAssignments()) return;
+  var card=document.createElement('div'); card.className='dash-card';
+  card.innerHTML=
+    '<h3>📋 Assignments</h3>'+
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">'+
+      '<button onclick="openCreateAssignment()" style="padding:10px 18px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">➕ New Assignment</button>'+
+      '<button onclick="openAssignmentTemplates()" style="padding:10px 18px;background:#FF6B2B;color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">📚 Templates</button>'+
+      '<button onclick="openSubmissions()" style="padding:10px 18px;background:#00C853;color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">📥 Submissions</button>'+
+    '</div>'+
+    renderAssignmentsList();
+  grid.appendChild(card);
+}
+
+function renderAssignmentsList(){
+  var mine=DB_ASSIGNMENTS.filter(function(a){
+    return a.teacher_id===(currentUser?currentUser.id:'')&&a.school_id===(currentSchool?currentSchool.id:'');
+  });
+  if(!mine.length) return '<div style="color:#999;font-size:14px;">No assignments yet. Create one above!</div>';
+  return mine.map(function(a){
+    var subCount=DB_SUBMISSIONS.filter(function(s){return s.assignment_id===a.id;}).length;
+    var dl=a.deadline?' · ⏰ '+a.deadline:'';
+    var tgt=a.target==='school'?'🏫 Whole school':'👩‍🏫 My class';
+    return '<div style="padding:12px;background:#F8F7F4;border-radius:12px;margin-bottom:8px;border-left:4px solid #1A6EFF;">'+
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;">'+
+        '<div>'+
+          '<div style="font-size:15px;font-weight:800;color:#1A1A2E;">'+a.title+'</div>'+
+          '<div style="font-size:12px;color:#888;margin-top:2px;">'+tgt+dl+' · '+typeLabel(a.type)+'</div>'+
+        '</div>'+
+        '<div style="display:flex;gap:6px;">'+
+          '<span onclick="openSubmissions(\''+a.id+'\')" style="background:#E3F2FD;color:#1A6EFF;font-size:12px;font-weight:800;padding:4px 10px;border-radius:8px;cursor:pointer;">📥 '+subCount+'</span>'+
+          '<span onclick="deleteAssignment(\''+a.id+'\')" style="background:#FFEBEE;color:#E53935;font-size:12px;font-weight:800;padding:4px 10px;border-radius:8px;cursor:pointer;">🗑</span>'+
+        '</div>'+
+      '</div>'+
+      '<div style="font-size:13px;color:#555;margin-top:6px;">'+a.instruction.slice(0,80)+(a.instruction.length>80?'…':'')+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function openCreateAssignment(prefill){
+  prefill=prefill||{};
+  var panel=document.createElement('div');
+  panel.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;';
+  panel.id='assign-panel';
+  var selType=prefill.type||'text';
+  var selTarget=prefill.target||'class';
+  panel.innerHTML=
+    '<div style="background:white;border-radius:20px;padding:24px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto;">'+
+    '<div style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;margin-bottom:16px;">📋 New Assignment</div>'+
+    '<label style="font-size:13px;font-weight:800;color:#555;">Title</label>'+
+    '<input id="asgn-title" value="'+(prefill.title||'')+'" placeholder="e.g. Draw your favourite animal" style="width:100%;padding:10px 14px;border-radius:10px;border:2px solid #E0E0E0;font-size:15px;font-weight:700;font-family:Nunito;outline:none;box-sizing:border-box;margin:6px 0 14px;"/>'+
+    '<label style="font-size:13px;font-weight:800;color:#555;">Instructions for the student</label>'+
+    '<textarea id="asgn-instr" placeholder="Describe what the student should do..." style="width:100%;padding:10px 14px;border-radius:10px;border:2px solid #E0E0E0;font-size:14px;font-family:Nunito;outline:none;box-sizing:border-box;margin:6px 0 14px;min-height:80px;resize:vertical;">'+(prefill.instruction||'')+'</textarea>'+
+    '<label style="font-size:13px;font-weight:800;color:#555;">Type</label>'+
+    '<div style="display:flex;gap:8px;margin:6px 0 14px;flex-wrap:wrap;" id="asgn-type-btns">'+
+      ['text','draw','mc'].map(function(t){
+        var s=selType===t;
+        return '<button onclick="asgnSetType(this,\''+t+'\')" data-type="'+t+'" style="padding:8px 16px;border-radius:10px;border:2px solid '+(s?'#1A6EFF':'#E0E0E0')+';background:'+(s?'#E3F2FD':'white')+';font-weight:800;font-size:13px;cursor:pointer;font-family:Nunito;">'+typeLabel(t)+'</button>';
+      }).join('')+
+    '</div>'+
+    '<div id="asgn-mc-block" style="display:'+(selType==='mc'?'block':'none')+';">'+
+      '<label style="font-size:13px;font-weight:800;color:#555;">Answer options (one per line)</label>'+
+      '<textarea id="asgn-mc-opts" placeholder="Option A&#10;Option B&#10;Option C" style="width:100%;padding:10px 14px;border-radius:10px;border:2px solid #E0E0E0;font-size:14px;font-family:Nunito;outline:none;box-sizing:border-box;margin:6px 0 10px;min-height:80px;resize:vertical;">'+(prefill.mc_opts||'')+'</textarea>'+
+      '<label style="font-size:13px;font-weight:800;color:#555;">Correct answer (A, B or C)</label>'+
+      '<input id="asgn-mc-correct" value="'+(prefill.mc_correct||'A')+'" placeholder="A" style="width:80px;padding:8px 12px;border-radius:10px;border:2px solid #E0E0E0;font-size:15px;font-weight:700;font-family:Nunito;outline:none;margin:6px 0 14px;"/>'+
+    '</div>'+
+    '<label style="font-size:13px;font-weight:800;color:#555;">Send to</label>'+
+    '<div style="display:flex;gap:8px;margin:6px 0 14px;" id="asgn-target-btns">'+
+      ['class','school'].map(function(t){
+        var s=selTarget===t;
+        var lbl=t==='class'?'👩‍🏫 My class':'🏫 Whole school';
+        return '<button onclick="asgnSetTarget(this,\''+t+'\')" data-target="'+t+'" style="padding:8px 16px;border-radius:10px;border:2px solid '+(s?'#1A6EFF':'#E0E0E0')+';background:'+(s?'#E3F2FD':'white')+';font-weight:800;font-size:13px;cursor:pointer;font-family:Nunito;">'+lbl+'</button>';
+      }).join('')+
+    '</div>'+
+    '<label style="font-size:13px;font-weight:800;color:#555;">Deadline (optional)</label>'+
+    '<input id="asgn-deadline" type="date" value="'+(prefill.deadline||'')+'" style="width:100%;padding:10px 14px;border-radius:10px;border:2px solid #E0E0E0;font-size:14px;font-family:Nunito;outline:none;box-sizing:border-box;margin:6px 0 14px;"/>'+
+    '<label style="font-size:13px;font-weight:800;color:#555;">Attachment — Word, PPT, Excel, PDF (optional)</label>'+
+    '<input id="asgn-file" type="file" accept=".docx,.doc,.pptx,.ppt,.xlsx,.xls,.pdf,.png,.jpg" style="width:100%;padding:8px 0;font-size:13px;font-family:Nunito;margin:6px 0 16px;"/>'+
+    '<div style="display:flex;gap:10px;">'+
+      '<button onclick="saveAssignment()" style="flex:1;padding:12px;background:#1A6EFF;color:white;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">📤 Send Assignment</button>'+
+      '<button onclick="g(\'assign-panel\').remove()" style="padding:12px 20px;background:#F0EDE8;color:#1A1A2E;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">✕</button>'+
+    '</div>'+
+    '</div>';
+  document.body.appendChild(panel);
+}
+
+function asgnSetType(btn,t){
+  document.querySelectorAll('#asgn-type-btns button').forEach(function(b){b.style.borderColor='#E0E0E0';b.style.background='white';});
+  btn.style.borderColor='#1A6EFF'; btn.style.background='#E3F2FD';
+  var mc=g('asgn-mc-block'); if(mc) mc.style.display=(t==='mc'?'block':'none');
+}
+function asgnSetTarget(btn){
+  document.querySelectorAll('#asgn-target-btns button').forEach(function(b){b.style.borderColor='#E0E0E0';b.style.background='white';});
+  btn.style.borderColor='#1A6EFF'; btn.style.background='#E3F2FD';
+}
+
+function saveAssignment(){
+  var title=(g('asgn-title')||{}).value||'';
+  var instr=(g('asgn-instr')||{}).value||'';
+  var typeBtn=document.querySelector('#asgn-type-btns [style*="#1A6EFF"]');
+  var atype=typeBtn?typeBtn.dataset.type:'text';
+  var targetBtn=document.querySelector('#asgn-target-btns [style*="#1A6EFF"]');
+  var target=targetBtn?targetBtn.dataset.target:'class';
+  var deadline=(g('asgn-deadline')||{}).value||'';
+  var mcOpts=(g('asgn-mc-opts')||{}).value||'';
+  var mcCorrect=((g('asgn-mc-correct')||{}).value||'A').toUpperCase();
+  var fileInput=g('asgn-file');
+  if(!title.trim()){showToast('Please add a title!');return;}
+  if(!instr.trim()){showToast('Please add instructions!');return;}
+  var asgn={id:'a'+Date.now(),teacher_id:currentUser?currentUser.id:'',
+    teacher_name:currentUser?currentUser.naam:'Teacher',
+    school_id:currentSchool?currentSchool.id:'',
+    klas:currentUser?currentUser.klas:'',
+    title:title.trim(),instruction:instr.trim(),type:atype,target:target,
+    deadline:deadline,mc_opts:mcOpts,mc_correct:mcCorrect,
+    file_name:fileInput&&fileInput.files[0]?fileInput.files[0].name:'',
+    created:new Date().toISOString()};
+  if(fileInput&&fileInput.files[0]){
+    var reader=new FileReader();
+    reader.onload=function(e){asgn.file_data=e.target.result;asgn.file_type=fileInput.files[0].type;finishSaveAssignment(asgn);};
+    reader.readAsDataURL(fileInput.files[0]);
+  } else { finishSaveAssignment(asgn); }
+}
+
+function finishSaveAssignment(asgn){
+  DB_ASSIGNMENTS.push(asgn);
+  if(supa){
+    var p={id:asgn.id,teacher_id:asgn.teacher_id,teacher_name:asgn.teacher_name,
+      school_id:asgn.school_id,klas:asgn.klas,title:asgn.title,instruction:asgn.instruction,
+      type:asgn.type,target:asgn.target,deadline:asgn.deadline,mc_opts:asgn.mc_opts,
+      mc_correct:asgn.mc_correct,file_name:asgn.file_name,created:asgn.created};
+    supa.from('assignments').insert(p).then(function(r){if(r.error) console.error(r.error.message);});
+  }
+  var panel=g('assign-panel'); if(panel) panel.remove();
+  showToast('✅ Assignment sent to students!');
+  renderTeacher();
+}
+
+function deleteAssignment(aid){
+  if(!confirm('Delete this assignment?')) return;
+  DB_ASSIGNMENTS=DB_ASSIGNMENTS.filter(function(a){return a.id!==aid;});
+  if(supa) supa.from('assignments').delete().eq('id',aid);
+  renderTeacher();
+}
+
+function openAssignmentTemplates(){
+  var panel=document.createElement('div');
+  panel.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;';
+  panel.id='tmpl-panel';
+  var cats={};
+  ASSIGNMENT_TEMPLATES.forEach(function(t){if(!cats[t.cat])cats[t.cat]=[];cats[t.cat].push(t);});
+  var html='<div style="background:white;border-radius:20px;padding:24px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;">'+
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">'+
+      '<div style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;">📚 Assignment Templates</div>'+
+      '<button onclick="g(\'tmpl-panel\').remove()" style="background:#F0EDE8;border:none;border-radius:10px;padding:8px 14px;font-size:18px;cursor:pointer;">✕</button>'+
+    '</div>';
+  Object.keys(cats).forEach(function(cat){
+    html+='<div style="font-weight:800;font-size:15px;color:#1A1A2E;margin:14px 0 8px;">'+cat+'</div>';
+    cats[cat].forEach(function(t){
+      var idx=ASSIGNMENT_TEMPLATES.indexOf(t);
+      html+='<div style="padding:12px;background:#F8F7F4;border-radius:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;">'+
+        '<div>'+
+          '<div style="font-size:14px;font-weight:800;color:#1A1A2E;">'+t.title+'</div>'+
+          '<div style="font-size:12px;color:#888;">'+typeLabel(t.type)+'</div>'+
+          '<div style="font-size:12px;color:#555;margin-top:2px;">'+t.instruction.slice(0,60)+'…</div>'+
+        '</div>'+
+        '<button onclick="useTmpl('+idx+')" style="padding:8px 16px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito;white-space:nowrap;">Use ↗</button>'+
+      '</div>';
+    });
+  });
+  html+='</div>';
+  panel.innerHTML=html;
+  document.body.appendChild(panel);
+}
+function useTmpl(idx){
+  var p=g('tmpl-panel'); if(p) p.remove();
+  openCreateAssignment(ASSIGNMENT_TEMPLATES[idx]);
+}
+
+function openSubmissions(filterId){
+  var mine=DB_ASSIGNMENTS.filter(function(a){
+    return a.teacher_id===(currentUser?currentUser.id:'')&&a.school_id===(currentSchool?currentSchool.id:'');
+  });
+  var panel=document.createElement('div');
+  panel.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;';
+  panel.id='sub-panel';
+  var html='<div style="background:white;border-radius:20px;padding:24px;max-width:620px;width:100%;max-height:90vh;overflow-y:auto;">'+
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">'+
+      '<div style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;">📥 Submissions</div>'+
+      '<button onclick="g(\'sub-panel\').remove()" style="background:#F0EDE8;border:none;border-radius:10px;padding:8px 14px;font-size:18px;cursor:pointer;">✕</button>'+
+    '</div>';
+  if(!mine.length){
+    html+='<div style="color:#999;text-align:center;padding:24px;">No assignments yet.</div>';
+  } else {
+    mine.forEach(function(a){
+      if(filterId&&a.id!==filterId) return;
+      var subs=DB_SUBMISSIONS.filter(function(s){return s.assignment_id===a.id;});
+      var students=DB.leerlingen.filter(function(l){
+        return a.target==='school'||(l.klas||'')===(a.klas||'');
+      });
+      var pending=students.filter(function(st){return !subs.find(function(s){return s.student_id===st.id;});});
+      html+='<div style="margin-bottom:20px;">'+
+        '<div style="font-size:16px;font-weight:800;color:#1A1A2E;margin-bottom:4px;">'+a.title+'</div>'+
+        '<div style="font-size:12px;color:#888;margin-bottom:10px;">'+typeLabel(a.type)+(a.deadline?' · ⏰ '+a.deadline:'')+'</div>'+
+        (subs.length?
+          '<div style="font-size:13px;font-weight:800;color:#00C853;margin-bottom:6px;">✅ Submitted ('+subs.length+')</div>'+
+          subs.map(function(s){
+            var ansHtml='';
+            if(s.type==='draw'&&s.answer&&s.answer.startsWith('data:')){
+              ansHtml='<img src="'+s.answer+'" style="max-width:100%;border-radius:8px;margin-top:6px;border:2px solid #E0E0E0;"/>';
+            } else if(s.type==='mc'){
+              var correct=s.answer===s.mc_correct;
+              ansHtml='<div style="margin-top:4px;font-size:13px;">Answer: <strong>'+s.answer+'</strong>'+(correct?' <span style="color:#00C853;">✅ Correct</span>':' <span style="color:#E53935;">❌ Wrong</span>')+'</div>';
+            } else {
+              ansHtml='<div style="margin-top:4px;font-size:13px;background:#F8F7F4;padding:8px;border-radius:8px;">'+s.answer+'</div>';
+            }
+            return '<div style="padding:10px;background:#E8F5E9;border-radius:10px;margin-bottom:6px;">'+
+              '<div style="font-size:13px;font-weight:800;">'+s.student_name+'</div>'+
+              '<div style="font-size:11px;color:#888;">'+new Date(s.submitted).toLocaleDateString()+'</div>'+
+              ansHtml+'</div>';
+          }).join('')
+        :'')+
+        (pending.length?
+          '<div style="font-size:13px;font-weight:800;color:#FF6B2B;margin:8px 0 6px;">⏳ Not yet submitted ('+pending.length+')</div>'+
+          pending.map(function(st){return '<div style="padding:8px 12px;background:#FFF3E0;border-radius:8px;margin-bottom:4px;font-size:13px;color:#555;">'+st.naam+'</div>';}).join('')
+        :'')+
+        '<hr style="border:none;border-top:1px solid #F0EDE8;margin-top:12px;"/>'+
+      '</div>';
+    });
+  }
+  html+='</div>';
+  panel.innerHTML=html;
+  document.body.appendChild(panel);
+}
+
+// ── STUDENT SIDE ──
+function getStudentAssignments(){
+  if(!currentUser||!currentSchool) return [];
+  return DB_ASSIGNMENTS.filter(function(a){
+    if(a.school_id!==currentSchool.id) return false;
+    return a.target==='school'||(currentUser.klas||'')===(a.klas||'');
+  });
+}
+function countNewAssignments(){
+  var all=getStudentAssignments();
+  return all.filter(function(a){
+    return !DB_SUBMISSIONS.find(function(s){return s.assignment_id===a.id&&s.student_id===(currentUser?currentUser.id:'');});
+  }).length;
+}
+function renderAssignmentBadge(){
+  if(!assignmentsActive()) return;
+  var n=countNewAssignments();
+  var badge=g('asgn-badge');
+  if(badge){badge.style.display=n>0?'flex':'none';}
+  var num=g('asgn-badge-num'); if(num) num.textContent=n;
+}
+function openStudentAssignments(){
+  var all=getStudentAssignments();
+  var panel=document.createElement('div');
+  panel.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;';
+  panel.id='student-asgn-panel';
+  var html='<div style="background:white;border-radius:20px;padding:24px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;">'+
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">'+
+      '<div style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;">📋 My Assignments</div>'+
+      '<button onclick="g(\'student-asgn-panel\').remove()" style="background:#F0EDE8;border:none;border-radius:10px;padding:8px 14px;font-size:18px;cursor:pointer;">✕</button>'+
+    '</div>';
+  if(!all.length){
+    html+='<div style="color:#999;text-align:center;padding:24px;font-size:15px;">No assignments yet! 🎉</div>';
+  } else {
+    all.forEach(function(a){
+      var sub=DB_SUBMISSIONS.find(function(s){return s.assignment_id===a.id&&s.student_id===(currentUser?currentUser.id:'');});
+      var dl=a.deadline?'<div style="font-size:12px;color:#FF6B2B;font-weight:700;margin-top:2px;">⏰ Deadline: '+a.deadline+'</div>':'';
+      if(sub){
+        html+='<div style="padding:14px;background:#E8F5E9;border-radius:14px;margin-bottom:10px;border-left:4px solid #00C853;">'+
+          '<div style="font-size:15px;font-weight:800;color:#1A1A2E;">✅ '+a.title+'</div>'+
+          '<div style="font-size:12px;color:#00C853;font-weight:700;margin-top:2px;">Submitted! Well done 🌟</div>'+dl+'</div>';
+      } else {
+        html+='<div style="padding:14px;background:#F8F7F4;border-radius:14px;margin-bottom:10px;border-left:4px solid #1A6EFF;">'+
+          '<div style="font-size:15px;font-weight:800;color:#1A1A2E;">'+a.title+'</div>'+
+          '<div style="font-size:13px;color:#555;margin:6px 0;">'+a.instruction+'</div>'+dl+
+          (a.file_name?'<div style="margin:8px 0;"><a href="'+(a.file_data||'#')+'" download="'+a.file_name+'" style="font-size:13px;color:#1A6EFF;font-weight:700;text-decoration:none;">📎 Download: '+a.file_name+'</a></div>':'')+
+          '<button onclick="openDoAssignment(\''+a.id+'\')" style="margin-top:8px;padding:10px 20px;background:#1A6EFF;color:white;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;">✏️ Start Assignment</button>'+
+        '</div>';
+      }
+    });
+  }
+  html+='</div>';
+  panel.innerHTML=html;
+  document.body.appendChild(panel);
+}
+
+function openDoAssignment(aid){
+  var a=DB_ASSIGNMENTS.find(function(x){return x.id===aid;});
+  if(!a) return;
+  var panel=document.createElement('div');
+  panel.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9100;display:flex;align-items:center;justify-content:center;padding:16px;';
+  panel.id='do-asgn-panel';
+  var inputHtml='';
+  if(a.type==='text'){
+    inputHtml='<textarea id="do-asgn-answer" placeholder="Write your answer here..." style="width:100%;min-height:120px;padding:12px;border-radius:10px;border:2px solid #E0E0E0;font-size:15px;font-family:Nunito;outline:none;box-sizing:border-box;resize:vertical;"></textarea>';
+  } else if(a.type==='mc'){
+    var opts=a.mc_opts?a.mc_opts.split('\n').filter(function(o){return o.trim();}):[];
+    inputHtml='<div style="display:flex;flex-direction:column;gap:8px;" id="mc-opts">';
+    opts.forEach(function(opt,i){
+      var letter=String.fromCharCode(65+i);
+      inputHtml+='<button onclick="selectMcOpt(this,\''+letter+'\')" data-letter="'+letter+'" style="padding:12px 16px;border-radius:10px;border:2px solid #E0E0E0;background:white;font-size:15px;font-weight:700;cursor:pointer;font-family:Nunito;text-align:left;">'+letter+'. '+opt.trim()+'</button>';
+    });
+    inputHtml+='</div><input type="hidden" id="do-asgn-answer" value=""/>';
+  } else if(a.type==='draw'){
+    inputHtml='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;" id="do-draw-colors"></div>'+
+      '<canvas id="do-draw-canvas" width="460" height="200" style="width:100%;border-radius:10px;background:white;cursor:crosshair;touch-action:none;border:2px solid #E0E0E0;display:block;"></canvas>'+
+      '<input type="hidden" id="do-asgn-answer" value="drawing"/>';
+  }
+  panel.innerHTML=
+    '<div style="background:white;border-radius:20px;padding:24px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;">'+
+    '<div style="font-family:Fredoka One;font-size:20px;color:#1A1A2E;margin-bottom:8px;">✏️ '+a.title+'</div>'+
+    '<div style="font-size:14px;color:#555;margin-bottom:14px;background:#F8F7F4;padding:12px;border-radius:10px;">'+a.instruction+'</div>'+
+    (a.file_name?'<div style="margin-bottom:12px;"><a href="'+(a.file_data||'#')+'" download="'+a.file_name+'" style="font-size:14px;color:#1A6EFF;font-weight:700;text-decoration:none;">📎 Download: '+a.file_name+'</a></div>':'')+
+    inputHtml+
+    '<div style="display:flex;gap:10px;margin-top:16px;">'+
+      '<button onclick="submitAssignment(\''+a.id+'\')" style="flex:1;padding:12px;background:#00C853;color:white;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">📤 Submit!</button>'+
+      '<button onclick="g(\'do-asgn-panel\').remove()" style="padding:12px 18px;background:#F0EDE8;color:#1A1A2E;border:none;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">✕</button>'+
+    '</div></div>';
+  document.body.appendChild(panel);
+  if(a.type==='draw'){
+    setTimeout(function(){
+      var cols=['#1A1A2E','#E91E7A','#FF6B2B','#FFD600','#00C853','#1A6EFF','#9B27AF'];
+      var cp=g('do-draw-colors'); var dc='#1A1A2E';
+      if(cp) cols.forEach(function(c){
+        var b=document.createElement('button');
+        b.style.cssText='width:32px;height:32px;border-radius:50%;background:'+c+';border:3px solid rgba(0,0,0,0.1);cursor:pointer;';
+        b.onclick=function(){dc=c;document.querySelectorAll('#do-draw-colors button').forEach(function(x){x.style.borderColor='rgba(0,0,0,0.1)';});b.style.borderColor='#FFD600';};
+        cp.appendChild(b);
+      });
+      var c=g('do-draw-canvas'); if(!c) return;
+      var ctx=c.getContext('2d'); ctx.lineCap='round';
+      var dr=false,lx=0,ly=0;
+      function pos(e,t){var r=c.getBoundingClientRect();var s=t||e;return{x:(s.clientX-r.left)*(c.width/r.width),y:(s.clientY-r.top)*(c.height/r.height)};}
+      c.onmousedown=function(e){dr=true;var p=pos(e);lx=p.x;ly=p.y;};
+      c.onmousemove=function(e){if(!dr)return;var p=pos(e);ctx.strokeStyle=dc;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;};
+      c.onmouseup=function(){dr=false;};
+      c.ontouchstart=function(e){e.preventDefault();dr=true;var p=pos(e,e.touches[0]);lx=p.x;ly=p.y;};
+      c.ontouchmove=function(e){e.preventDefault();if(!dr)return;var p=pos(e,e.touches[0]);ctx.strokeStyle=dc;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;};
+      c.ontouchend=function(){dr=false;};
+    },100);
+  }
+}
+function selectMcOpt(btn,letter){
+  document.querySelectorAll('#mc-opts button').forEach(function(b){b.style.borderColor='#E0E0E0';b.style.background='white';});
+  btn.style.borderColor='#1A6EFF'; btn.style.background='#E3F2FD';
+  var h=g('do-asgn-answer'); if(h) h.value=letter;
+}
+function submitAssignment(aid){
+  var a=DB_ASSIGNMENTS.find(function(x){return x.id===aid;});
+  if(!a) return;
+  var answerEl=g('do-asgn-answer');
+  var answer='';
+  if(a.type==='draw'){var c=g('do-draw-canvas');answer=c?c.toDataURL('image/png'):'';}
+  else {answer=answerEl?(answerEl.value||''):''; }
+  if(!answer.trim()&&a.type!=='draw'){showToast('Please give an answer first!');return;}
+  var sub={id:'s'+Date.now(),assignment_id:aid,
+    student_id:currentUser?currentUser.id:'',student_name:currentUser?currentUser.naam:'Student',
+    school_id:currentSchool?currentSchool.id:'',type:a.type,answer:answer,
+    mc_correct:a.mc_correct||'',submitted:new Date().toISOString()};
+  DB_SUBMISSIONS.push(sub);
+  if(supa) supa.from('submissions').insert({id:sub.id,assignment_id:sub.assignment_id,
+    student_id:sub.student_id,student_name:sub.student_name,school_id:sub.school_id,
+    type:sub.type,answer:a.type==='draw'?'[drawing]':sub.answer,submitted:sub.submitted})
+    .then(function(r){if(r.error) console.error(r.error.message);});
+  var p=g('do-asgn-panel'); if(p) p.remove();
+  var p2=g('student-asgn-panel'); if(p2) p2.remove();
+  showToast('🎉 Assignment submitted! Well done!');
+  renderAssignmentBadge();
+}
+
+function loadAssignments(){
+  if(!supa||!currentSchool) return;
+  supa.from('assignments').select('*').eq('school_id',currentSchool.id).then(function(r){
+    if(!r.error&&r.data) DB_ASSIGNMENTS=r.data;
+    if(role==='student') renderAssignmentBadge();
+  });
+  supa.from('submissions').select('*').eq('school_id',currentSchool.id).then(function(r){
+    if(!r.error&&r.data) DB_SUBMISSIONS=r.data;
+    if(role==='student') renderAssignmentBadge();
+  });
+}
+function toggleTeacherAssignments(tid){
+  var doc=DB.docenten.find(function(d){return d.id===tid;});
+  if(!doc) return;
+  doc.assignments_enabled=!doc.assignments_enabled;
+  if(supa) supa.from('docenten').update({assignments_enabled:doc.assignments_enabled}).eq('id',tid);
+  showToast((doc.assignments_enabled?'✅':'❌')+' Assignments '+(doc.assignments_enabled?'enabled':'disabled')+' for '+doc.naam);
+  renderTeacher();
+}
+
 </script>
 
 <div class="screen" id="scr-create">
@@ -4015,15 +3772,6 @@ loadVideoLinks();
 </div>
 
 
-<!-- ══ LEVEL 2 GAME SCREEN ══ -->
-<div class="screen" id="scr-l2game">
-  <div class="topbar">
-    <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">← Back</button></div>
-  </div>
-  <div style="flex:1;overflow-y:auto;padding:16px;" id="l2game-area"></div>
-</div>
-
 <!-- ══ LEADERBOARD SCREEN ══ -->
 <div class="screen" id="scr-leaderboard">
   <div class="topbar">
@@ -4066,7 +3814,7 @@ loadVideoLinks();
       <button onclick="openWhatsApp()" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#25D366;color:white;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:Nunito;">
         &#128172; WhatsApp
       </button>
-      <span style="font-size:11px;color:rgba(255,255,255,0.4);align-self:center;">anwarouali@gmail.com</span>
+      <span style="font-size:11px;color:rgba(255,255,255,0.4);align-self:center;">redouanouali@gmail.com</span>
       <span style="font-size:11px;color:rgba(255,255,255,0.4);align-self:center;">www.smartskillsmorocco.ma</span>
     </div>
     <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:8px;">
