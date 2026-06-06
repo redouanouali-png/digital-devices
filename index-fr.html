@@ -177,10 +177,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 <div class="screen active" id="scr-login">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
-    <div class="tb-r">
-      <button onclick="window.location.href='index.html'" style="padding:4px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.2);background:transparent;color:white;font-weight:800;font-size:12px;cursor:pointer;">&#127468;&#127463; EN</button>
-      <button style="padding:4px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.8);background:rgba(255,255,255,0.3);color:white;font-weight:800;font-size:12px;cursor:default;">&#127467;&#127479; FR</button>
-    </div>
+    <div class="tb-r"><button onclick="window.location.href='index.html'" style="padding:4px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.2);background:transparent;color:white;font-weight:800;font-size:12px;cursor:pointer;">&#127468;&#127463; EN</button><button style="padding:4px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.8);background:rgba(255,255,255,0.3);color:white;font-weight:800;font-size:12px;">&#127467;&#127479; FR</button></div>
   </div>
   <div class="login-wrap">
     <div class="login-card">
@@ -196,16 +193,16 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     </div>
       <div class="login-title">Bienvenue !</div>
       <div style="font-size:11px;font-weight:700;color:#1A6EFF;letter-spacing:1px;margin-bottom:4px;">MOROCCO 2030 &#127474;&#127462;</div>
-      <div class="login-sub">Qui es-tu ? Choisis ton rôle !</div>
+      <div class="login-sub">Qui es-tu ? Choisis ton role !</div>
       <div class="role-grid">
-        <button class="role-btn student sel" onclick="selRole('student')">🎓 Élève</button>
+        <button class="role-btn student sel" onclick="selRole('student')">🎓 Eleve</button>
         <button class="role-btn teacher" onclick="selRole('teacher')">👩‍🏫 Professeur</button>
         <button class="role-btn admin" onclick="selRole('admin')">🔑 Directeur</button>
         <button class="role-btn owner" onclick="selRole('owner')">👑 Owner</button>
       </div>
       <div class="login-fields" id="login-fields">
-        <input type="text" id="inp-name" placeholder="Ton prénom..." style="display:none;"/>
-        <input type="text" id="inp-code" placeholder="Ton code (ex. AM001)" style="display:none;"/>
+        <input type="text" id="inp-name" placeholder="Your name..." style="display:none;"/>
+        <input type="text" id="inp-code" placeholder="Your code (e.g. AM001)" style="display:none;"/>
         <input type="password" id="inp-pin" placeholder="PIN..." style="display:none;"/>
       </div>
       <button class="btn-login" onclick="doLogin()">Allons-y ! 🚀</button>
@@ -220,7 +217,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div class="tb-r">
       <span id="st-name" style="color:white;font-weight:800;font-size:14px;"></span>
       <div id="lang-selector" style="display:none;gap:4px;"></div>
-      <button class="tb-btn" onclick="logout()">Se déconnecter</button>
+      <button class="tb-btn" onclick="logout()">Se deconnecter</button>
     </div>
   </div>
   <div class="student-home">
@@ -238,7 +235,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.outerHTML='<div class=welcome-avatar>😊</div>'"/>
       <div class="welcome-text">
         <h2 id="st-welcome">Hello!</h2>
-        <p>Choisis ton niveau et apprends ! 🌟</p>
+        <p>Choose your level and start learning! 🌟</p>
         <div class="stars-row">
           <span class="star-badge" id="st-stars">⭐ 0 stars</span>
           <span class="star-badge" id="st-badges" style="background:#E91E7A;color:white;">🏅 0 badges</span>
@@ -246,7 +243,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       </div>
     </div>
 
-    <div class="levels-title" id="levels-title">📘 Appareils Numériques — Tes Livres</div>
+    <div class="levels-title" id="levels-title">Appareils Numeriques — Tes Livres</div>
     <div class="levels-grid" id="levels-grid"></div>
 
     <div id="cert-btn-wrap" style="text-align:center;">
@@ -254,7 +251,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     </div>
     <div id="student-extra-btns" style="text-align:center;"></div>
     <div class="badges-section">
-      <div class="badges-title">🏅 Mes Badges</div>
+      <div class="badges-title">Mes Badges</div>
       <div class="badges-row">
         <div class="badge-item"><span class="badge-icon" id="b1">🥉</span><div class="badge-label">Explorer</div></div>
         <div class="badge-item"><span class="badge-icon" id="b2">🥈</span><div class="badge-label">Adventurer</div></div>
@@ -271,8 +268,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
     <div class="tb-r">
-      <button class="tb-btn" onclick="showScreen('scr-student')">← Retour</button>
-      <button class="tb-btn" onclick="logout()">Se déconnecter</button>
+      <button class="tb-btn" onclick="showScreen('scr-student')">Retour</button>
+      <button class="tb-btn" onclick="logout()">Se deconnecter</button>
     </div>
   </div>
   <div class="unit-wrap">
@@ -281,7 +278,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <p id="unit-sub">What is a Digital Device?</p>
       <div style="display:flex;align-items:center;gap:10px;margin-top:10px;">
         <div style="flex:1;">
-          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:4px;">Ma Progression</div>
+          <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:4px;">My Progress</div>
           <div class="progress-bar"><div class="progress-fill" id="unit-progress" style="width:0%"></div></div>
         </div>
         <div id="unit-stars" style="display:flex;gap:2px;"></div>
@@ -291,7 +288,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <div style="font-family:'Fredoka One';font-size:22px;color:#1A1A2E;">🏅 Unit Complete! You earned a badge!</div>
     </div>
     <div class="phases-grid" id="phases-grid"></div>
-    <button onclick="showScreen('scr-student');renderLevels();" style="width:100%;margin-top:14px;padding:14px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';">← Retour aux livres</button>
+    <button onclick="showScreen('scr-student');renderLevels();" style="width:100%;margin-top:14px;padding:14px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';">← Back to Books</button>
   </div>
 </div>
 
@@ -299,7 +296,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 <div class="screen" id="scr-activate">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">← Retour</button></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">Retour</button></div>
   </div>
   <div class="noura-wrap">
     <div class="noura-header">
@@ -308,10 +305,10 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     </div>
     <div class="chat-box" id="chat-box"></div>
     <div class="chat-input-row">
-      <input type="text" class="chat-input" id="chat-inp" placeholder="Écris ta réponse..." onkeypress="if(event.key==='Enter')sendChat()"/>
-      <button class="chat-send" onclick="sendChat()">Envoyer ➤</button>
+      <input type="text" class="chat-input" id="chat-inp" placeholder="Type your answer..." onkeypress="if(event.key==='Enter')sendChat()"/>
+      <button class="chat-send" onclick="sendChat()">Send ➤</button>
     </div>
-    <button class="btn-big" onclick="goBack()" style="background:var(--yellow);color:var(--dark);margin-top:10px;width:100%;">⭐ Terminé ! Activité suivante →</button>
+    <button class="btn-big" onclick="goBack()" style="background:var(--yellow);color:var(--dark);margin-top:10px;width:100%;">Termine ! Activite suivante</button>
   </div>
 </div>
 
@@ -319,7 +316,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 <div class="screen" id="scr-learn">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">← Retour</button></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">Retour</button></div>
   </div>
   <div class="learn-wrap">
     <div style="text-align:center;margin-bottom:20px;">
@@ -340,7 +337,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 <div class="screen" id="scr-test">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">← Retour</button></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">Retour</button></div>
   </div>
   <div class="test-wrap" id="test-area"></div>
 </div>
@@ -351,11 +348,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
     <div class="tb-r">
       <span style="color:white;font-weight:800;font-size:14px;" id="tc-name"></span>
-      <button class="tb-btn" onclick="logout()">Se déconnecter</button>
+      <button class="tb-btn" onclick="logout()">Se deconnecter</button>
     </div>
   </div>
   <div class="dashboard-wrap">
-    <div class="dash-title">👩‍🏫 Tableau de bord Professeur</div>
+    <div class="dash-title">👩‍🏫 Teacher Dashboard</div>
     <div class="dash-grid" id="teacher-grid"></div>
   </div>
 </div>
@@ -365,11 +362,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
     <div class="tb-r">
-      <button class="tb-btn" onclick="logout()">Se déconnecter</button>
+      <button class="tb-btn" onclick="logout()">Se deconnecter</button>
     </div>
   </div>
   <div class="dashboard-wrap">
-    <div class="dash-title">🔑 Panneau Directeur — <span id="admin-school"></span></div>
+    <div class="dash-title">🔑 Director Panel — <span id="admin-school"></span></div>
     <div class="dash-grid" id="admin-grid"></div>
   </div>
 </div>
@@ -379,11 +376,11 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
     <div class="tb-r">
-      <button class="tb-btn" onclick="logout()">Se déconnecter</button>
+      <button class="tb-btn" onclick="logout()">Se deconnecter</button>
     </div>
   </div>
   <div class="dashboard-wrap">
-    <div class="dash-title">👑 Panneau Propriétaire — Toutes les écoles</div>
+    <div class="dash-title">👑 Owner Panel — All Schools</div>
     <div class="dash-grid" id="owner-grid"></div>
   </div>
 </div>
@@ -391,7 +388,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 <div class="screen" id="scr-video">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">← Retour</button></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">Retour</button></div>
   </div>
   <div style="flex:1;display:flex;flex-direction:column;padding:20px;max-width:800px;margin:0 auto;width:100%;gap:16px;">
     <div style="text-align:center;">
@@ -408,12 +405,12 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <iframe id="video-frame" style="display:none;width:100%;height:100%;border:none;" allowfullscreen></iframe>
     </div>
     <div style="background:rgba(255,255,255,0.1);border-radius:16px;padding:16px 20px;">
-      <div style="font-family:'Fredoka One';font-size:18px;color:white;margin-bottom:10px;">🎯 Dans cette vidéo tu vas apprendre :</div>
+      <div style="font-family:'Fredoka One';font-size:18px;color:white;margin-bottom:10px;">Dans cette video tu vas apprendre :</div>
       <div id="video-goals" style="display:flex;flex-direction:column;gap:8px;"></div>
     </div>
     <div style="display:flex;gap:10px;">
-      <button onclick="replayVideo()" style="flex:1;padding:14px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">🔄 Rejouer</button>
-      <button onclick="finishVideo()" style="flex:2;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">✅ Terminé ! Activité suivante →</button>
+      <button onclick="replayVideo()" style="flex:1;padding:14px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">Rejouer</button>
+      <button onclick="finishVideo()" style="flex:2;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:Nunito;">Termine ! Activite suivante</button>
     </div>
   </div>
 </div>
@@ -421,12 +418,12 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 <div class="screen" id="scr-practice">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">← Retour</button></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">Retour</button></div>
   </div>
   <div style="flex:1;padding:20px;max-width:800px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px;">
     <div style="text-align:center;">
       <div style="font-family:'Fredoka One';font-size:26px;color:white;" id="practice-title">✏️ I Practice</div>
-      <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px;" id="practice-sub">Associe l'appareil à son nom ! 🎯</div>
+      <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px;" id="practice-sub">Match the device to its name! 🎯</div>
     </div>
     <div id="practice-area" style="display:flex;flex-direction:column;gap:12px;"></div>
     <div id="practice-result" style="display:none;background:white;border-radius:20px;padding:28px;text-align:center;">
@@ -442,6 +439,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
 
 
 <script>
+var currentLang='fr';
+
 
 // Initialize Supabase after CDN loads
 var SUPA_URL = 'https://kqvhndrmbrxnhseqkvia.supabase.co';
@@ -750,73 +749,73 @@ var CONTENT = {
       goals:['Learn what AI means 🧠','See AI around you every day','Make smart and safe choices with AI!']},
   },
   levels: [
-    {id:'l1', title:'Discover', emoji:'📘', topic:'What are digital devices?', color:'#1A6EFF', months:'Sep–Nov', subtitle:'Book 1',
+    {id:'l1', title:'Decouvrir', emoji:'📘', topic:'What are digital devices?', color:'#1A6EFF', months:'Sep–Nov', subtitle:'Livre 1',
      units:[
-       {id:'u1', title:'Digital Devices', topic:'What is a Digital Device?', color:'#1A6EFF',
+       {id:'u1', title:'Unit 1', topic:'What is a Digital Device?', color:'#1A6EFF',
         phases:[
-          {id:'activate', label:'💡 Activate', desc:'What do I already know?', color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',  desc:'5 digital devices',   color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice',desc:'Match & sort devices',  color:'#00C853', textColor:'white'},
-          {id:'create',   label:'🎨 I Create', desc:'Draw my digital day',  color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',   desc:'Test yourself!',  color:'#E91E7A', textColor:'white'},
+          {id:'activate', label:'💡 Activate', desc:'Qu est-ce que je sais ?', color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 I Learn',  desc:'5 appareils numeriques',   color:'#1A6EFF', textColor:'white'},
+          {id:'practice', label:'✏️ I Practice',desc:'Associer les appareils',  color:'#00C853', textColor:'white'},
+          {id:'create',   label:'🎨 I Create', desc:'Ma journee numerique',  color:'#FF6B2B', textColor:'white'},
+          {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',  color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'u2', title:'Explore Devices', topic:"Let's Explore Devices!", color:'#00C853',
+       {id:'u2', title:'Unit 2', topic:"Let's Explore Devices!", color:'#00C853',
         phases:[
-          {id:'activate', label:'💡 Activate', desc:'True or False?',     color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',  desc:'Parts of devices',   color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice',desc:'Sort & Compare',    color:'#00C853', textColor:'white'},
-          {id:'create',   label:'🎨 I Create', desc:'My favourite device',color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',   desc:'Test yourself!',     color:'#E91E7A', textColor:'white'},
+          {id:'activate', label:'💡 Activate', desc:'Vrai ou Faux ?',     color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 I Learn',  desc:'Parties des appareils',   color:'#1A6EFF', textColor:'white'},
+          {id:'practice', label:'✏️ I Practice',desc:'Trier & Comparer',    color:'#00C853', textColor:'white'},
+          {id:'create',   label:'🎨 I Create', desc:'Mon appareil prefere',color:'#FF6B2B', textColor:'white'},
+          {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',     color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'u3', title:'What Can We DO?', topic:'Tap, Swipe & Type', color:'#FF6B2B',
+       {id:'u3', title:'Unit 3', topic:'What Can We DO?', color:'#FF6B2B',
         phases:[
-          {id:'activate', label:'💡 Activate', desc:'Can YOU do this?',  color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',  desc:'Tap, Swipe, Type',  color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice',desc:'Actions & Story',  color:'#00C853', textColor:'white'},
-          {id:'create',   label:'🎨 I Create', desc:'My story strip',    color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',   desc:'Test yourself!',    color:'#E91E7A', textColor:'white'},
+          {id:'activate', label:'💡 Activate', desc:'Peux-TU faire ca ?',  color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 I Learn',  desc:'Taper, Glisser, Ecrire',  color:'#1A6EFF', textColor:'white'},
+          {id:'practice', label:'✏️ I Practice',desc:'Actions & Histoire',  color:'#00C853', textColor:'white'},
+          {id:'create',   label:'🎨 I Create', desc:'Ma bande dessinee',    color:'#FF6B2B', textColor:'white'},
+          {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',    color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'u4', title:'Safe Explorer', topic:'Smart & Safe Online', color:'#9B27AF',
+       {id:'u4', title:'Unit 4', topic:'Smart & Safe Explorer', color:'#9B27AF',
         phases:[
-          {id:'activate', label:'💡 Activate', desc:'Safe or Not Safe?',  color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',  desc:'Internet & AI',      color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice',desc:'Sort & Rules',      color:'#00C853', textColor:'white'},
-          {id:'create',   label:'🎨 I Create', desc:'My Safety Poster',   color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',   desc:'Test yourself!',     color:'#E91E7A', textColor:'white'},
+          {id:'activate', label:'💡 Activate', desc:'Sur ou Pas sur ?',  color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 I Learn',  desc:'Internet & IA',      color:'#1A6EFF', textColor:'white'},
+          {id:'practice', label:'✏️ I Practice',desc:'Trier & Regles',      color:'#00C853', textColor:'white'},
+          {id:'create',   label:'🎨 I Create', desc:'Mon affiche securite',   color:'#FF6B2B', textColor:'white'},
+          {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',     color:'#E91E7A', textColor:'white'},
         ]},
      ]},
-    {id:'l2', title:'Explore', emoji:'📗', topic:'How do we use devices?', color:'#00C853', months:'Feb–Jun', subtitle:'Book 2',
+    {id:'l2', title:'Explore', emoji:'📗', topic:'How do we use devices?', color:'#00C853', months:'Feb–Jun', subtitle:'Livre 2',
      units:[
-       {id:'l2u1', title:'Digital Artist', topic:'Draw, Photo, Colours & Edit 🎨', color:'#1A6EFF',
+       {id:'l2u1', title:'Artiste Numerique', topic:'Dessiner, Photo, Couleurs', color:'#1A6EFF',
         phases:[
-          {id:'activate', label:'💡 Activate',   desc:'What can I create?',         color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',    desc:'4 digital art tools',         color:'#1A6EFF', textColor:'white'},
+          {id:'activate', label:'💡 Activate',   desc:'Que puis-je creer ?',         color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 I Learn',    desc:'4 outils art numerique',         color:'#1A6EFF', textColor:'white'},
           {id:'practice', label:'✏️ I Practice', desc:'Match art tools & True/False',color:'#00C853', textColor:'white'},
-          {id:'l2-draw',  label:'🎨 I Create',   desc:'My Digital Masterpiece!',     color:'#FF6B2B', textColor:'white'},
+          {id:'l2-draw',  label:'🎨 I Create',   desc:'Mon chef-d oeuvre !',     color:'#FF6B2B', textColor:'white'},
           {id:'test',     label:'⭐ I Test',     desc:'Unit 1 — Test yourself!',     color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'l2u2', title:'Digital Storyteller', topic:'Beginning, Middle & End 📖', color:'#00C853',
+       {id:'l2u2', title:'Conteur Numerique', topic:'Debut, Milieu & Fin', color:'#00C853',
         phases:[
-          {id:'activate',  label:'💡 Activate',   desc:'My story ideas!',              color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',     label:'📖 I Learn',    desc:'Parts of a digital story',     color:'#00C853', textColor:'white'},
-          {id:'l2-story',  label:'✏️ I Practice', desc:'Build-a-Story ordering game',  color:'#9B27AF', textColor:'white'},
-          {id:'l2-book',   label:'🎨 I Create',   desc:'My Digital Book Page!',        color:'#FF6B2B', textColor:'white'},
+          {id:'activate',  label:'💡 Activate',   desc:'Mes idees d histoire !',              color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',     label:'📖 I Learn',    desc:'Parties d une histoire',     color:'#00C853', textColor:'white'},
+          {id:'l2-story',  label:'✏️ I Practice', desc:'Construire une histoire',  color:'#9B27AF', textColor:'white'},
+          {id:'l2-book',   label:'🎨 I Create',   desc:'Ma page de livre !',        color:'#FF6B2B', textColor:'white'},
           {id:'test',      label:'⭐ I Test',     desc:'Unit 2 — Test yourself!',      color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'l2u3', title:'Games & Logic', topic:'Steps, Patterns & Algorithms 🎮', color:'#FF6B2B',
+       {id:'l2u3', title:'Jeux & Logique', topic:'Motifs & Algorithmes', color:'#FF6B2B',
         phases:[
-          {id:'activate',  label:'💡 Activate',   desc:'Pattern finder challenge!',    color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',     label:'📖 I Learn',    desc:'Algorithms & patterns',        color:'#FF6B2B', textColor:'white'},
-          {id:'l2-pattern',label:'✏️ I Practice', desc:'Complete the pattern!',        color:'#00B8CC', textColor:'white'},
-          {id:'l2-maze',   label:'🤖 Digi Maze',  desc:'Guide Digi through the maze!', color:'#9B27AF', textColor:'white'},
+          {id:'activate',  label:'💡 Activate',   desc:'Defi de motifs !',    color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',     label:'📖 I Learn',    desc:'Algorithmes & motifs',        color:'#FF6B2B', textColor:'white'},
+          {id:'l2-pattern',label:'✏️ I Practice', desc:'Complete le motif !',        color:'#00B8CC', textColor:'white'},
+          {id:'l2-maze',   label:'🤖 Digi Maze',  desc:'Guide Digi dans le labyrinthe !', color:'#9B27AF', textColor:'white'},
           {id:'test',      label:'⭐ I Test',     desc:'Unit 3 — Test yourself!',      color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'l2u4', title:'My Digital Future', topic:'AI, Robots & Smart Choices 🚀', color:'#9B27AF',
+       {id:'l2u4', title:'Mon Avenir Numerique', topic:'IA & Robots', color:'#9B27AF',
         phases:[
-          {id:'activate',  label:'💡 Activate',   desc:'Future tech explore!',         color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',     label:'📖 I Learn',    desc:'What is AI?',                  color:'#9B27AF', textColor:'white'},
-          {id:'l2-aisort', label:'✏️ I Practice', desc:'AI or Not AI? Smart choices!', color:'#1A6EFF', textColor:'white'},
-          {id:'create',    label:'🚀 I Create',   desc:'My Future Device!',            color:'#FF6B2B', textColor:'white'},
+          {id:'activate',  label:'💡 Activate',   desc:'Explorer la tech du futur !',         color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',     label:'📖 I Learn',    desc:'Qu est-ce que l IA ?',                  color:'#9B27AF', textColor:'white'},
+          {id:'l2-aisort', label:'✏️ I Practice', desc:'IA ou pas IA ?', color:'#1A6EFF', textColor:'white'},
+          {id:'create',    label:'🚀 I Create',   desc:'Mon appareil du futur !',            color:'#FF6B2B', textColor:'white'},
           {id:'test',      label:'⭐ I Test',     desc:'Unit 4 — Test yourself!',      color:'#E91E7A', textColor:'white'},
         ]},
      ]},
@@ -1091,13 +1090,13 @@ function selRole(r){
   if(c) c.style.display='none';
   if(p) p.style.display='none';
   if(r==='student'){
-    if(n){n.style.display='block';n.placeholder='Your name...';}
-    if(c){c.style.display='block';c.placeholder='Your code (e.g. AM001)';}
+    if(n){n.style.display='block';n.placeholder='Ton prenom...';}
+    if(c){c.style.display='block';c.placeholder='Ton code (ex. AM001)';}
   } else if(r==='teacher'){
-    if(n){n.style.display='block';n.placeholder='Your email...';}
-    if(p){p.style.display='block';p.placeholder='Your PIN...';}
+    if(n){n.style.display='block';n.placeholder='Ton e-mail...';}
+    if(p){p.style.display='block';p.placeholder='Ton code PIN...';}
   } else if(r==='admin'){
-    if(p){p.style.display='block';p.placeholder='School PIN...';}
+    if(p){p.style.display='block';p.placeholder='PIN ecole...';}
   } else if(r==='owner'){
     if(p){p.style.display='block';p.placeholder='Owner PIN...';}
   }
@@ -1217,7 +1216,7 @@ function renderLevel(lv){
   // Back button
   var backBtn=document.createElement('div');
   backBtn.style.cssText='grid-column:1/-1;text-align:center;';
-  backBtn.innerHTML='<button onclick="renderLevels()" style="padding:12px 28px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">← Retour aux livres</button>';
+  backBtn.innerHTML='<button onclick="renderLevels()" style="padding:12px 28px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">← Back to Books</button>';
   grid.appendChild(backBtn);
 }
 
@@ -1418,7 +1417,7 @@ function tfAnswer(btn,val,correct,idx){
 
 function openCreate(unit){
   var uid = unit.id;
-  var titles = {u1:'My Digital Day',u2:'My Favourite Device',u3:'My Story Strip',u4:'My Safety Poster',l2u4:'My Future Device 🚀'};
+  var titles = {u1:'Ma Journee Numerique',u2:'Mon Appareil Prefere',u3:'Ma Bande Dessinee',u4:'Mon Affiche de Securite',l2u4:'My Future Device 🚀'};
   var subs = {u1:'Pick a device and tell us about your digital day!',u2:'Choose your favourite device!',u3:'Tell a story using Tap, Swipe and Type!',u4:'Create your own internet safety poster!',l2u4:'Invent your own future digital device!'};
   var prompts = {
     u1:[{l:'In the morning I use...',p:'Write here...'},{l:'At school I use...',p:'Write here...'},{l:'I use it to...',p:'What do you do?'}],
@@ -2048,14 +2047,14 @@ function finishVideo(){
 
 function markDone(phId){
   if(!currentUser) return;
-  if(!currentUnit) { showToast('⭐ Great job! +1 star!'); return; }
+  if(!currentUnit) { showToast('Bravo ! +1 etoile !'); return; }
   if(!DB.voortgang[currentUser.id]) DB.voortgang[currentUser.id]={};
   if(!DB.voortgang[currentUser.id][currentUnit.id]) DB.voortgang[currentUser.id][currentUnit.id]={};
   DB.voortgang[currentUser.id][currentUnit.id][phId]=true;
   if(currentUser && currentUser.supaId) { window._supaLeerlingId = currentUser.supaId; saveVoortgang(currentUnit.id, phId); }
   currentUser.stars=(currentUser.stars||0)+1;
   g('st-stars').textContent='⭐ '+currentUser.stars+' stars';
-  showToast('⭐ Great job! +1 star!');
+  showToast('Bravo ! +1 etoile !');
   // Check if ALL units in current level are complete
   if(currentLevel && currentUnit) {
     var allComplete=currentLevel.units.every(function(u){
@@ -2108,145 +2107,156 @@ function addMsg(who,text){
 
 var NOURA_QA = {
   u1: [
-    {q:"Hi! I am Noura! 🌟 Can you name ONE digital device you know?",
-     keywords:['smartphone','phone','tablet','laptop','computer','smartwatch','watch','robot','ipad','mobile'],
-     correct:"Wow, great answer! 🎉 That is a digital device! Can you name another one?",
-     wrong:"Good try! 😊 Think about things that use electricity and a screen — like a phone or tablet!"},
-    {q:"What digital devices do you have at home? 🏠",
-     keywords:['phone','smartphone','tablet','laptop','computer','tv','television','watch','ipad','mobile'],
-     correct:"Amazing! 🌟 You have great devices at home! Are they fun to use?",
-     wrong:"Think about it! 💡 Does your family have a phone, tablet or computer at home?"},
-    {q:"What can you DO with a smartphone? 📱",
-     keywords:['call','photo','video','game','music','message','text','internet','camera','watch','play'],
-     correct:"Yes! 🎉 Smartphones can do so many things! That is why they are so useful!",
-     wrong:"Good try! 😊 You can call people, take photos and play games with a smartphone!"},
-    {q:"How is a tablet DIFFERENT from a smartphone? Think about the size! 🤔",
-     keywords:['big','bigger','large','size','screen','small','smaller'],
-     correct:"Excellent! ⭐ The tablet has a BIGGER screen than a smartphone! Well done!",
-     wrong:"Almost! 💡 Think about the SIZE — a tablet screen is much bigger than a phone screen!"},
-    {q:"A laptop has something a tablet does NOT have. Can you guess what? 💡",
-     keywords:['keyboard','keys','type','button','buttons'],
-     correct:"YES! 🏆 A laptop has a KEYBOARD! You can type on it just like a computer!",
-     wrong:"Hmm, think again! 😊 Look at a laptop — it has lots of letters you can press. It is a KEYBOARD!"},
+    {q:"Bonjour ! Je suis Noura ! Peux-tu nommer UN appareil numerique ?",
+     keywords:['smartphone','telephone','tablette','ordinateur','montre','robot'],
+     correct:"Super ! C est un appareil numerique ! Tu peux en nommer un autre ?",
+     wrong:"Pense a un telephone, une tablette ou un ordinateur !"},
+    {q:"Quels appareils as-tu a la maison ?",
+     keywords:['telephone','tablette','ordinateur','tv','montre'],
+     correct:"Super ! Tu as de bons appareils !",
+     wrong:"Ta famille a-t-elle un telephone ou une tablette ?"},
+    {q:"Que peux-tu faire avec un smartphone ?",
+     keywords:['appeler','photo','jeu','musique','message','internet'],
+     correct:"Oui ! Les smartphones peuvent faire tellement de choses !",
+     wrong:"Tu peux appeler, prendre des photos et jouer !"},
+    {q:"En quoi une tablette est DIFFERENTE d un smartphone ?",
+     keywords:['grand','grande','taille','ecran'],
+     correct:"Excellent ! La tablette a un ecran PLUS GRAND !",
+     wrong:"L ecran d une tablette est beaucoup plus grand !"},
+    {q:"Un ordinateur a quelque chose qu une tablette n a PAS. Tu sais quoi ?",
+     keywords:['clavier','touches','taper'],
+     correct:"OUI ! Un ordinateur a un CLAVIER !",
+     wrong:"C est un CLAVIER avec des lettres a appuyer !"},
   ],
   u2: [
-    {q:"Let's explore devices! Can you tell me ONE part of a smartphone you can see? 🔍",
-     keywords:['screen','camera','speaker','button','battery','charger','lens','microphone'],
-     correct:"Great observation! 🌟 You found a part of the device! Can you find another one?",
-     wrong:"Look carefully! 💡 Can you see the screen, camera or speaker on a smartphone?"},
-    {q:"What does the CAMERA on a device do? 📷",
-     keywords:['photo','picture','video','record','take','shoot','film'],
-     correct:"Perfect! 🎉 The camera takes photos and records videos! You are so smart!",
-     wrong:"Good try! 😊 The camera is like your eyes for the device — it takes PHOTOS!"},
-    {q:"What comes out of the SPEAKER? 🔊",
-     keywords:['sound','music','voice','audio','noise','song','talk'],
-     correct:"Yes! ⭐ Music, voices and sounds all come from the speaker! Well done!",
-     wrong:"Almost! 💡 Think about what you HEAR when you watch a video — that comes from the SPEAKER!"},
-    {q:"What happens when the BATTERY is empty? 🔋",
-     keywords:['charge','plug','dead','stop','off','power','electricity','charger'],
-     correct:"Exactly right! 🏆 You need to CHARGE it! Just like eating food gives you energy!",
-     wrong:"Think about it! 😊 When YOUR energy is gone you rest. When a battery is empty you need to CHARGE it!"},
+    {q:"Peux-tu me dire UNE partie d un smartphone ?",
+     keywords:['ecran','camera','haut-parleur','batterie'],
+     correct:"Bonne observation ! Tu as trouve une partie !",
+     wrong:"Tu vois l ecran, la camera ou le haut-parleur ?"},
+    {q:"A quoi sert la CAMERA ?",
+     keywords:['photo','image','video','filmer'],
+     correct:"Parfait ! La camera prend des photos et des videos !",
+     wrong:"La camera prend des PHOTOS !"},
+    {q:"Qu est-ce qui sort du HAUT-PARLEUR ?",
+     keywords:['son','musique','voix'],
+     correct:"Oui ! La musique et les voix sortent du haut-parleur !",
+     wrong:"Pense a ce que tu entends dans une video !"},
+    {q:"Que se passe-t-il quand la BATTERIE est vide ?",
+     keywords:['charger','brancher','eteindre'],
+     correct:"Exactement ! Tu dois la CHARGER !",
+     wrong:"Une batterie vide doit etre CHARGEE !"},
   ],
   u3: [
-    {q:"TAP, SWIPE or TYPE? What action do you use to OPEN an app? 👆",
-     keywords:['tap','touch','click','press'],
-     correct:"YES! 🌟 You TAP to open an app! One quick touch and it opens!",
-     wrong:"Good try! 😊 To open an app you TAP — just touch the screen once quickly!"},
-    {q:"What action do you use to SCROLL DOWN a page? 👋",
-     keywords:['swipe','slide','scroll','move','drag'],
-     correct:"Amazing! 🎉 You SWIPE to scroll! Slide your finger up or down!",
-     wrong:"Almost! 💡 To scroll down you SWIPE — slide your finger across the screen!"},
-    {q:"How do you write a MESSAGE on a device? ✏️",
-     keywords:['type','keyboard','write','press','letters','keys'],
-     correct:"Perfect! ⭐ You TYPE to write messages! Press the letters on the keyboard!",
-     wrong:"Think about it! 😊 To write words you TYPE — press the letters on the keyboard!"},
+    {q:"Quelle action pour OUVRIR une application ?",
+     keywords:['taper','toucher','cliquer'],
+     correct:"OUI ! Tu TAPES pour ouvrir une application !",
+     wrong:"Tu TAPES une seule fois sur l ecran !"},
+    {q:"Quelle action pour DEFILER une page ?",
+     keywords:['glisser','deplacer','defiler'],
+     correct:"Super ! Tu GLISSES pour defiler !",
+     wrong:"Pour defiler tu GLISSES ton doigt !"},
+    {q:"Comment ECRIRE un message ?",
+     keywords:['taper','clavier','ecrire','lettres'],
+     correct:"Parfait ! Tu ECRIS avec le clavier !",
+     wrong:"Tu ECRIS en appuyant sur les lettres du clavier !"},
   ],
   u4: [
-    {q:"Is sharing your PASSWORD with a friend safe or not safe? 🔒",
-     keywords:['not safe','no','never','unsafe','bad','wrong','secret'],
-     correct:"Exactly right! 🛡️ NEVER share your password! It is your secret key — keep it safe!",
-     wrong:"Think carefully! 💡 Your password is like a secret — you should NEVER share it with anyone!"},
-    {q:"What should you do BEFORE going online? 🙋",
-     keywords:['ask','parent','mum','mom','dad','teacher','adult','permission','grown'],
-     correct:"Perfect! 🌟 Always ask mum, dad or a teacher first! They keep you safe online!",
-     wrong:"Good try! 😊 Before going online you should always ASK a grown-up first!"},
-    {q:"Someone you do NOT know sends you a message online. What do you do? 🚫",
-     keywords:['ignore','tell','adult','parent','teacher','not reply','no','stop','block'],
-     correct:"Excellent! 🏆 Never reply to strangers online — tell a grown-up straight away!",
-     wrong:"Think about safety! 💡 Never talk to strangers online — tell a grown-up immediately!"},
+    {q:"Partager ton MOT DE PASSE est-il sur ?",
+     keywords:['non','jamais','dangereux','secret'],
+     correct:"Exactement ! Ne JAMAIS partager ton mot de passe !",
+     wrong:"Ton mot de passe est un secret — ne le partage JAMAIS !"},
+    {q:"Que faire AVANT d aller en ligne ?",
+     keywords:['demander','parent','maman','papa','adulte'],
+     correct:"Parfait ! Demande toujours a un adulte !",
+     wrong:"Tu dois toujours DEMANDER a un adulte !"},
+    {q:"Un inconnu t envoie un message. Que fais-tu ?",
+     keywords:['ignorer','dire','adulte','parent','non'],
+     correct:"Excellent ! Dis-le a un adulte tout de suite !",
+     wrong:"Dis-le a un adulte immediatement !"},
   ],
-  // ── LEVEL 2 NOURA QA ──
   l2u1: [
-    {q:"Hi! I am Noura! 🌟 Do you like making pictures? Can you name ONE way to make art on a device?",
-     keywords:['draw','finger','stylus','paint','colour','color','touch','screen','photo','camera'],
-     correct:"Amazing! 🎉 Yes! You can draw with your finger on a screen — that is digital art!",
-     wrong:"Good try! 😊 Think about drawing on a tablet with your finger or taking a photo!"},
-    {q:"Did you know a device has thousands of colours? 🌈 If you could pick ANY colour on a screen — what colour?",
-     keywords:['red','blue','green','yellow','purple','pink','orange','black','white','colour','color'],
-     correct:"Beautiful choice! 🎨 On a device you can pick ANY colour you want — millions of them!",
-     wrong:"Think of your favourite colour! 💡 On a screen you can pick red, blue, green — any colour!"},
-    {q:"If you make a mistake in your drawing, what can you do? 🤔",
-     keywords:['edit','fix','undo','delete','erase','change','try again','redo','clear'],
-     correct:"Yes! ⭐ You can EDIT your drawing — fix any mistake, no problem! That is the magic of digital art!",
-     wrong:"Good try! 😊 With digital art you can always EDIT — that means fix or change your picture!"},
-    {q:"Wonderful! 🎨 Today we become DIGITAL ARTISTS! Are you ready to create? Tell me what you want to draw!",
-     keywords:['yes','ready','draw','paint','create','art','picture','animal','house','tree','sea','city'],
-     correct:"AMAZING! 🚀 I love that idea! Let us start creating your digital masterpiece!",
-     wrong:"Just say YES or tell me what you want to draw — any idea is a great idea! 🌟"},
+    {q:"Bonjour ! As-tu deja dessine sur une tablette ?",
+     keywords:['oui','dessine','essaye','fait'],
+     correct:"Super ! Dessiner sur ecran c est de l ART NUMERIQUE !",
+     wrong:"Aujourd hui tu vas apprendre a creer de l art numerique !"},
+    {q:"As-tu deja pris une PHOTO avec un appareil ?",
+     keywords:['oui','photo','camera','pris'],
+     correct:"Fantastique ! Les photos sont de l art numerique !",
+     wrong:"Tu peux prendre des photos avec un smartphone !"},
+    {q:"Quelle COULEUR aimes-tu ?",
+     keywords:['rouge','bleu','vert','jaune','rose','orange','violet'],
+     correct:"Magnifique ! Les couleurs rendent l art plus beau !",
+     wrong:"Dis-moi ta couleur preferee !"},
+    {q:"MODIFIER une image veut dire la changer. Comment ?",
+     keywords:['couper','couleur','filtre','changer','modifier'],
+     correct:"Excellent ! MODIFIER ameliore tes images !",
+     wrong:"Tu peux MODIFIER en changeant les couleurs !"},
+    {q:"Quel outil preferes-tu : DESSINER, PHOTO, COULEURS ou MODIFIER ?",
+     keywords:['dessiner','photo','couleurs','modifier','tous'],
+     correct:"Super ! Tu es un ARTISTE NUMERIQUE !",
+     wrong:"Dis-moi lequel tu preferes !"},
   ],
   l2u2: [
-    {q:"Hi! I am Noura! 🌟 Do you like stories? Tell me — what is your favourite kind of story?",
-     keywords:['funny','scary','adventure','animal','magic','princess','robot','superhero','fairy','yes','like'],
-     correct:"Amazing! 🎉 That is a great kind of story! Today we will learn to make our OWN digital story!",
-     wrong:"Think about it! 💡 Do you like funny stories? Scary stories? Adventure stories? Tell me!"},
-    {q:"Have you ever taken a photo to remember something special? 📸 YES or NO?",
-     keywords:['yes','photo','picture','camera','birthday','holiday','family','trip','yes'],
-     correct:"Fantastic! 🌟 Photos help us remember! And photos AND words together make a DIGITAL STORY!",
-     wrong:"Good try! 😊 Think about a birthday photo or holiday picture — have you ever taken one?"},
-    {q:"A great story has 3 parts — can you name them? 🤔 Hint: think about START, MIDDLE and...",
-     keywords:['beginning','middle','end','start','finish','ending'],
-     correct:"YES! 🏆 Beginning, Middle and End — every great story has all three! Well done!",
-     wrong:"Almost! 💡 Every story has a BEGINNING (start), a MIDDLE (exciting part) and an END (finish)!"},
-    {q:"Wonderful! 📖 Today we become DIGITAL STORYTELLERS! What is YOUR story about?",
-     keywords:['robot','animal','dragon','princess','friend','school','cat','dog','lion','adventure','magic'],
-     correct:"I LOVE that story idea! 🚀 Let us write it — you are already a Digital Storyteller!",
-     wrong:"Any idea is great! 🌟 Tell me about a character — maybe an animal or a robot?"},
+    {q:"Bonjour ! As-tu deja lu une histoire ?",
+     keywords:['oui','livre','histoire','lu'],
+     correct:"Super ! Une histoire a un DEBUT, un MILIEU et une FIN !",
+     wrong:"Une histoire a trois parties : debut, milieu et fin !"},
+    {q:"Une histoire numerique peut avoir des PHOTOS et des MOTS. Un exemple ?",
+     keywords:['oui','photo','mot','image','texte'],
+     correct:"Parfait ! Une histoire combine PHOTOS et MOTS !",
+     wrong:"Une histoire numerique combine des PHOTOS et des MOTS !"},
+    {q:"Le DEBUT introduit les personnages. Commence par Il etait une fois...",
+     keywords:['fois','il etait','roi','enfant'],
+     correct:"Magnifique ! C est un excellent DEBUT !",
+     wrong:"Commence par Il etait une fois..."},
+    {q:"Le MILIEU est la partie excitante. Quel probleme ton personnage rencontre-t-il ?",
+     keywords:['probleme','perdu','danger','peur'],
+     correct:"Excellent ! Un bon probleme rend l histoire excitante !",
+     wrong:"Le milieu a toujours un probleme a resoudre !"},
+    {q:"La FIN resout le probleme. Comment ton histoire se termine-t-elle ?",
+     keywords:['bien','heureux','resolu','gagne'],
+     correct:"Bravo ! Tu as une histoire complete !",
+     wrong:"Comment le personnage resout-il son probleme ?"},
   ],
   l2u3: [
-    {q:"Hi! I am Noura! 🤖 Do you like games and puzzles? YES or NO?",
-     keywords:['yes','love','like','game','puzzle','fun','play'],
-     correct:"Amazing! 🎉 Then you will LOVE today — we think like computers! Step by step!",
-     wrong:"Good try! 😊 Games and puzzles help us think! Today we think like a COMPUTER!"},
-    {q:"Can you think of 3 steps to make tea? ☕ Tell me step 1!",
-     keywords:['water','boil','cup','tea','bag','pour','hot','kettle','heat','fill'],
-     correct:"Great step! ⭐ That is computational thinking — breaking a task into clear steps! Keep going!",
-     wrong:"Think about it! 💡 Step 1 could be: boil the water OR get a cup — what do you do first?"},
-    {q:"Look at this pattern: 🔴🔵🔴🔵🔴 — what comes NEXT? 🔵 or 🟡?",
-     keywords:['blue','🔵','b'],
-     correct:"YES! 🏆 It is BLUE! 🔵 You found the pattern — red, blue, red, blue... brilliant!",
-     wrong:"Look again! 💡 Red, Blue, Red, Blue, Red... the pattern goes RED then BLUE. What comes after Red?"},
-    {q:"Wonderful! Today we think like COMPUTERS! Can you teach Digi ONE step to brush teeth? 🦷",
-     keywords:['toothbrush','toothpaste','mouth','brush','teeth','water','rinse','put','open'],
-     correct:"PERFECT instruction! 🤖 Digi can follow that step — you are a computer programmer!",
-     wrong:"Try again! 😊 Give Digi one clear step — like 'pick up the toothbrush' or 'open toothpaste'!"},
+    {q:"Bonjour ! As-tu deja joue a un jeu sur tablette ?",
+     keywords:['oui','joue','jeu','video'],
+     correct:"Super ! Les jeux utilisent de la LOGIQUE !",
+     wrong:"Aujourd hui tu vas decouvrir la logique !"},
+    {q:"Un ALGORITHME est une liste d etapes. Etapes pour un sandwich ?",
+     keywords:['pain','beurre','jambon','etape','ensuite'],
+     correct:"Parfait ! Tu viens d ecrire un ALGORITHME !",
+     wrong:"Commence par le pain, puis ajoute les ingredients !"},
+    {q:"Rouge Bleu Rouge Bleu Rouge. Quelle couleur vient ensuite ?",
+     keywords:['bleu','bleue'],
+     correct:"Excellent ! Bleu vient ensuite ! Tu penses comme un ordinateur !",
+     wrong:"Le motif est rouge-bleu-rouge-bleu. La prochaine est BLEU !"},
+    {q:"Si Digi avance 3 fois combien de cases ?",
+     keywords:['3','trois'],
+     correct:"Super ! 3 instructions 3 cases !",
+     wrong:"AVANCER AVANCER AVANCER c est 3 cases !"},
   ],
   l2u4: [
-    {q:"Hi! I am Noura! 🚀 Have you ever talked to a smart device — like Siri or Google? YES or NO?",
-     keywords:['yes','siri','google','alexa','ok google','hey siri','phone','smart','assistant'],
-     correct:"Wow! 🎉 Those are AI assistants! AI means Artificial Intelligence — computers that think!",
-     wrong:"Good try! 😊 Siri, Google Assistant and Alexa are examples of AI you can talk to!"},
-    {q:"Have you seen a robot? In real life, on TV or in a game? Tell me! 🤖",
-     keywords:['yes','robot','tv','game','movie','film','youtube','seen','digi','roblox','minecraft'],
-     correct:"Amazing! 🌟 Robots are AI machines — they follow instructions just like Digi!",
-     wrong:"Think about it! 💡 Have you seen a robot in a movie, on YouTube, or in a video game?"},
-    {q:"If you could invent ONE digital device — what would it do? 💡",
-     keywords:['fly','clean','cook','help','robot','talk','smart','fast','game','school','water','farm'],
-     correct:"INCREDIBLE idea! 🚀 That sounds like the future of Morocco! Dream big — inventors start like YOU!",
-     wrong:"Any idea is wonderful! 🌟 Maybe a robot that cleans your room or a device that helps on the farm?"},
-    {q:"Wonderful! 🌟 Today we explore AI and YOUR digital future! Are you ready?",
-     keywords:['yes','ready','excited','let go','sure','ok','yeah'],
-     correct:"LET US GO! 🚀 You are Morocco's digital future — let us explore AI together!",
-     wrong:"Just say YES — we are going to explore something amazing today! 🌟"},
+    {q:"Bonjour ! As-tu entendu le mot INTELLIGENCE ARTIFICIELLE ?",
+     keywords:['oui','siri','alexa','google','robot','ia'],
+     correct:"Super ! L IA est partout. Siri et Alexa sont des exemples !",
+     wrong:"L IA signifie Intelligence Artificielle !"},
+    {q:"L IA peut reconnaitre des visages. Ton telephone se deverrouille avec ton visage ?",
+     keywords:['oui','visage','faceid'],
+     correct:"Exactement ! Face ID utilise l IA !",
+     wrong:"Face ID utilise l IA pour reconnaitre ton visage !"},
+    {q:"L IA peut-elle faire des ERREURS ?",
+     keywords:['oui','erreur','parfois'],
+     correct:"Tres bien ! L IA peut faire des erreurs !",
+     wrong:"Oui. L IA peut faire des erreurs. Nous devons verifier !"},
+    {q:"Nomme quelque chose que TU peux faire mais pas un robot !",
+     keywords:['sentir','aimer','rire','pleurer','imaginer','ami'],
+     correct:"Magnifique ! Les robots ne peuvent pas ressentir !",
+     wrong:"Les robots ne peuvent pas rire ou aimer comme toi !"},
+    {q:"Comment les ordinateurs t aident-ils a apprendre ?",
+     keywords:['video','jeu','exercice','application','apprendre'],
+     correct:"Excellent ! La technologie rend l apprentissage plus amusant !",
+     wrong:"Pense aux videos, quiz et jeux !"},
   ],
 };
 
@@ -3950,7 +3960,6 @@ function openWhatsApp(){
   window.open(urls[lang] || urls.en, '_blank');
 }
 
-currentLang='fr';
 selRole('student');
 initSupabase();
 checkDeepLink();
@@ -4023,7 +4032,7 @@ loadVideoLinks();
 <div class="screen" id="scr-l2game">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span>Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">← Retour</button></div>
+    <div class="tb-r"><button class="tb-btn" onclick="goBack()">Retour</button></div>
   </div>
   <div style="flex:1;overflow-y:auto;padding:16px;" id="l2game-area"></div>
 </div>
