@@ -751,7 +751,7 @@ var CONTENT = {
   levels: [
     {id:'l1', title:'Decouvrir', emoji:'📘', topic:'What are digital devices?', color:'#1A6EFF', months:'Sep–Nov', subtitle:'Livre 1',
      units:[
-       {id:'u1', title:'Unit 1', topic:'What is a Digital Device?', color:'#1A6EFF',
+       {id:'u1', title:'Appareils Numeriques', topic:'Appareil numerique', color:'#1A6EFF',
         phases:[
           {id:'activate', label:'💡 Activate', desc:'Qu est-ce que je sais ?', color:'#FFD600', textColor:'#1A1A2E'},
           {id:'learn',    label:'📖 I Learn',  desc:'5 appareils numeriques',   color:'#1A6EFF', textColor:'white'},
@@ -759,7 +759,7 @@ var CONTENT = {
           {id:'create',   label:'🎨 I Create', desc:'Ma journee numerique',  color:'#FF6B2B', textColor:'white'},
           {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',  color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'u2', title:'Unit 2', topic:"Let's Explore Devices!", color:'#00C853',
+       {id:'u2', title:'Exploration', topic:'Explorons les appareils !', color:'#00C853',
         phases:[
           {id:'activate', label:'💡 Activate', desc:'Vrai ou Faux ?',     color:'#FFD600', textColor:'#1A1A2E'},
           {id:'learn',    label:'📖 I Learn',  desc:'Parties des appareils',   color:'#1A6EFF', textColor:'white'},
@@ -767,7 +767,7 @@ var CONTENT = {
           {id:'create',   label:'🎨 I Create', desc:'Mon appareil prefere',color:'#FF6B2B', textColor:'white'},
           {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',     color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'u3', title:'Unit 3', topic:'What Can We DO?', color:'#FF6B2B',
+       {id:'u3', title:'Que faire ?', topic:'Taper, Glisser & Ecrire', color:'#FF6B2B',
         phases:[
           {id:'activate', label:'💡 Activate', desc:'Peux-TU faire ca ?',  color:'#FFD600', textColor:'#1A1A2E'},
           {id:'learn',    label:'📖 I Learn',  desc:'Taper, Glisser, Ecrire',  color:'#1A6EFF', textColor:'white'},
@@ -775,7 +775,7 @@ var CONTENT = {
           {id:'create',   label:'🎨 I Create', desc:'Ma bande dessinee',    color:'#FF6B2B', textColor:'white'},
           {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',    color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'u4', title:'Unit 4', topic:'Smart & Safe Explorer', color:'#9B27AF',
+       {id:'u4', title:'Explorateur Sûr', topic:'Sûr en ligne', color:'#9B27AF',
         phases:[
           {id:'activate', label:'💡 Activate', desc:'Sur ou Pas sur ?',  color:'#FFD600', textColor:'#1A1A2E'},
           {id:'learn',    label:'📖 I Learn',  desc:'Internet & IA',      color:'#1A6EFF', textColor:'white'},
@@ -1202,7 +1202,7 @@ function renderLevel(lv){
     card.style.background=unit.color;
     card.style.position='relative';
     card.innerHTML=
-      '<div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:4px;">Unit '+(i+1)+'</div>'+
+      '<div style="font-size:11px;font-weight:800;color:rgba(255,255,255,0.7);margin-bottom:4px;">'+(currentLang==='fr'?'Unité ':'Unit ')+(i+1)+'</div>'+
       '<div class="level-num">'+(allDone?'🏅':'📚')+'</div>'+
       '<h3>'+unit.title+'</h3>'+
       '<p>'+unit.topic+'</p>'+
