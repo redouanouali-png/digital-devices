@@ -234,8 +234,8 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div class="welcome-banner" style="background:linear-gradient(135deg,rgba(26,110,255,0.3),rgba(0,200,83,0.2));border:1px solid rgba(255,255,255,0.15);">
       <img src="https://i.imgur.com/Hf1eXnZ.png" style="width:64px;height:64px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.outerHTML='<div class=welcome-avatar>😊</div>'"/>
       <div class="welcome-text">
-        <h2 id="st-welcome">Hello!</h2>
-        <p>Choose your level and start learning! 🌟</p>
+        <h2 id="st-welcome">Bonjour !</h2>
+        <p>Choisis ton niveau et commence à apprendre ! 🌟</p>
         <div class="stars-row">
           <span class="star-badge" id="st-stars">⭐ 0 étoiles</span>
           <span class="star-badge" id="st-badges" style="background:#E91E7A;color:white;">🏅 0 badges</span>
@@ -247,7 +247,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div class="levels-grid" id="levels-grid"></div>
 
     <div id="cert-btn-wrap" style="text-align:center;">
-      <button onclick="showCertificate(currentLevel)" style="padding:16px 32px;background:#FFD600;color:#1A1A2E;border:none;border-radius:16px;font-size:18px;font-weight:800;cursor:pointer;font-family:'Nunito';box-shadow:0 4px 15px rgba(0,0,0,0.2);">🏆 View my Certificate!</button>
+      <button onclick="showCertificate(currentLevel)" style="padding:16px 32px;background:#FFD600;color:#1A1A2E;border:none;border-radius:16px;font-size:18px;font-weight:800;cursor:pointer;font-family:'Nunito';box-shadow:0 4px 15px rgba(0,0,0,0.2);">🏆 Voir mon Certificat !</button>
     </div>
     <div id="student-extra-btns" style="text-align:center;"></div>
     <div class="badges-section">
@@ -288,7 +288,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <div style="font-family:'Fredoka One';font-size:22px;color:#1A1A2E;">🏅 Unité terminée ! Tu as gagné un badge !</div>
     </div>
     <div class="phases-grid" id="phases-grid"></div>
-    <button onclick="showScreen('scr-student');renderLevels();" style="width:100%;margin-top:14px;padding:14px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';">← Back to Books</button>
+    <button onclick="showScreen('scr-student');renderLevels();" style="width:100%;margin-top:14px;padding:14px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';">← Retour aux Livres</button>
   </div>
 </div>
 
@@ -1216,7 +1216,7 @@ function renderLevel(lv){
   // Back button
   var backBtn=document.createElement('div');
   backBtn.style.cssText='grid-column:1/-1;text-align:center;';
-  backBtn.innerHTML='<button onclick="renderLevels()" style="padding:12px 28px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">← Back to Books</button>';
+  backBtn.innerHTML='<button onclick="renderLevels()" style="padding:12px 28px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;font-family:Nunito;">← Retour aux Livres</button>';
   grid.appendChild(backBtn);
 }
 
@@ -3483,7 +3483,7 @@ function viewAsStudent(naam){
   var prevUser=currentUser;
   currentUser=st;
   g('st-name').textContent=naam.split(' ')[0];
-  g('st-welcome').textContent='Hello, '+naam.split(' ')[0]+'! &#128075;';
+  g('st-welcome').textContent='Bonjour, '+naam.split(' ')[0]+'! &#128075;';
   g('st-stars').textContent='&#11088; '+(st.stars||0)+' étoiles';
   g('st-badges').textContent='&#127885; '+(st.badges?st.badges.length:0)+' badges';
   var banner=document.createElement('div');
@@ -3882,7 +3882,7 @@ function doStudentLogin(st){
   // Load fresh school from Supabase
   function continueLogin(){
     g('st-name').textContent = st.naam.split(' ')[0];
-    g('st-welcome').textContent = 'Hello, '+st.naam.split(' ')[0]+'!';
+    g('st-welcome').textContent = 'Bonjour, '+st.naam.split(' ')[0]+'!';
     g('st-stars').textContent = '⭐ '+(st.stars||0)+' étoiles';
     g('st-badges').textContent = '🏅 '+(st.badges?st.badges.length:0)+' badges';
     // Render buttons NOW - school is already loaded at this point
@@ -3972,7 +3972,7 @@ function applyLangToUI(){
   var rd=document.getElementById('role-director'); if(rd) rd.textContent=fr?'🔑 Directeur':'🔑 Director';
   var lb=document.getElementById('login-btn'); if(lb) lb.textContent=fr?'Allons-y ! 🚀':"Let's Go! 🚀";
   // Student home
-  var ws=document.getElementById('st-welcome-sub'); if(ws) ws.textContent=fr?'Choisis ton niveau et commence à apprendre ! 🌟':'Choose your level and start learning! 🌟';
+  var ws=document.getElementById('st-welcome-sub'); if(ws) ws.textContent=fr?'Choisis ton niveau et commence à apprendre ! 🌟':'Choisis ton niveau et commence à apprendre ! 🌟';
   var lt2=document.getElementById('levels-title'); if(lt2) lt2.textContent=fr?'📘 Appareils Numériques — Tes Livres':'📘 Digital Devices — Your Books';
   // Chat
   var ci=document.getElementById('chat-inp'); if(ci) ci.placeholder=fr?'Écris ta réponse...':'Type your answer...';
