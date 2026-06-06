@@ -237,7 +237,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
         <h2 id="st-welcome">Hello!</h2>
         <p>Choose your level and start learning! 🌟</p>
         <div class="stars-row">
-          <span class="star-badge" id="st-stars">⭐ 0 stars</span>
+          <span class="star-badge" id="st-stars">⭐ 0 étoiles</span>
           <span class="star-badge" id="st-badges" style="background:#E91E7A;color:white;">🏅 0 badges</span>
         </div>
       </div>
@@ -285,7 +285,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       </div>
     </div>
     <div id="unit-badge" style="display:none;background:#FFD600;border-radius:16px;padding:14px 20px;text-align:center;margin-bottom:12px;">
-      <div style="font-family:'Fredoka One';font-size:22px;color:#1A1A2E;">🏅 Unit Complete! You earned a badge!</div>
+      <div style="font-family:'Fredoka One';font-size:22px;color:#1A1A2E;">🏅 Unité terminée ! Tu as gagné un badge !</div>
     </div>
     <div class="phases-grid" id="phases-grid"></div>
     <button onclick="showScreen('scr-student');renderLevels();" style="width:100%;margin-top:14px;padding:14px;background:rgba(255,255,255,0.15);color:white;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:'Nunito';">← Back to Books</button>
@@ -428,7 +428,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
     <div id="practice-area" style="display:flex;flex-direction:column;gap:12px;"></div>
     <div id="practice-result" style="display:none;background:white;border-radius:20px;padding:28px;text-align:center;">
       <div style="font-size:64px;" id="pr-emoji">🎉</div>
-      <div style="font-family:'Fredoka One';font-size:28px;color:#1A1A2E;margin:10px 0;" id="pr-title">Great job!</div>
+      <div style="font-family:'Fredoka One';font-size:28px;color:#1A1A2E;margin:10px 0;" id="pr-title">Bravo !</div>
       <div style="font-size:16px;color:#666;" id="pr-score"></div>
       <button onclick="goBack()" style="margin-top:20px;padding:14px 28px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:Nunito;">← Back to Unit</button>
     </div>
@@ -753,70 +753,70 @@ var CONTENT = {
      units:[
        {id:'u1', title:'Appareils Numeriques', topic:'Appareil numerique', color:'#1A6EFF',
         phases:[
-          {id:'activate', label:'💡 Activate', desc:'Qu est-ce que je sais ?', color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',  desc:'5 appareils numeriques',   color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice',desc:'Associer les appareils',  color:'#00C853', textColor:'white'},
-          {id:'create',   label:'🎨 I Create', desc:'Ma journee numerique',  color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',  color:'#E91E7A', textColor:'white'},
+          {id:'activate', label:'💡 Activer', desc:'Qu est-ce que je sais ?', color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 J apprends',  desc:'5 appareils numeriques',   color:'#1A6EFF', textColor:'white'},
+          {id:'practice', label:'✏️ Je pratique',desc:'Associer les appareils',  color:'#00C853', textColor:'white'},
+          {id:'create',   label:'🎨 Je crée', desc:'Ma journee numerique',  color:'#FF6B2B', textColor:'white'},
+          {id:'test',     label:'⭐ Je teste',   desc:'Teste-toi !',  color:'#E91E7A', textColor:'white'},
         ]},
        {id:'u2', title:'Exploration', topic:'Explorons les appareils !', color:'#00C853',
         phases:[
-          {id:'activate', label:'💡 Activate', desc:'Vrai ou Faux ?',     color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',  desc:'Parties des appareils',   color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice',desc:'Trier & Comparer',    color:'#00C853', textColor:'white'},
-          {id:'create',   label:'🎨 I Create', desc:'Mon appareil prefere',color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',     color:'#E91E7A', textColor:'white'},
+          {id:'activate', label:'💡 Activer', desc:'Vrai ou Faux ?',     color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 J apprends',  desc:'Parties des appareils',   color:'#1A6EFF', textColor:'white'},
+          {id:'practice', label:'✏️ Je pratique',desc:'Trier & Comparer',    color:'#00C853', textColor:'white'},
+          {id:'create',   label:'🎨 Je crée', desc:'Mon appareil prefere',color:'#FF6B2B', textColor:'white'},
+          {id:'test',     label:'⭐ Je teste',   desc:'Teste-toi !',     color:'#E91E7A', textColor:'white'},
         ]},
        {id:'u3', title:'Que faire ?', topic:'Taper, Glisser & Ecrire', color:'#FF6B2B',
         phases:[
-          {id:'activate', label:'💡 Activate', desc:'Peux-TU faire ca ?',  color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',  desc:'Taper, Glisser, Ecrire',  color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice',desc:'Actions & Histoire',  color:'#00C853', textColor:'white'},
-          {id:'create',   label:'🎨 I Create', desc:'Ma bande dessinee',    color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',    color:'#E91E7A', textColor:'white'},
+          {id:'activate', label:'💡 Activer', desc:'Peux-TU faire ca ?',  color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 J apprends',  desc:'Taper, Glisser, Ecrire',  color:'#1A6EFF', textColor:'white'},
+          {id:'practice', label:'✏️ Je pratique',desc:'Actions & Histoire',  color:'#00C853', textColor:'white'},
+          {id:'create',   label:'🎨 Je crée', desc:'Ma bande dessinee',    color:'#FF6B2B', textColor:'white'},
+          {id:'test',     label:'⭐ Je teste',   desc:'Teste-toi !',    color:'#E91E7A', textColor:'white'},
         ]},
-       {id:'u4', title:'Explorateur Sûr', topic:'Sûr en ligne', color:'#9B27AF',
+       {id:'u4', title:'Sécurité en ligne', topic:'Sûr et intelligent en ligne', color:'#9B27AF',
         phases:[
-          {id:'activate', label:'💡 Activate', desc:'Sur ou Pas sur ?',  color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',  desc:'Internet & IA',      color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice',desc:'Trier & Regles',      color:'#00C853', textColor:'white'},
-          {id:'create',   label:'🎨 I Create', desc:'Mon affiche securite',   color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',   desc:'Teste-toi !',     color:'#E91E7A', textColor:'white'},
+          {id:'activate', label:'💡 Activer', desc:'Sur ou Pas sur ?',  color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 J apprends',  desc:'Internet & IA',      color:'#1A6EFF', textColor:'white'},
+          {id:'practice', label:'✏️ Je pratique',desc:'Trier & Regles',      color:'#00C853', textColor:'white'},
+          {id:'create',   label:'🎨 Je crée', desc:'Mon affiche securite',   color:'#FF6B2B', textColor:'white'},
+          {id:'test',     label:'⭐ Je teste',   desc:'Teste-toi !',     color:'#E91E7A', textColor:'white'},
         ]},
      ]},
     {id:'l2', title:'Explore', emoji:'📗', topic:'How do we use devices?', color:'#00C853', months:'Feb–Jun', subtitle:'Livre 2',
      units:[
        {id:'l2u1', title:'Artiste Numerique', topic:'Dessiner, Photo, Couleurs', color:'#1A6EFF',
         phases:[
-          {id:'activate', label:'💡 Activate',   desc:'Que puis-je creer ?',         color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',    label:'📖 I Learn',    desc:'4 outils art numerique',         color:'#1A6EFF', textColor:'white'},
-          {id:'practice', label:'✏️ I Practice', desc:'Match art tools & True/False',color:'#00C853', textColor:'white'},
-          {id:'l2-draw',  label:'🎨 I Create',   desc:'Mon chef-d oeuvre !',     color:'#FF6B2B', textColor:'white'},
-          {id:'test',     label:'⭐ I Test',     desc:'Unit 1 — Test yourself!',     color:'#E91E7A', textColor:'white'},
+          {id:'activate', label:'💡 Activer',   desc:'Que puis-je creer ?',         color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',    label:'📖 J apprends',    desc:'4 outils art numerique',         color:'#1A6EFF', textColor:'white'},
+          {id:'practice', label:'✏️ Je pratique', desc:'Match art tools & True/False',color:'#00C853', textColor:'white'},
+          {id:'l2-draw',  label:'🎨 Je crée',   desc:'Mon chef-d oeuvre !',     color:'#FF6B2B', textColor:'white'},
+          {id:'test',     label:'⭐ Je teste',     desc:'Unit 1 — Test yourself!',     color:'#E91E7A', textColor:'white'},
         ]},
        {id:'l2u2', title:'Conteur Numerique', topic:'Debut, Milieu & Fin', color:'#00C853',
         phases:[
-          {id:'activate',  label:'💡 Activate',   desc:'Mes idees d histoire !',              color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',     label:'📖 I Learn',    desc:'Parties d une histoire',     color:'#00C853', textColor:'white'},
-          {id:'l2-story',  label:'✏️ I Practice', desc:'Construire une histoire',  color:'#9B27AF', textColor:'white'},
-          {id:'l2-book',   label:'🎨 I Create',   desc:'Ma page de livre !',        color:'#FF6B2B', textColor:'white'},
-          {id:'test',      label:'⭐ I Test',     desc:'Unit 2 — Test yourself!',      color:'#E91E7A', textColor:'white'},
+          {id:'activate',  label:'💡 Activer',   desc:'Mes idees d histoire !',              color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',     label:'📖 J apprends',    desc:'Parties d une histoire',     color:'#00C853', textColor:'white'},
+          {id:'l2-story',  label:'✏️ Je pratique', desc:'Construire une histoire',  color:'#9B27AF', textColor:'white'},
+          {id:'l2-book',   label:'🎨 Je crée',   desc:'Ma page de livre !',        color:'#FF6B2B', textColor:'white'},
+          {id:'test',      label:'⭐ Je teste',     desc:'Unit 2 — Test yourself!',      color:'#E91E7A', textColor:'white'},
         ]},
        {id:'l2u3', title:'Jeux & Logique', topic:'Motifs & Algorithmes', color:'#FF6B2B',
         phases:[
-          {id:'activate',  label:'💡 Activate',   desc:'Defi de motifs !',    color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',     label:'📖 I Learn',    desc:'Algorithmes & motifs',        color:'#FF6B2B', textColor:'white'},
-          {id:'l2-pattern',label:'✏️ I Practice', desc:'Complete le motif !',        color:'#00B8CC', textColor:'white'},
-          {id:'l2-maze',   label:'🤖 Digi Maze',  desc:'Guide Digi dans le labyrinthe !', color:'#9B27AF', textColor:'white'},
-          {id:'test',      label:'⭐ I Test',     desc:'Unit 3 — Test yourself!',      color:'#E91E7A', textColor:'white'},
+          {id:'activate',  label:'💡 Activer',   desc:'Defi de motifs !',    color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',     label:'📖 J apprends',    desc:'Algorithmes & motifs',        color:'#FF6B2B', textColor:'white'},
+          {id:'l2-pattern',label:'✏️ Je pratique', desc:'Complete le motif !',        color:'#00B8CC', textColor:'white'},
+          {id:'l2-maze',   label:'🤖 Labyrinthe',  desc:'Guide Digi dans le labyrinthe !', color:'#9B27AF', textColor:'white'},
+          {id:'test',      label:'⭐ Je teste',     desc:'Unit 3 — Test yourself!',      color:'#E91E7A', textColor:'white'},
         ]},
        {id:'l2u4', title:'Mon Avenir Numerique', topic:'IA & Robots', color:'#9B27AF',
         phases:[
-          {id:'activate',  label:'💡 Activate',   desc:'Explorer la tech du futur !',         color:'#FFD600', textColor:'#1A1A2E'},
-          {id:'learn',     label:'📖 I Learn',    desc:'Qu est-ce que l IA ?',                  color:'#9B27AF', textColor:'white'},
-          {id:'l2-aisort', label:'✏️ I Practice', desc:'IA ou pas IA ?', color:'#1A6EFF', textColor:'white'},
-          {id:'create',    label:'🚀 I Create',   desc:'Mon appareil du futur !',            color:'#FF6B2B', textColor:'white'},
-          {id:'test',      label:'⭐ I Test',     desc:'Unit 4 — Test yourself!',      color:'#E91E7A', textColor:'white'},
+          {id:'activate',  label:'💡 Activer',   desc:'Explorer la tech du futur !',         color:'#FFD600', textColor:'#1A1A2E'},
+          {id:'learn',     label:'📖 J apprends',    desc:'Qu est-ce que l IA ?',                  color:'#9B27AF', textColor:'white'},
+          {id:'l2-aisort', label:'✏️ Je pratique', desc:'IA ou pas IA ?', color:'#1A6EFF', textColor:'white'},
+          {id:'create',    label:'🎨 Je crée',   desc:'Mon appareil du futur !',            color:'#FF6B2B', textColor:'white'},
+          {id:'test',      label:'⭐ Je teste',     desc:'Unit 4 — Test yourself!',      color:'#E91E7A', textColor:'white'},
         ]},
      ]},
     {id:'l3', title:'Create', emoji:'📕', topic:'Make, code & collaborate', color:'#FF6B2B', months:'Mar–Jun', subtitle:'Book 3', units:[]},
@@ -1036,7 +1036,7 @@ function showCertificate(level){
   var el3=document.getElementById('cert-date');
   if(el3) el3.textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
   var el4=document.getElementById('cert-stars');
-  if(el4) el4.textContent='&#11088; '+(currentUser?currentUser.stars||0:0)+' stars';
+  if(el4) el4.textContent='&#11088; '+(currentUser?currentUser.stars||0:0)+' étoiles';
   showScreen('scr-cert');
 }
 
@@ -1209,7 +1209,7 @@ function renderLevel(lv){
       '<div style="background:rgba(255,255,255,0.25);border-radius:6px;height:8px;margin-top:10px;overflow:hidden;">'+
         '<div style="background:white;height:100%;border-radius:6px;width:'+donePct+'%;transition:width 0.4s;"></div>'+
       '</div>'+
-      '<div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:4px;">'+donePct+'% done</div>';
+      '<div style="font-size:11px;color:rgba(255,255,255,0.8);margin-top:4px;">'+donePct+'% fait</div>';
     card.onclick=function(){currentUnit=unit;renderUnit(unit);};
     grid.appendChild(card);
   });
@@ -1524,7 +1524,7 @@ function initCanvas(){
 }
 function setColor(c){drawColor=c;}
 function clearCanvas(){var c=g('draw-canvas');if(c){c.getContext('2d').clearRect(0,0,c.width,c.height);}}
-function saveCreate(){markDone('create');showToast('Saved! Great work! ⭐');setTimeout(function(){goBack();},1500);}
+function saveCreate(){markDone('create');showToast('Sauvegardé ! Bravo ! ⭐');setTimeout(function(){goBack();},1500);}
 
 // ══════════════════════════════════════════════════════
 // LEVEL 2 — MINI GAMES
@@ -1893,7 +1893,7 @@ function openL2Maze(unit){
 }
 function l2MazeSave(){
   markDone('l2-maze');
-  showToast('🤖 Digi is so happy! Great algorithm! ⭐');
+  showToast('🤖 Digi est content ! Super algorithme ! ⭐');
   setTimeout(function(){goBack();},1500);
 }
 
@@ -2047,14 +2047,14 @@ function finishVideo(){
 
 function markDone(phId){
   if(!currentUser) return;
-  if(!currentUnit) { showToast('Bravo ! +1 etoile !'); return; }
+  if(!currentUnit) { showToast('⭐ Bravo ! +1 étoile !'); return; }
   if(!DB.voortgang[currentUser.id]) DB.voortgang[currentUser.id]={};
   if(!DB.voortgang[currentUser.id][currentUnit.id]) DB.voortgang[currentUser.id][currentUnit.id]={};
   DB.voortgang[currentUser.id][currentUnit.id][phId]=true;
   if(currentUser && currentUser.supaId) { window._supaLeerlingId = currentUser.supaId; saveVoortgang(currentUnit.id, phId); }
   currentUser.stars=(currentUser.stars||0)+1;
-  g('st-stars').textContent='⭐ '+currentUser.stars+' stars';
-  showToast('Bravo ! +1 etoile !');
+  g('st-stars').textContent='⭐ '+currentUser.stars+' étoiles';
+  showToast('⭐ Bravo ! +1 étoile !');
   // Check if ALL units in current level are complete
   if(currentLevel && currentUnit) {
     var allComplete=currentLevel.units.every(function(u){
@@ -2359,7 +2359,7 @@ function openLearn(unit){
         seen++;
         if(seen>=items.length){
           markDone('learn');
-          showToast('⭐ Great! You learned everything!');
+          showToast('⭐ Super ! Tu as tout appris !');
         }
       }
       if(d.img) {
@@ -3484,7 +3484,7 @@ function viewAsStudent(naam){
   currentUser=st;
   g('st-name').textContent=naam.split(' ')[0];
   g('st-welcome').textContent='Hello, '+naam.split(' ')[0]+'! &#128075;';
-  g('st-stars').textContent='&#11088; '+(st.stars||0)+' stars';
+  g('st-stars').textContent='&#11088; '+(st.stars||0)+' étoiles';
   g('st-badges').textContent='&#127885; '+(st.badges?st.badges.length:0)+' badges';
   var banner=document.createElement('div');
   banner.id='teacher-banner';
@@ -3820,7 +3820,7 @@ function bbMove(dir){
     var stars=BB.steps<=5?3:BB.steps<=8?2:1;
     BB.score+=stars;
     var sc=g('bb-score'); if(sc) sc.textContent=BB.score;
-    var reply=stars===3?'Amazing! Perfect route! ⭐⭐⭐':stars===2?'Great job! ⭐⭐':'Well done! ⭐';
+    var reply=stars===3?'Incroyable ! Parfait ! ⭐⭐⭐':stars===2?'Bravo ! ⭐⭐':'Super ! ⭐';
     var msg=g('bb-message'); if(msg) msg.textContent=reply;
     var next=g('bb-next'); if(next) next.style.display='block';
     markDone('beebot');
@@ -3883,7 +3883,7 @@ function doStudentLogin(st){
   function continueLogin(){
     g('st-name').textContent = st.naam.split(' ')[0];
     g('st-welcome').textContent = 'Hello, '+st.naam.split(' ')[0]+'!';
-    g('st-stars').textContent = '⭐ '+(st.stars||0)+' stars';
+    g('st-stars').textContent = '⭐ '+(st.stars||0)+' étoiles';
     g('st-badges').textContent = '🏅 '+(st.badges?st.badges.length:0)+' badges';
     // Render buttons NOW - school is already loaded at this point
     renderStudentButtons();
