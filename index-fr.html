@@ -3960,7 +3960,28 @@ function openWhatsApp(){
   window.open(urls[lang] || urls.en, '_blank');
 }
 
+currentLang='fr';
+
+function applyLangToUI(){
+  var fr = currentLang==='fr';
+  // Login
+  var lt=document.querySelector('.login-title'); if(lt) lt.textContent=fr?'Bienvenue !':'Welcome!';
+  var ls=document.querySelector('.login-sub'); if(ls) ls.textContent=fr?'Qui es-tu ? Choisis ton rôle !':'Who are you? Tap your role!';
+  var rs=document.getElementById('role-student'); if(rs) rs.textContent=fr?'🎓 Élève':'🎓 Student';
+  var rt=document.getElementById('role-teacher'); if(rt) rt.textContent=fr?'👩‍🏫 Professeur':'👩‍🏫 Teacher';
+  var rd=document.getElementById('role-director'); if(rd) rd.textContent=fr?'🔑 Directeur':'🔑 Director';
+  var lb=document.getElementById('login-btn'); if(lb) lb.textContent=fr?'Allons-y ! 🚀':"Let's Go! 🚀";
+  // Student home
+  var ws=document.getElementById('st-welcome-sub'); if(ws) ws.textContent=fr?'Choisis ton niveau et commence à apprendre ! 🌟':'Choose your level and start learning! 🌟';
+  var lt2=document.getElementById('levels-title'); if(lt2) lt2.textContent=fr?'📘 Appareils Numériques — Tes Livres':'📘 Digital Devices — Your Books';
+  // Chat
+  var ci=document.getElementById('chat-inp'); if(ci) ci.placeholder=fr?'Écris ta réponse...':'Type your answer...';
+  var csb=document.getElementById('chat-send-btn'); if(csb) csb.textContent=fr?'Envoyer ➤':'Send ➤';
+  var cdb=document.getElementById('chat-done-btn'); if(cdb) cdb.textContent=fr?'⭐ Terminé ! Activité suivante →':'⭐ Done! Next activity →';
+}
+currentLang='fr';
 selRole('student');
+applyLangToUI();
 initSupabase();
 checkDeepLink();
 loadVideoLinks();
