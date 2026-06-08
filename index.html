@@ -2748,47 +2748,87 @@ function manageSchool(sid){
   vidTitle.style.cssText='font-size:14px;font-weight:800;margin-bottom:10px;';
   vidTitle.textContent='🎬 Video Links per Unit';
   vidSec.appendChild(vidTitle);
-  if(CONTENT.levels[0]){
-    CONTENT.levels[0].units.forEach(function(u){
-      var vid=CONTENT.videos&&CONTENT.videos[u.id]?CONTENT.videos[u.id]:{url:''};
-      var hasUrl=!!(vid.url&&vid.url.trim());
-      var row=document.createElement('div');
-      row.style.cssText='margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #F0EDE8;';
-      var lbl=document.createElement('div');
-      lbl.style.cssText='font-size:13px;font-weight:800;color:#1A1A2E;margin-bottom:6px;';
-      lbl.textContent=u.title+' — '+u.topic;
-      row.appendChild(lbl);
-      if(hasUrl){
-        var existing=document.createElement('div');
-        existing.style.cssText='background:#E8F5E9;border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:6px;margin-bottom:6px;';
-        var urlSpan=document.createElement('span');
-        urlSpan.style.cssText='font-size:11px;color:#00C853;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
-        urlSpan.textContent='✓ '+vid.url;
-        var delBtn=document.createElement('button');
-        delBtn.dataset.uid=u.id;
-        delBtn.style.cssText='padding:3px 8px;background:#FFEBEE;color:#F03030;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:Nunito;flex-shrink:0;';
-        delBtn.textContent='✕ Remove';
-        delBtn.onclick=function(){deleteVideoLink(delBtn);};
-        existing.appendChild(urlSpan); existing.appendChild(delBtn);
-        row.appendChild(existing);
-      }
-      var ta=document.createElement('textarea');
-      ta.id='vid-'+u.id;
-      ta.placeholder='Paste video link here...';
-      ta.rows=2;
-      ta.style.cssText='width:100%;padding:8px 10px;border:2px solid #E0E0E0;border-radius:8px;font-size:12px;font-family:Nunito;outline:none;resize:none;box-sizing:border-box;';
-      var saveBtn=document.createElement('button');
-      saveBtn.dataset.uid=u.id;
-      saveBtn.style.cssText='margin-top:6px;width:100%;padding:8px;background:#FF6B2B;color:white;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito;';
-      saveBtn.textContent='💾 Save Link';
-      saveBtn.onclick=function(){saveVideoLink(saveBtn);};
-      row.appendChild(ta); row.appendChild(saveBtn);
-      vidSec.appendChild(row);
-    });
-  }
+
+  var langTabs=['en','fr'];
+  var langLabels={en:'🇬🇧 English',fr:'🇫🇷 Français'};
+  var activeVidLang='en';
+
+  // Language tab buttons
+  var tabRow=document.createElement('div');
+  tabRow.style.cssText='display:flex;gap:8px;margin-bottom:12px;';
+  langTabs.forEach(function(lng){
+    var tab=document.createElement('button');
+    tab.id='vid-tab-'+lng;
+    tab.textContent=langLabels[lng];
+    tab.style.cssText='padding:6px 14px;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito;border:2px solid '+(lng==='en'?'#1A6EFF':'#E0E0E0')+';background:'+(lng==='en'?'#E3F2FD':'white')+';';
+    tab.onclick=function(){
+      activeVidLang=lng;
+      langTabs.forEach(function(l){
+        var t=document.getElementById('vid-tab-'+l);
+        var p=document.getElementById('vid-panel-'+l);
+        if(t){t.style.borderColor=l===lng?'#1A6EFF':'#E0E0E0';t.style.background=l===lng?'#E3F2FD':'white';}
+        if(p){p.style.display=l===lng?'block':'none';}
+      });
+    };
+    tabRow.appendChild(tab);
+  });
+  vidSec.appendChild(tabRow);
+
+  // Per language panels
+  langTabs.forEach(function(lng){
+    var panel=document.createElement('div');
+    panel.id='vid-panel-'+lng;
+    panel.style.display=lng==='en'?'block':'none';
+
+    if(CONTENT.levels[0]){
+      CONTENT.levels[0].units.forEach(function(u){
+        var langLinks=window._videoLinks||{};
+        var existingUrl=(langLinks[lng]&&langLinks[lng][u.id])||'';
+
+        var row=document.createElement('div');
+        row.style.cssText='margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #F0EDE8;';
+
+        var lbl=document.createElement('div');
+        lbl.style.cssText='font-size:13px;font-weight:800;color:#1A1A2E;margin-bottom:6px;';
+        lbl.textContent=u.title+' — '+u.topic;
+        row.appendChild(lbl);
+
+        if(existingUrl){
+          var existing=document.createElement('div');
+          existing.style.cssText='background:#E8F5E9;border-radius:8px;padding:6px 10px;display:flex;align-items:center;gap:6px;margin-bottom:6px;';
+          var urlSpan=document.createElement('span');
+          urlSpan.style.cssText='font-size:11px;color:#00C853;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;';
+          urlSpan.textContent='✓ '+existingUrl;
+          var delBtn=document.createElement('button');
+          delBtn.dataset.uid=u.id;
+          delBtn.dataset.lang=lng;
+          delBtn.style.cssText='padding:3px 8px;background:#FFEBEE;color:#F03030;border:none;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;font-family:Nunito;flex-shrink:0;';
+          delBtn.textContent='✕ Remove';
+          delBtn.onclick=function(){deleteVideoLink(delBtn);};
+          existing.appendChild(urlSpan);existing.appendChild(delBtn);
+          row.appendChild(existing);
+        }
+
+        var ta=document.createElement('textarea');
+        ta.id='vid-'+lng+'-'+u.id;
+        ta.placeholder='Paste '+langLabels[lng]+' video link...';
+        ta.rows=2;
+        ta.style.cssText='width:100%;padding:8px 10px;border:2px solid #E0E0E0;border-radius:8px;font-size:12px;font-family:Nunito;outline:none;resize:none;box-sizing:border-box;';
+        var saveBtn=document.createElement('button');
+        saveBtn.dataset.uid=u.id;
+        saveBtn.dataset.lang=lng;
+        saveBtn.style.cssText='margin-top:6px;width:100%;padding:8px;background:#FF6B2B;color:white;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Nunito;';
+        saveBtn.textContent='💾 Save '+langLabels[lng]+' Link';
+        saveBtn.onclick=function(){saveVideoLink(saveBtn);};
+        row.appendChild(ta);row.appendChild(saveBtn);
+        panel.appendChild(row);
+      });
+    }
+    vidSec.appendChild(panel);
+  });
   box.appendChild(vidSec);
 
-  // ── Close button ──
+// ── Close button ──
   var closeBtn=document.createElement('button');
   closeBtn.style.cssText='width:100%;padding:10px;background:#F0F0F0;color:#1A1A2E;border:none;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;font-family:Nunito;';
   closeBtn.textContent='✕ Close';
@@ -3414,8 +3454,9 @@ function deleteVideoLink(btn){
   if(!CONTENT.videos || !CONTENT.videos[uid]) return;
   CONTENT.videos[uid].url = '';
   var schoolId = (currentSchool&&currentSchool.id) || (currentUser&&currentUser.school_id) || 's1';
+  var dlng = btn.dataset.lang || 'en';
   if(supa){
-    supa.from('video_links').delete().eq('unit_id', uid).eq('school_id', schoolId).then(function(r){
+    supa.from('video_links').delete().eq('unit_id', uid).eq('school_id', schoolId).eq('lang', dlng).then(function(r){
       if(r.error) console.error('delete error:', r.error.message);
       else console.log('Video link deleted:', uid);
     });
@@ -3428,19 +3469,23 @@ function deleteVideoLink(btn){
 
 function saveVideoLink(btn){
   var uid = btn.dataset.uid;
-  var inp = g('vid-'+uid);
+  var lng = btn.dataset.lang || 'en';
+  var inp = g('vid-'+lng+'-'+uid) || g('vid-'+uid);
   if(!inp) return;
   var url = inp.value.trim();
   if(!url){showToast('Please paste a link first!');return;}
   if(!CONTENT.videos) CONTENT.videos = {};
   if(!CONTENT.videos[uid]) CONTENT.videos[uid]={title:'Video',duration:'2 min',url:'',goals:[]};
-  CONTENT.videos[uid].url = url;
+  if(lng==='en') CONTENT.videos[uid].url = url;
+  if(!window._videoLinks) window._videoLinks={};
+  if(!window._videoLinks[lng]) window._videoLinks[lng]={};
+  window._videoLinks[lng][uid] = url;
   var schoolId = (currentSchool&&currentSchool.id) || (currentUser&&currentUser.school_id) || 's1';
   if(supa){
-    supa.from('video_links').delete().eq('unit_id', uid).eq('school_id', schoolId).then(function(){
-      supa.from('video_links').insert({school_id:schoolId, unit_id:uid, url:url, updated_at:new Date().toISOString()}).then(function(r){
-        if(r.error) console.error('video save error:', r.error.message);
-        else{ console.log('Video saved:', uid, url); showToast('✓ Video saved!'); btn.style.background='#00C853'; setTimeout(function(){btn.style.background='#FF6B2B';},1500); }
+    supa.from('video_links').delete().eq('unit_id',uid).eq('school_id',schoolId).eq('lang',lng).then(function(){
+      supa.from('video_links').insert({school_id:schoolId,unit_id:uid,url:url,lang:lng,updated_at:new Date().toISOString()}).then(function(r){
+        if(r.error) console.error('video save error:',r.error.message);
+        else{showToast('✓ Video saved!');btn.style.background='#00C853';setTimeout(function(){btn.style.background='#FF6B2B';},1500);}
       });
     });
   } else {
@@ -3457,9 +3502,15 @@ function loadVideoLinks(){
       try {
         if(r.error){return;}
         if(!CONTENT.videos) CONTENT.videos={};
+        if(!window._videoLinks) window._videoLinks={};
         (r.data||[]).forEach(function(row){
-          if(!CONTENT.videos[row.unit_id]) CONTENT.videos[row.unit_id]={title:'Video',duration:'2 min',url:'',goals:[]};
-          CONTENT.videos[row.unit_id].url = row.url;
+          var l=row.lang||'en';
+          if(!window._videoLinks[l]) window._videoLinks[l]={};
+          window._videoLinks[l][row.unit_id]=row.url;
+          if(l==='en'){
+            if(!CONTENT.videos[row.unit_id]) CONTENT.videos[row.unit_id]={title:'Video',duration:'2 min',url:'',goals:[]};
+            CONTENT.videos[row.unit_id].url=row.url;
+          }
         });
         console.log('Video links loaded:', (r.data||[]).length);
       } catch(e){}
