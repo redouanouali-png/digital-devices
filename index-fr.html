@@ -3461,22 +3461,26 @@ function handleDeepLinkAfterLogin(){
 
 function deleteVideoLink(btn){
   var uid = btn.dataset.uid;
-  if(!CONTENT.videos || !CONTENT.videos[uid]) return;
-  CONTENT.videos[uid].url = '';
-  var schoolId = (currentSchool&&currentSchool.id) || (currentUser&&currentUser.school_id) || 's1';
   var dlng = btn.dataset.lang || 'en';
+  var schoolId = (currentSchool&&currentSchool.id) || (currentUser&&currentUser.school_id) || 's1';
+  if(!CONTENT.videos) CONTENT.videos={};
+  if(!CONTENT.videos[uid]) CONTENT.videos[uid]={title:'Video',duration:'2 min',url:'',goals:[]};
+  if(dlng==='en') CONTENT.videos[uid].url='';
+  if(window._videoLinks&&window._videoLinks[dlng]) delete window._videoLinks[dlng][uid];
   if(supa){
-    supa.from('video_links').delete().eq('unit_id', uid).eq('school_id', schoolId).eq('lang', dlng).then(function(r){
-      if(r.error) console.error('delete error:', r.error.message);
-      else console.log('Video link deleted:', uid);
-    });
+    supa.from('video_links').delete()
+      .eq('unit_id', uid)
+      .eq('school_id', schoolId)
+      .then(function(r){
+        if(r.error) console.error('delete error:', r.error.message);
+        else{ console.log('Video deleted:', uid, dlng); showToast('\u2713 Video removed'); }
+      });
+  } else {
+    showToast('\u2713 Video removed');
   }
-  showToast('&#10003; Video removed');
-  // Re-open manage panel for the school
   var panel=document.getElementById('manage-panel');
-  if(panel) manageSchool(schoolId);
+  if(panel) setTimeout(function(){manageSchool(schoolId);},300);
 }
-
 function saveVideoLink(btn){
   var uid = btn.dataset.uid;
   var lng = btn.dataset.lang || 'en';
