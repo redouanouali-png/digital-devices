@@ -2644,6 +2644,25 @@ function manageSchool(sid){
   if(!school) return;
   var ex=document.getElementById('manage-panel');
   if(ex) ex.remove();
+  // Reload video links fresh before opening panel
+  if(supa){
+    supa.from('video_links').select('*').eq('school_id',sid).then(function(r){
+      if(!window._videoLinks) window._videoLinks={};
+      if(!r.error&&r.data){
+        r.data.forEach(function(row){
+          var l=row.lang||'en';
+          if(!window._videoLinks[l]) window._videoLinks[l]={};
+          window._videoLinks[l][row.unit_id]=row.url;
+        });
+      }
+      _openManagePanel(sid,school);
+    });
+  } else {
+    _openManagePanel(sid,school);
+  }
+}
+
+function _openManagePanel(sid,school){
 
   // Overlay
   var panel=document.createElement('div');
