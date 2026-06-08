@@ -3486,19 +3486,17 @@ function deleteVideoLink(btn){
   if(!CONTENT.videos[uid]) CONTENT.videos[uid]={title:'Video',duration:'2 min',url:'',goals:[]};
   if(dlng==='en') CONTENT.videos[uid].url='';
   if(window._videoLinks&&window._videoLinks[dlng]) delete window._videoLinks[dlng][uid];
+  // Remove green bar immediately from DOM
+  var bar=btn.parentElement; if(bar) bar.remove();
+  showToast('\u2713 Video removed');
   if(supa){
     supa.from('video_links').delete()
-      .eq('unit_id', uid)
-      .eq('school_id', schoolId)
+      .eq('unit_id',uid).eq('school_id',schoolId)
       .then(function(r){
-        if(r.error) console.error('delete error:', r.error.message);
-        else{ console.log('Video deleted:', uid, dlng); showToast('\u2713 Video removed'); }
+        if(r.error) console.error('delete error:',r.error.message);
+        else console.log('Video deleted:',uid,dlng);
       });
-  } else {
-    showToast('\u2713 Video removed');
   }
-  var panel=document.getElementById('manage-panel');
-  if(panel) setTimeout(function(){manageSchool(schoolId);},300);
 }
 function saveVideoLink(btn){
   var uid = btn.dataset.uid;
