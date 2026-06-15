@@ -329,7 +329,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(135deg,#0A1628 0
       <div style="font-family:'Fredoka One';font-size:26px;color:var(--dark);text-align:center;margin:10px 0;" id="di-name"></div>
       <div id="di-desc"></div>
     </div>
-    <button class="btn-big" onclick="goBack()" style="background:var(--yellow);color:var(--dark);width:100%;margin-top:16px;">⭐ Done! →</button>
+    <button class="btn-big" onclick="goBack()" style="background:var(--yellow);color:var(--dark);width:100%;margin-top:16px;" id="activate-done-btn">⭐ Done! →</button>
   </div>
 </div>
 
@@ -1304,7 +1304,7 @@ function openPhase(ph,unit){
 
 function openPractice(unit){
   var data = CONTENT.practice[unit.id] || CONTENT.practice.u1;
-  g('practice-title').textContent = '✏️ I Practice — '+unit.topic;
+  g('practice-title').textContent = (currentLang==='fr'?'✏️ Je pratique — ':'✏️ I Practice — ')+unit.topic;
   g('practice-sub').textContent = data.instruction;
   g('practice-result').style.display='none';
   var area = g('practice-area'); area.innerHTML='';
@@ -1351,7 +1351,7 @@ function openPractice(unit){
       btn.textContent=name;
       btn.onclick=function(){
         if(btn.dataset.matched) return;
-        if(!selected){showToast('Tap a device first! 👆');return;}
+        if(!selected){showToast(currentLang==='fr'?'Touche un appareil d\'abord ! 👆':'Tap a device first! 👆');return;}
         if(selected===name){
           btn.style.background='#E8F5E9';btn.style.borderColor='#00C853';btn.style.color='#00C853';
           btn.textContent='✅ '+name; btn.dataset.matched='1';
@@ -1365,7 +1365,7 @@ function openPractice(unit){
         } else {
           btn.style.background='#FFEBEE';btn.style.borderColor='#F03030';
           setTimeout(function(){btn.style.background='white';btn.style.borderColor='#E0E0E0';},800);
-          showToast('Try again! 😊');
+          showToast(currentLang==='fr'?'Essaie encore ! 😊':'Try again! 😊');
           selected=null;
           document.querySelectorAll('.emoji-btn').forEach(function(b){b.style.borderColor='transparent';});
         }
@@ -1381,13 +1381,13 @@ function openPractice(unit){
       card.style.cssText='background:white;border-radius:16px;padding:18px;display:flex;align-items:center;gap:12px;';
       card.innerHTML=
         '<div style="flex:1;font-size:16px;font-weight:800;color:#1A1A2E;">'+q.text+'</div>'+
-        '<button onclick="tfAnswer(this,true,'+q.answer+','+i+')" style="padding:10px 16px;border-radius:10px;border:2.5px solid #00C853;background:white;color:#00C853;font-size:14px;font-weight:900;cursor:pointer;font-family:Nunito;">SAFE ✓</button>'+
-        '<button onclick="tfAnswer(this,false,'+q.answer+','+i+')" style="padding:10px 16px;border-radius:10px;border:2.5px solid #F03030;background:white;color:#F03030;font-size:14px;font-weight:900;cursor:pointer;font-family:Nunito;">NOT SAFE ✗</button>';
+        '<button onclick="tfAnswer(this,true,'+q.answer+','+i+')" style="padding:10px 16px;border-radius:10px;border:2.5px solid #00C853;background:white;color:#00C853;font-size:14px;font-weight:900;cursor:pointer;font-family:Nunito;">'+(currentLang==='fr'?'SÛR ✓':'SAFE ✓')+'</button>'+
+        '<button onclick="tfAnswer(this,false,'+q.answer+','+i+')" style="padding:10px 16px;border-radius:10px;border:2.5px solid #F03030;background:white;color:#F03030;font-size:14px;font-weight:900;cursor:pointer;font-family:Nunito;">'+(currentLang==='fr'?'PAS SÛR ✗':'NOT SAFE ✗')+'</button>';
       area.appendChild(card);
     });
     var submitBtn=document.createElement('button');
     submitBtn.style.cssText='width:100%;padding:14px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:Nunito;';
-    submitBtn.textContent='Check my answers! ⭐';
+    submitBtn.textContent=currentLang==='fr'?'Vérifie mes réponses ! ⭐':'Check my answers! ⭐';
     submitBtn.onclick=function(){
       var ans=document.querySelectorAll('.tf-answered');
       showPracticeResult(ans.length, data.questions.length);
@@ -1407,49 +1407,55 @@ function tfAnswer(btn,val,correct,idx){
   if(val===correct){
     btn.style.background=val?'#00C853':'#F03030';
     btn.style.color='white';btn.style.opacity='1';
-    showToast('Correct! ⭐');
+    showToast(currentLang==='fr'?'Correct ! ⭐':'Correct! ⭐');
   } else {
     btn.style.background='#FFEBEE';btn.style.opacity='1';
-    showToast('Not quite! 😊');
+    showToast(currentLang==='fr'?'Pas tout à fait ! 😊':'Not quite! 😊');
   }
 }
 
 
 function openCreate(unit){
   var uid = unit.id;
-  var titles = {u1:'Ma Journee Numerique',u2:'Mon Appareil Prefere',u3:'Ma Bande Dessinee',u4:'Mon Affiche de Securite',l2u4:'My Future Device 🚀'};
-  var subs = {u1:'Pick a device and tell us about your digital day!',u2:'Choose your favourite device!',u3:'Tell a story using Tap, Swipe and Type!',u4:'Create your own internet safety poster!',l2u4:'Invent your own future digital device!'};
-  var prompts = {
+  var titles = {u1:'Ma Journee Numerique',u2:'Mon Appareil Prefere',u3:'Ma Bande Dessinee',u4:'Mon Affiche de Securite',l2u4:(currentLang==='fr'?'Mon Appareil du Futur 🚀':'My Future Device 🚀')};
+  var subs = currentLang==='fr'?{u1:'Choisis un appareil et raconte ta journée numérique !',u2:'Choisis ton appareil préféré !',u3:'Raconte une histoire avec Taper, Glisser et Écrire !',u4:'Crée ton propre poster de sécurité internet !',l2u4:'Invente ton propre appareil numérique du futur !'}:{u1:'Pick a device and tell us about your digital day!',u2:'Choose your favourite device!',u3:'Tell a story using Tap, Swipe and Type!',u4:'Create your own internet safety poster!',l2u4:'Invent your own future digital device!'};
+  var prompts = currentLang==='fr'?{
+    u1:[{l:'Le matin j\'utilise...',p:'Écris ici...'},{l:'À l\'école j\'utilise...',p:'Écris ici...'},{l:'Je l\'utilise pour...',p:'Que fais-tu ?'}],
+    u2:[{l:'Il a un(e)...',p:'Nomme une partie...'},{l:'Je l\'utilise pour...',p:'Que fais-tu ?'},{l:'Je l\'aime parce que...',p:'Pourquoi ?'}],
+    u3:[{l:'D\'abord je TAPE pour...',p:'Que tapes-tu ?'},{l:'Puis je GLISSE pour...',p:'Que glisses-tu ?'},{l:'Enfin j\'ÉCRIS pour...',p:'Qu\'écris-tu ?'}],
+    u4:[{l:'Règle 1 :',p:'Écris une règle de sécurité...'},{l:'Règle 2 :',p:'Une autre règle...'},{l:'Règle 3 :',p:'Encore une...'},{l:'Mon message :',p:'Que veux-tu dire ?'}],
+    l2u4:[{l:'Mon invention s\'appelle :',p:'Donne-lui un nom !'},{l:'Elle peut faire :',p:'Que fait-elle ?'},{l:'Elle aide les gens en :',p:'Comment aide-t-elle ?'},{l:'Elle utilise l\'IA : (Oui / Non)',p:'Oui 🤖 ou Non ❌'}],
+  }:{
     u1:[{l:'In the morning I use...',p:'Write here...'},{l:'At school I use...',p:'Write here...'},{l:'I use it to...',p:'What do you do?'}],
     u2:[{l:'It has a...',p:'Name one part...'},{l:'I use it to...',p:'What do you do?'},{l:'I like it because...',p:'Why?'}],
     u3:[{l:'First I TAP to...',p:'What do you tap?'},{l:'Then I SWIPE to...',p:'What do you swipe?'},{l:'Finally I TYPE to...',p:'What do you type?'}],
     u4:[{l:'Rule 1:',p:'Write a safety rule...'},{l:'Rule 2:',p:'Another rule...'},{l:'Rule 3:',p:'One more...'},{l:'My message:',p:'What do you want to say?'}],
     l2u4:[{l:'My invention is called:',p:'Give it a name!'},{l:'It can do:',p:'What does it do?'},{l:'It helps people by:',p:'How does it help?'},{l:'It uses AI: (Yes / No)',p:'Yes 🤖 or No ❌'}],
   };
-  var ct=g('create-title'); if(ct) ct.textContent='&#127912; I Create — '+(titles[uid]||'My Creation');
-  var cs=g('create-sub'); if(cs) cs.textContent=subs[uid]||'Be creative!';
+  var ct=g('create-title'); if(ct) ct.textContent=(currentLang==='fr'?'&#127912; Je cree — ':'&#127912; I Create — ')+(titles[uid]||(currentLang==='fr'?'Ma Creation':'My Creation'));
+  var cs=g('create-sub'); if(cs) cs.textContent=subs[uid]||(currentLang==='fr'?'Sois créatif !':'Be creative!');
   showScreen('scr-create');
   var area=g('create-area'); if(!area) return; area.innerHTML='';
 
   // Device picker for u1 and u2
   if(uid==='u1'||uid==='u2'){
     var devices=[
-      {name:'Smartphone',img:'https://i.imgur.com/hXGJrMs.png',color:'#1A6EFF'},
-      {name:'Tablet',img:'https://i.imgur.com/p1WiBs5.png',color:'#00C853'},
-      {name:'Laptop',img:'https://i.imgur.com/eLWtSjo.png',color:'#FF6B2B'},
-      {name:'Smartwatch',img:'https://i.imgur.com/aVVcKc3.png',color:'#9B27AF'},
-      {name:'AI Robot',img:'https://i.imgur.com/Gw5bsjy.png',color:'#E91E7A'},
+      {name:currentLang==='fr'?'Smartphone':'Smartphone',img:'https://i.imgur.com/hXGJrMs.png',color:'#1A6EFF'},
+      {name:currentLang==='fr'?'Tablette':'Tablet',img:'https://i.imgur.com/p1WiBs5.png',color:'#00C853'},
+      {name:currentLang==='fr'?'Ordinateur':'Laptop',img:'https://i.imgur.com/eLWtSjo.png',color:'#FF6B2B'},
+      {name:currentLang==='fr'?'Montre connectee':'Smartwatch',img:'https://i.imgur.com/aVVcKc3.png',color:'#9B27AF'},
+      {name:currentLang==='fr'?'Robot IA':'AI Robot',img:'https://i.imgur.com/Gw5bsjy.png',color:'#E91E7A'},
       {name:'Drone',img:'https://i.imgur.com/lXILDN8.png',color:'#00B8CC'},
     ];
     var pickerWrap=document.createElement('div');
     pickerWrap.style.cssText='background:white;border-radius:16px;padding:16px;';
     pickerWrap.innerHTML=
-      '<div style="font-size:16px;font-weight:800;color:#1A1A2E;margin-bottom:12px;">&#128070; Pick your favourite device!</div>'+
+      '<div style="font-size:16px;font-weight:800;color:#1A1A2E;margin-bottom:12px;">&#128070; '+(currentLang==='fr'?'Choisis ton appareil prefere !':'Pick your favourite device!')+'</div>'+
       '<div id="device-picker" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:12px;"></div>'+
       '<div id="picked-device" style="display:none;text-align:center;padding:14px;background:#F0F7FF;border-radius:12px;">'+
         '<img id="picked-img" src="" style="width:90px;height:90px;object-fit:contain;"/>'+
         '<div id="picked-name" style="font-family:Fredoka One;font-size:22px;color:#1A1A2E;margin-top:6px;"></div>'+
-        '<div style="font-size:13px;color:#888;margin-top:2px;">Great choice! &#11088;</div>'+
+        '<div style="font-size:13px;color:#888;margin-top:2px;">'+(currentLang==='fr'?'Excellent choix !':'Great choice!')+' &#11088;</div>'+
       '</div>';
     area.appendChild(pickerWrap);
     setTimeout(function(){
@@ -1465,7 +1471,7 @@ function openCreate(unit){
           g('picked-img').src=d.img;
           g('picked-name').textContent=d.name;
           g('picked-device').style.display='block';
-          showToast('&#11088; '+d.name+' selected!');
+          showToast('&#11088; '+d.name+(currentLang==='fr'?' selectionne !':' selected!'));
         };
         picker.appendChild(btn);
       });
@@ -1491,7 +1497,7 @@ function openCreate(unit){
   var cw=document.createElement('div');
   cw.style.cssText='background:white;border-radius:16px;padding:16px;';
   cw.innerHTML=
-    '<div style="font-size:15px;font-weight:800;color:#1A1A2E;margin-bottom:10px;">&#9999;&#65039; Draw it!</div>'+
+    '<div style="font-size:15px;font-weight:800;color:#1A1A2E;margin-bottom:10px;">&#9999;&#65039; '+(currentLang==='fr'?'Dessine-le !':'Draw it!')+'</div>'+
     '<canvas id="draw-canvas" width="700" height="180" style="width:100%;border:2.5px dashed #1A6EFF;border-radius:12px;cursor:crosshair;touch-action:none;background:#FAFFFE;"></canvas>'+
     '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;" id="color-btns"></div>';
   area.appendChild(cw);
@@ -1505,7 +1511,7 @@ function openCreate(unit){
     });
     var cl=document.createElement('button');
     cl.style.cssText='padding:6px 14px;border-radius:8px;background:#FFEBEE;color:#F03030;border:none;font-weight:800;font-size:13px;cursor:pointer;font-family:Nunito;';
-    cl.textContent='Clear'; cl.onclick=clearCanvas;
+    cl.textContent=currentLang==='fr'?'Effacer':'Clear'; cl.onclick=clearCanvas;
     btns_el.appendChild(cl);
     initCanvas();
   },150);
@@ -1971,8 +1977,8 @@ function showPracticeResult(got, total){
   g('practice-area').style.display='none';
   var pct=Math.round(got/total*100);
   g('pr-emoji').textContent=pct>=80?'🏆':pct>=60?'⭐':'😊';
-  g('pr-title').textContent=pct>=80?'Amazing work!':pct>=60?'Good job!':'Keep practicing!';
-  g('pr-score').textContent=got+' out of '+total+' correct! ('+pct+'%)';
+  g('pr-title').textContent=currentLang==='fr'?(pct>=80?'Excellent travail !':pct>=60?'Bon travail !':'Continue à t\'entraîner !'):(pct>=80?'Amazing work!':pct>=60?'Good job!':'Keep practicing!');
+  g('pr-score').textContent=got+(currentLang==='fr'?' sur ':' out of ')+total+(currentLang==='fr'?' correct ! (':' correct! (')+pct+'%)';
   g('practice-result').style.display='block';
   if(pct>=60) markDone('practice');
 }
@@ -2331,7 +2337,7 @@ function sendChat(){
 // ══════════════════════════════════════════════════════
 function openLearn(unit){
   var items = (CONTENT.learn && CONTENT.learn[unit.id]) || CONTENT.learn.u1;
-  g('learn-title').textContent='📖 I Learn — '+unit.topic;
+  g('learn-title').textContent=(currentLang==='fr'?'📖 J\'apprends — ':'📖 I Learn — ')+unit.topic;
   g('device-info').style.display='none';
   var grid=g('device-grid'); grid.innerHTML='';
   var seen=0; // counts how many cards tapped
@@ -2344,7 +2350,7 @@ function openLearn(unit){
     card.innerHTML=
       (imgUrl ? '<img src="'+imgUrl+'" style="width:110px;height:110px;object-fit:contain;margin-bottom:8px;">' : '<span class="device-emoji" style="font-size:56px;display:block;margin-bottom:8px;">'+d.emoji+'</span>')+
       '<div class="device-name">'+d.name+'</div>'+
-      '<div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">Tap to learn! &#128070;</div>';
+      '<div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px;">'+(currentLang==="fr"?"Touche pour apprendre !":"Tap to learn!")+' &#128070;</div>';
     card.onclick=function(){
       document.querySelectorAll('.device-card').forEach(function(c){
         c.classList.remove('active');
@@ -2401,7 +2407,7 @@ function openTest(unit){
   // Score bar at top
   var scoreBar=document.createElement('div');
   scoreBar.style.cssText='background:white;border-radius:16px;padding:14px;text-align:center;margin-bottom:14px;';
-  scoreBar.innerHTML='<div style="font-size:13px;color:#888;margin-bottom:4px;">Your score</div><div style="font-family:Fredoka One;font-size:32px;color:#0A3FCC;" id="live-score">0 / '+qs.length+'</div>';
+  scoreBar.innerHTML='<div style="font-size:13px;color:#888;margin-bottom:4px;">'+(currentLang==='fr'?'Ton score':'Your score')+'</div><div style="font-family:Fredoka One;font-size:32px;color:#0A3FCC;" id="live-score">0 / '+qs.length+'</div>';
   area.appendChild(scoreBar);
 
   qs.forEach(function(q,i){
@@ -2425,20 +2431,20 @@ function openTest(unit){
       optsHtml+='</div>';
     }
     card.innerHTML=
-      '<div style="font-size:12px;font-weight:700;color:#999;margin-bottom:8px;">Question '+(i+1)+' of '+qs.length+'</div>'+
+      '<div style="font-size:12px;font-weight:700;color:#999;margin-bottom:8px;">'+(currentLang==='fr'?'Question ':'Question ')+(i+1)+(currentLang==='fr'?' sur ':' of ')+qs.length+'</div>'+
       '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">'+
         '<div style="font-size:18px;font-weight:800;color:#1A1A2E;line-height:1.4;flex:1;">'+q.q+'</div>'+
         (q.type==='img'?'<div style="width:60px;height:60px;background:#F0F4FF;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">&#128247;</div>':'')+
       '</div>'+
       optsHtml+
       '<div id="q-fb-'+i+'" style="margin-top:8px;font-size:14px;font-weight:800;min-height:20px;"></div>'+
-      '<div id="retry-'+i+'" style="display:none;margin-top:8px;"><button onclick="retryQuestion('+i+')" style="padding:8px 16px;background:#FFD600;color:#1A1A2E;border:none;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito;">&#128260; Try Again</button></div>';
+      '<div id="retry-'+i+'" style="display:none;margin-top:8px;"><button onclick="retryQuestion('+i+')" style="padding:8px 16px;background:#FFD600;color:#1A1A2E;border:none;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;font-family:Nunito;">&#128260; '+(currentLang==='fr'?'Réessayer':'Try Again')+'</button></div>';
     area.appendChild(card);
   });
   // See my score button
   var seeScore=document.createElement('button');
   seeScore.style.cssText='width:100%;padding:14px;background:#E91E7A;color:white;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:Nunito;margin-top:10px;';
-  seeScore.innerHTML='&#11088; See my score!';
+  seeScore.innerHTML='&#11088; '+(currentLang==='fr'?'Voir mon score !':'See my score!');
   seeScore.onclick=showFinalScore;
   area.appendChild(seeScore);
   showScreen('scr-test');
@@ -2452,14 +2458,14 @@ function answerQImg(btn,qi,oi,correct){
   if(oi===correct){
     btn.style.borderColor='#00C853';btn.style.background='#E8F5E9';
     if(card){card.dataset.done='1';card.querySelectorAll('.q-opt-img').forEach(function(b){b.style.pointerEvents='none';});}
-    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#00C853;">&#10003; Correct! &#11088;</span>';
+    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#00C853;">&#10003; '+(currentLang==='fr'?'Correct ! &#11088;':'Correct! &#11088;')+'</span>';
     _testScore.correct++;_testScore.answered++;
     var ls=g('live-score');if(ls)ls.textContent=_testScore.correct+' / '+_testScore.total;
     if(_testScore.answered>=_testScore.total)setTimeout(showFinalScore,600);
   } else {
     btn.style.borderColor='#F03030';btn.style.background='#FFEBEE';
     setTimeout(function(){btn.style.borderColor='#E0E0E0';btn.style.background='white';},800);
-    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#FF6B2B;">Not right — try again! &#128522;</span>';
+    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#FF6B2B;">'+(currentLang==='fr'?'Pas correct — réessaie ! &#128522;':'Not right — try again! &#128522;')+'</span>';
     var rb=g('retry-'+qi);if(rb)rb.style.display='block';
   }
 }
@@ -2470,14 +2476,14 @@ function answerQTF(btn,qi,oi,correct){
   if(oi===correct){
     btn.style.borderColor='#00C853';btn.style.background='#E8F5E9';btn.style.color='#00C853';
     if(card){card.dataset.done='1';card.querySelectorAll('.q-opt').forEach(function(b){b.style.pointerEvents='none';});}
-    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#00C853;">&#10003; Correct! &#11088;</span>';
+    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#00C853;">&#10003; '+(currentLang==='fr'?'Correct ! &#11088;':'Correct! &#11088;')+'</span>';
     _testScore.correct++;_testScore.answered++;
     var ls=g('live-score');if(ls)ls.textContent=_testScore.correct+' / '+_testScore.total;
     if(_testScore.answered>=_testScore.total)setTimeout(showFinalScore,600);
   } else {
     btn.style.borderColor='#F03030';btn.style.background='#FFEBEE';
     setTimeout(function(){btn.style.borderColor='#E0E0E0';btn.style.background='white';btn.style.color='';},900);
-    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#FF6B2B;">Not quite — try again! &#128522;</span>';
+    var fb=g('q-fb-'+qi);if(fb)fb.innerHTML='<span style="color:#FF6B2B;">'+(currentLang==='fr'?'Pas tout à fait — réessaie ! &#128522;':'Not quite — try again! &#128522;')+'</span>';
     var rb=g('retry-'+qi);if(rb)rb.style.display='block';
   }
 }
@@ -2485,7 +2491,7 @@ function answerQTF(btn,qi,oi,correct){
 function showFinalScore(){
   var pct=Math.round(_testScore.correct/_testScore.total*100);
   var emoji=pct>=80?'&#127942;':pct>=60?'&#11088;':'&#128522;';
-  var msg=pct>=70?'Amazing! You earned a badge! &#127885;':'Good effort! Keep practicing! &#128170;';
+  var msg=pct>=70?(currentLang==='fr'?'Incroyable ! Tu as gagné un badge ! &#127885;':'Amazing! You earned a badge! &#127885;'):(currentLang==='fr'?'Bon effort ! Continue à t\'entraîner ! &#128170;':'Good effort! Keep practicing! &#128170;');
   // Replace entire test area with result
   var area=g('test-area');
   area.innerHTML=
@@ -2494,8 +2500,8 @@ function showFinalScore(){
       '<div class="score-num">'+_testScore.correct+'/'+_testScore.total+'</div>'+
       '<div class="score-label" style="margin:12px 0 24px;">'+msg+'</div>'+
       '<div style="display:flex;gap:12px;">'+
-        '<button class="btn-big" style="background:#0A3FCC;color:white;flex:1;font-size:16px;" onclick="retryTest()">&#128260; Try Again</button>'+
-        '<button class="btn-big" style="background:#FFD600;color:#1A1A2E;flex:1;font-size:16px;" onclick="goBack()">&#8592; Back</button>'+
+        '<button class="btn-big" style="background:#0A3FCC;color:white;flex:1;font-size:16px;" onclick="retryTest()">&#128260; '+(currentLang==='fr'?'Réessayer':'Try Again')+'</button>'+
+        '<button class="btn-big" style="background:#FFD600;color:#1A1A2E;flex:1;font-size:16px;" onclick="goBack()">&#8592; '+(currentLang==='fr'?'Retour':'Back')+'</button>'+
       '</div>'+
     '</div>';
   if(pct>=70) markDone('test');
@@ -4056,6 +4062,10 @@ function applyLangToUI(){
   var ci=document.getElementById('chat-inp'); if(ci) ci.placeholder=fr?'Écris ta réponse...':'Type your answer...';
   var csb=document.getElementById('chat-send-btn'); if(csb) csb.textContent=fr?'Envoyer ➤':'Send ➤';
   var cdb=document.getElementById('chat-done-btn'); if(cdb) cdb.textContent=fr?'⭐ Terminé ! Activité suivante →':'⭐ Done! Next activity →';
+  var adb=document.getElementById('activate-done-btn'); if(adb) adb.textContent=fr?'⭐ Terminé ! →':'⭐ Done! →';
+  var csb2=document.getElementById('create-save-btn'); if(csb2) csb2.innerHTML=fr?'&#10003; Termine ! Sauvegarder mon travail !':'&#10003; Done! Save my work!';
+  var cs2=document.getElementById('create-sub'); if(cs2 && cs2.textContent==='Be creative!') cs2.textContent=fr?'Sois creatif !':'Be creative!';
+  document.querySelectorAll('.tb-back-btn').forEach(function(b){b.innerHTML=fr?'&#8592; Retour':'&#8592; Back';});
 }
 currentLang='fr';
 selRole('student');
@@ -4069,7 +4079,7 @@ loadVideoLinks();
 <div class="screen" id="scr-create">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span style="color:#FFD600;">Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
+    <div class="tb-r"><button class="tb-btn tb-back-btn" onclick="goBack()">&#8592; Back</button></div>
   </div>
   <div style="flex:1;padding:20px;max-width:700px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:14px;">
     <div>
@@ -4077,7 +4087,7 @@ loadVideoLinks();
       <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px;" id="create-sub">Be creative!</div>
     </div>
     <div id="create-area" style="display:flex;flex-direction:column;gap:14px;"></div>
-    <button onclick="markDone('create');showToast('&#11088; Great work! Saved!');goBack();" style="padding:16px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#10003; Done! Save my work!</button>
+    <button id="create-save-btn" onclick="markDone('create');showToast(currentLang==='fr'?'&#11088; Bravo ! Sauvegarde !':'&#11088; Great work! Saved!');goBack();" style="padding:16px;background:#FFD600;color:#1A1A2E;border:none;border-radius:14px;font-size:17px;font-weight:800;cursor:pointer;font-family:'Nunito';">&#10003; Done! Save my work!</button>
   </div>
 </div>
 
@@ -4085,7 +4095,7 @@ loadVideoLinks();
 <div class="screen" id="scr-beebot">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span style="color:#FFD600;">Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
+    <div class="tb-r"><button class="tb-btn tb-back-btn" onclick="goBack()">&#8592; Back</button></div>
   </div>
   <div style="flex:1;padding:20px;max-width:800px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px;">
     <div style="text-align:center;">
@@ -4140,7 +4150,7 @@ loadVideoLinks();
 <div class="screen" id="scr-leaderboard">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span style="color:#FFD600;">Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
+    <div class="tb-r"><button class="tb-btn tb-back-btn" onclick="goBack()">&#8592; Back</button></div>
   </div>
   <div style="flex:1;padding:20px;max-width:600px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:16px;">
     <div style="text-align:center;">
@@ -4155,7 +4165,7 @@ loadVideoLinks();
 <div class="screen" id="scr-qr">
   <div class="topbar">
     <div class="brand"><img src="https://i.imgur.com/hoBlhpn.png" style="height:28px;width:auto;object-fit:contain;vertical-align:middle;margin-right:8px;" alt="SSM"/> Digital <span style="color:#FFD600;">Devices</span></div>
-    <div class="tb-r"><button class="tb-btn" onclick="goBack()">&#8592; Back</button></div>
+    <div class="tb-r"><button class="tb-btn tb-back-btn" onclick="goBack()">&#8592; Back</button></div>
   </div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:20px;">
     <div style="font-family:Fredoka One;font-size:26px;color:white;text-align:center;">📱 Scan to go to this lesson</div>
