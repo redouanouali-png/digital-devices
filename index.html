@@ -1979,7 +1979,11 @@ function showPracticeResult(got, total){
 }
 
 function openVideo(unit, nextFn){
+  var vidLang = currentLang||'en';
+  var langLinks = window._videoLinks&&window._videoLinks[vidLang];
+  var langUrl = langLinks&&langLinks[unit.id];
   var vid=CONTENT.videos[unit.id]||CONTENT.videos.u1;
+  if(langUrl) vid = Object.assign({},vid,{url:langUrl});
   g('video-title').textContent='🎬 '+unit.title;
   g('video-sub').textContent=(currentLevel?currentLevel.subtitle:'Level 1')+' · Watch before you start! 👀';
   g('video-unit-title').textContent=vid.title;
@@ -3476,17 +3480,19 @@ function deleteVideoLink(btn){
   if(!CONTENT.videos[uid]) CONTENT.videos[uid]={title:'Video',duration:'2 min',url:'',goals:[]};
   if(dlng==='en') CONTENT.videos[uid].url='';
   if(window._videoLinks&&window._videoLinks[dlng]) delete window._videoLinks[dlng][uid];
-  // Remove green bar immediately from DOM
-  var bar=btn.parentElement; if(bar) bar.remove();
-  showToast('\u2713 Video removed');
   if(supa){
     supa.from('video_links').delete()
-      .eq('unit_id',uid).eq('school_id',schoolId)
+      .eq('unit_id', uid)
+      .eq('school_id', schoolId)
       .then(function(r){
-        if(r.error) console.error('delete error:',r.error.message);
-        else console.log('Video deleted:',uid,dlng);
+        if(r.error) console.error('delete error:', r.error.message);
+        else{ console.log('Video deleted:', uid, dlng); showToast('\u2713 Video removed'); }
       });
+  } else {
+    showToast('\u2713 Video removed');
   }
+  var panel=document.getElementById('manage-panel');
+  if(panel) setTimeout(function(){manageSchool(schoolId);},300);
 }
 function saveVideoLink(btn){
   var uid = btn.dataset.uid;
